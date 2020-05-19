@@ -178,6 +178,7 @@
     <ClCompile Include="..\src\Target.cpp" />
     <ClCompile Include="..\src\TextureManager.cpp" />
     <ClCompile Include="..\src\Util.cpp" />
+    <ClCompile Include="TeamPerks_Information.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Animation.h" />

@@ -30,6 +30,9 @@
     <Filter Include="Singletons">
       <UniqueIdentifier>{9203a419-8eff-43d5-ba62-a14ed1c0da55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="gbcTeamPerks">
+      <UniqueIdentifier>{3b515766-bc38-4072-ba20-302d298437b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -100,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="..\src\GameController.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TeamPerks_Information.txt">
+      <Filter>gbcTeamPerks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
