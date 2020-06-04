@@ -6,6 +6,7 @@
 #include "Label.h"
 #include "ship.h"
 #include "Button.h"
+#include "TitleSprite.h"
 
 class StartScene final : public Scene
 {
@@ -21,10 +22,9 @@ public:
 	virtual void start() override;
 	
 private:
-	Label* m_pStartLabel{};
-	Label* m_pInstructionsLabel{};
 
-	Ship* m_pShip{};
+	TitleSprite* m_pTitleSprite{};
+	
 
 	Button* m_pStartButton;
 };
