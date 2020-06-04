@@ -104,9 +104,6 @@
     <ClCompile Include="..\src\GameController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TeamPerks_Information.txt">
-      <Filter>gbcTeamPerks</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -211,5 +208,10 @@
     <ClInclude Include="..\src\GameController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf">
+      <Filter>gbcTeamPerks</Filter>
+    </None>
   </ItemGroup>
 </Project>
