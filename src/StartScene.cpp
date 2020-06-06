@@ -56,8 +56,7 @@ void StartScene::handleEvents()
 void StartScene::start()
 {
 
-	m_pTitleSprite = new TitleSprite();
-	m_pTitleSprite->getTransform()->position = glm::vec2(400.0f, 300.0f);
+	m_pTitleSprite = new StaticSprite("../Assets/textures/MonsterSlayerTitle.png", "titleSprite", 400.0f, 300.0f);
 	addChild(m_pTitleSprite);
 
 	// Start Button

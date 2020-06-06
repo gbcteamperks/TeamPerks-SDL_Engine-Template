@@ -6,7 +6,7 @@
 #include "Label.h"
 #include "ship.h"
 #include "Button.h"
-#include "TitleSprite.h"
+#include "StaticSprite.h"
 
 class StartScene final : public Scene
 {
@@ -23,7 +23,7 @@ public:
 	
 private:
 
-	TitleSprite* m_pTitleSprite{};
+	StaticSprite* m_pTitleSprite{};
 	
 
 	Button* m_pStartButton;

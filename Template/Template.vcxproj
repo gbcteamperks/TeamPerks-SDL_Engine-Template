@@ -175,9 +175,9 @@
     <ClCompile Include="..\src\EventManager.cpp" />
     <ClCompile Include="..\src\SpriteSheet.cpp" />
     <ClCompile Include="..\src\StartScene.cpp" />
+    <ClCompile Include="..\src\StaticSprite.cpp" />
     <ClCompile Include="..\src\Target.cpp" />
     <ClCompile Include="..\src\TextureManager.cpp" />
-    <ClCompile Include="..\src\TitleSprite.cpp" />
     <ClCompile Include="..\src\Util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -211,9 +211,9 @@
     <ClInclude Include="..\src\SoundManager.h" />
     <ClInclude Include="..\src\SpriteSheet.h" />
     <ClInclude Include="..\src\StartScene.h" />
+    <ClInclude Include="..\src\StaticSprite.h" />
     <ClInclude Include="..\src\Target.h" />
     <ClInclude Include="..\src\TextureManager.h" />
-    <ClInclude Include="..\src\TitleSprite.h" />
     <ClInclude Include="..\src\Transform.h" />
     <ClInclude Include="..\src\Util.h" />
   </ItemGroup>

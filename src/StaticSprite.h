@@ -1,14 +1,15 @@
 #pragma once
-
 #include "DisplayObject.h"
 #include "TextureManager.h"
 
 
-class TitleSprite : public DisplayObject
+class StaticSprite : public DisplayObject
 {
+private:
+	std::string name;
 public:
-	TitleSprite();
-	~TitleSprite();
+	StaticSprite(std::string spritePath, std::string name, float posX, float posY);
+	~StaticSprite();
 
 	// Life Cycle Functions
 	virtual void draw() override;
@@ -16,4 +17,3 @@ public:
 	virtual void clean() override;
 
 };
-
