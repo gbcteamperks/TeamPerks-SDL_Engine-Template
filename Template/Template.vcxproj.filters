@@ -33,6 +33,9 @@
     <Filter Include="gbcTeamPerks">
       <UniqueIdentifier>{3b515766-bc38-4072-ba20-302d298437b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sprites">
+      <UniqueIdentifier>{9f997137-cba7-478f-a242-d1013bfa4107}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -234,5 +237,47 @@
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf">
       <Filter>gbcTeamPerks</Filter>
     </None>
+    <None Include="..\Assets\sprites\atlas.tps">
+      <Filter>Sprites</Filter>
+    </None>
+    <None Include="..\Assets\sprites\atlas2.json">
+      <Filter>Sprites</Filter>
+    </None>
+    <None Include="..\Assets\sprites\background.json">
+      <Filter>Sprites</Filter>
+    </None>
+    <None Include="..\Assets\sprites\foreground.json">
+      <Filter>Sprites</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\sprites\atlas.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\atlas2.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\background.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\foreground.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\megaman-idle.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\megaman-run.png">
+      <Filter>Sprites</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Assets\sprites\atlas.txt">
+      <Filter>Sprites</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Assets\sprites\atlas.xml">
+      <Filter>Sprites</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
