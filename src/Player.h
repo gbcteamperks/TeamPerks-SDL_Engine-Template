@@ -22,6 +22,7 @@ public:
 	// setters
 	void setAnimationState(PlayerAnimationState new_state);
 	void setAnimation(const Animation& animation);
+	void runHereThere();
 
 private:
 	void m_buildAnimations();
@@ -30,6 +31,7 @@ private:
 
 	PlayerAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
+	bool m_playerFacingRight = true;
 };
 
 #endif /* defined (__PLAYER__) */

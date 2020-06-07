@@ -68,8 +68,8 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 	{
 		if (!object2->getRigidBody()->isColliding) {
 
-			object2->getRigidBody()->isColliding = true;
-
+		object2->getRigidBody()->isColliding = true;
+		
 			switch (object2->getType()) {
 			case TARGET:
 				std::cout << "Collision with Target!" << std::endl;

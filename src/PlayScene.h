@@ -6,7 +6,8 @@
 
 #include "PlaneSprite.h"
 #include "Player.h"
-
+#include "Target.h"
+#include "ship.h"
 #include "Button.h"
 
 
@@ -28,7 +29,8 @@ private:
 
 	PlaneSprite* m_pPlaneSprite;
 	Player* m_pPlayer;
-	bool m_playerFacingRight;
+	//Ship* m_pShip;
+	Target* m_pTarget;
 
 	Button* m_pBackButton;
 	Button* m_pNextButton;
