@@ -13,9 +13,10 @@ public:
 	virtual void draw() override;
 	virtual void update() override;
 	virtual void clean() override;
+	void m_move();
 
 private:
-	void m_move();
+	
 	void m_checkBounds();
 	void m_reset();
 };

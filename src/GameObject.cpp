@@ -1,8 +1,12 @@
 #include "GameObject.h"
+#include "Config.h"
+#include <iostream>
+#include "CollisionManager.h"
 
 GameObject::GameObject():
 	m_width(0), m_height(0), m_type(NONE)
 {
+	m_currentObject = this;
 }
 
 GameObject::~GameObject()
@@ -46,4 +50,35 @@ void GameObject::setHeight(const int new_height)
 void GameObject::setType(const GameObjectType new_type)
 {
 	m_type = new_type;
+}
+
+//boundry restrict
+void GameObject::m_BoundsRestrict()
+{
+	if (getTransform()->position.x + (getWidth() / 2) > Config::SCREEN_WIDTH)
+	{
+		getTransform()->position = glm::vec2(Config::SCREEN_WIDTH - getWidth() / 2, getTransform()->position.y);
+		m_boundHit = RIGHTBOUNDARY;
+	}
+
+	if (getTransform()->position.x - (getWidth() / 2) < 0)
+	{
+		getTransform()->position = glm::vec2(0.0f + (getWidth() / 2), getTransform()->position.y);
+		m_boundHit = LEFTBOUNDARY;
+		//std::cout << "\n x axis below";
+	}
+
+	if (getTransform()->position.y + (getHeight() / 2) > Config::SCREEN_HEIGHT)
+	{
+		getTransform()->position = glm::vec2(getTransform()->position.x, Config::SCREEN_HEIGHT - getHeight() / 2);
+		//std::cout << "\y axis above";
+		m_boundHit = BELOWBOUNDARY;
+	}
+
+	if (getTransform()->position.y - (getHeight() / 2) < 0)
+	{
+		getTransform()->position = glm::vec2(getTransform()->position.x, 0.00f + (getHeight() / 2));
+		m_boundHit = ABOVEBOUNDARY;
+		//std::cout << "\n y axis below";
+	}
 }

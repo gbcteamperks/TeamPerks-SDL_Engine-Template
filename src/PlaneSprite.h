@@ -17,14 +17,14 @@ public:
 	virtual void draw() override;
 	virtual void update() override;
 	virtual void clean() override;
-
+	//bool isColliding(GameObject&) override;
 	
 	void setAnimation(const Animation& animation);
 
 private:
 	void m_buildAnimations();
-
 	SpriteSheet* m_pSpriteSheet;
+	PlaneSprite* m_pObject;
 
 	std::unordered_map<std::string, Animation> m_pAnimations;
 };
