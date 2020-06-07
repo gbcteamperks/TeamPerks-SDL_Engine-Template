@@ -60,20 +60,20 @@ void PlayScene::handleEvents()
 		//----
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A))
 		{
-			m_pPlaneSprite->getTransform()->position -= glm::vec2(2.0f, 0.0f);
+			m_pVictorVanHelsing->getTransform()->position -= glm::vec2(2.0f, 0.0f);
 			m_pTarget->m_move();
 		}
 		else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D))
 		{
-			m_pPlaneSprite->getTransform()->position += glm::vec2(2.0f, 0.0f);
+			m_pVictorVanHelsing->getTransform()->position += glm::vec2(2.0f, 0.0f);
 		}
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_W))
 		{
-			m_pPlaneSprite->getTransform()->position -= glm::vec2(0.0f, 2.0f);
+			m_pVictorVanHelsing->getTransform()->position -= glm::vec2(0.0f, 2.0f);
 		}
 		else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_S))
 		{
-			m_pPlaneSprite->getTransform()->position += glm::vec2(0.0f, 2.0f);
+			m_pVictorVanHelsing->getTransform()->position += glm::vec2(0.0f, 2.0f);
 		}
 	}
 
@@ -109,13 +109,23 @@ void PlayScene::handleEvents()
 void PlayScene::start()
 {
 	// Plane Sprite
-	m_pPlaneSprite = new PlaneSprite();
-	addChild(m_pPlaneSprite);
+	//m_pPlaneSprite = new PlaneSprite();
+	//addChild(m_pPlaneSprite);
+
+	//Victor
+	m_pVictorVanHelsing = new VictorVanHelsing();
+	addChild(m_pVictorVanHelsing);
+
+	//Boss
+	m_pBossOne = new BossOne();
+	addChild(m_pBossOne);
+	m_pBossOne->getTransform()->position = glm::vec2(30.0f, 30.0f);
+
 
 	// Player Sprite
-	m_pPlayer = new Player();
+	/*m_pPlayer = new Player();
 	addChild(m_pPlayer);
-	m_pPlayer->getTransform()->position = glm::vec2(30.0f, 30.0f);
+	m_pPlayer->getTransform()->position = glm::vec2(30.0f, 30.0f);*/
 
 	// Player Sprite
 	//m_pShip = new Ship();
