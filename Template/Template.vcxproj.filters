@@ -110,6 +110,9 @@
     <ClCompile Include="..\src\StaticSprite.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\BackgroundEndS.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -217,6 +220,9 @@
     <ClInclude Include="..\src\StaticSprite.h">
       <Filter>Game Objects</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\BackgroundEndS.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf">
@@ -254,9 +260,15 @@
     <Image Include="..\Assets\sprites\megaman-run.png">
       <Filter>Sprites</Filter>
     </Image>
+    <Image Include="..\Assets\sprites\Endsheet.png">
+      <Filter>Sprites</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Assets\sprites\atlas.txt">
+      <Filter>Sprites</Filter>
+    </Text>
+    <Text Include="..\Assets\sprites\Endsheet.txt">
       <Filter>Sprites</Filter>
     </Text>
   </ItemGroup>

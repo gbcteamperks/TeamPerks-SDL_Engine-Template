@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "Label.h"
 #include "Button.h"
+#include "BackgroundEndS.h"
 
 class EndScene final : public Scene
 {
@@ -20,9 +21,15 @@ public:
 	virtual void start() override;
 
 private:
-	Label* m_label{};
+	
+	BackgroundEndS* m_pBackgroundEndS{};
+	
+	Button* m_pMenuButton;
+	Label* m_pLabelMenu{};
 
 	Button* m_pRestartButton;
+	Label* m_pLabelRestart{};
+	Label* m_label{};
 };
 
 #endif /* defined (__END_SCENE__) */
