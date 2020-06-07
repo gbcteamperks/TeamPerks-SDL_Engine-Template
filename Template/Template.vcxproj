@@ -219,6 +219,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf" />
+    <None Include="..\Assets\sprites\atlas.tps" />
+    <None Include="..\Assets\sprites\atlas2.json" />
+    <None Include="..\Assets\sprites\background.json" />
+    <None Include="..\Assets\sprites\foreground.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\sprites\atlas.png" />
+    <Image Include="..\Assets\sprites\atlas2.png" />
+    <Image Include="..\Assets\sprites\background.png" />
+    <Image Include="..\Assets\sprites\foreground.png" />
+    <Image Include="..\Assets\sprites\megaman-idle.png" />
+    <Image Include="..\Assets\sprites\megaman-run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Assets\sprites\atlas.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Assets\sprites\atlas.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
