@@ -9,7 +9,8 @@
 #include "Target.h"
 #include "ship.h"
 #include "Button.h"
-
+#include "VictorVanHelsing.h"
+#include "BossOne.h"
 
 
 class PlayScene : public Scene
@@ -29,7 +30,8 @@ private:
 
 	PlaneSprite* m_pPlaneSprite;
 	Player* m_pPlayer;
-	//Ship* m_pShip;
+	VictorVanHelsing* m_pVictorVanHelsing;
+	BossOne* m_pBossOne;
 	Target* m_pTarget;
 
 	Button* m_pBackButton;
