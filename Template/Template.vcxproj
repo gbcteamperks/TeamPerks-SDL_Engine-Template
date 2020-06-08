@@ -155,6 +155,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\BackgroundEndS.cpp" />
+    <ClCompile Include="..\src\BossOne.cpp" />
     <ClCompile Include="..\src\Button.cpp" />
     <ClCompile Include="..\src\CollisionManager.cpp" />
     <ClCompile Include="..\src\DisplayObject.cpp" />
@@ -175,12 +177,17 @@
     <ClCompile Include="..\src\EventManager.cpp" />
     <ClCompile Include="..\src\SpriteSheet.cpp" />
     <ClCompile Include="..\src\StartScene.cpp" />
+    <ClCompile Include="..\src\StaticSprite.cpp" />
     <ClCompile Include="..\src\Target.cpp" />
     <ClCompile Include="..\src\TextureManager.cpp" />
     <ClCompile Include="..\src\Util.cpp" />
+    <ClCompile Include="..\src\VictorVanHelsing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Animation.h" />
+    <ClInclude Include="..\src\BackgroundEndS.h" />
+    <ClInclude Include="..\src\BossOne.h" />
+    <ClInclude Include="..\src\BossOneAnimationState.h" />
     <ClInclude Include="..\src\Button.h" />
     <ClInclude Include="..\src\CollisionManager.h" />
     <ClInclude Include="..\src\CollisionShape.h" />
@@ -210,13 +217,41 @@
     <ClInclude Include="..\src\SoundManager.h" />
     <ClInclude Include="..\src\SpriteSheet.h" />
     <ClInclude Include="..\src\StartScene.h" />
+    <ClInclude Include="..\src\StaticSprite.h" />
     <ClInclude Include="..\src\Target.h" />
     <ClInclude Include="..\src\TextureManager.h" />
     <ClInclude Include="..\src\Transform.h" />
     <ClInclude Include="..\src\Util.h" />
+    <ClInclude Include="..\src\VictorAnimationState.h" />
+    <ClInclude Include="..\src\VictorVanHelsing.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf" />
+    <None Include="..\Assets\sprites\atlas.tps" />
+    <None Include="..\Assets\sprites\atlas2.json" />
+    <None Include="..\Assets\sprites\background.json" />
+    <None Include="..\Assets\sprites\foreground.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Assets\sprites\atlas.png" />
+    <Image Include="..\Assets\sprites\atlas2.png" />
+    <Image Include="..\Assets\sprites\background.png" />
+    <Image Include="..\Assets\sprites\Endsheet.png" />
+    <Image Include="..\Assets\sprites\foreground.png" />
+    <Image Include="..\Assets\sprites\magicenemy-projectile.png" />
+    <Image Include="..\Assets\sprites\magicenemy.png" />
+    <Image Include="..\Assets\sprites\megaman-idle.png" />
+    <Image Include="..\Assets\sprites\megaman-run.png" />
+    <Image Include="..\Assets\sprites\victorvanhelsing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Assets\sprites\atlas.txt" />
+    <Text Include="..\Assets\sprites\Endsheet.txt" />
+    <Text Include="..\Assets\sprites\magicenemy.txt" />
+    <Text Include="..\Assets\sprites\victorvanhelsing.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Assets\sprites\atlas.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

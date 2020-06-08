@@ -1,0 +1,14 @@
+#pragma once
+#ifndef __VICTOR_ANIMATION_STATE__
+#define __VICTOR_ANIMATION_STATE__
+
+enum VictorAnimationState
+{
+	VICTOR_WALK_DOWN,
+	VICTOR_WALK_RIGHT,
+	VICTOR_WALK_LEFT,
+	VICTOR_WALK_UP,
+	NUM_OF_VICTORANIMATION_STATES
+};
+
+#endif /* defined (__VICTOR_ANIMATION_STATE__)*/

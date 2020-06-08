@@ -25,18 +25,13 @@ void StartScene::update()
 void StartScene::clean()
 {
 	std::cout << "Clean called on StartScene" << std::endl;
-	
-	delete m_pStartLabel;
-	m_pStartLabel = nullptr;
-	
-	delete m_pInstructionsLabel;
-	m_pInstructionsLabel = nullptr;
 
-	delete m_pShip;
-	m_pShip = nullptr;
-
-	delete m_pStartButton;
-	m_pStartButton = nullptr;
+	delete m_pTitleSprite;
+	m_pTitleSprite = nullptr;
+	
+	delete m_pPlayButton;
+	m_pPlayButton = nullptr;
+	delete m_pLabelPlay;
 
 	removeAllChildren();
 }
@@ -51,7 +46,7 @@ void StartScene::handleEvents()
 		TheGame::Instance()->quit();
 	}
 
-	if(EventManager::Instance().isKeyDown(SDL_SCANCODE_1))
+	if(EventManager::Instance().isKeyDown(SDL_SCANCODE_S))
 	{
 		TheGame::Instance()->changeSceneState(PLAY_SCENE);
 	}
@@ -61,39 +56,33 @@ void StartScene::handleEvents()
 
 void StartScene::start()
 {
-	const SDL_Color blue = { 0, 0, 255, 255 };
-	m_pStartLabel = new Label("START SCENE", "Consolas", 80, blue, glm::vec2(400.0f, 40.0f));
-	m_pStartLabel->setParent(this);
-	addChild(m_pStartLabel);
 
-	m_pInstructionsLabel = new Label("Press 1 to Play", "Consolas", 40, blue, glm::vec2(400.0f, 120.0f));
-	m_pInstructionsLabel->setParent(this);
-	addChild(m_pInstructionsLabel);
+	m_pTitleSprite = new StaticSprite("../Assets/textures/MonsterSlayerTitle.png", "titleSprite", 400.0f, 300.0f);
+	addChild(m_pTitleSprite);
 
-	m_pShip = new Ship();
-	m_pShip->getTransform()->position = glm::vec2(400.0f, 300.0f);
-	addChild(m_pShip);
-
-	// Start Button
-	m_pStartButton = new Button();
-	m_pStartButton->getTransform()->position = glm::vec2(400.0f, 400.0f);
-	m_pStartButton->addEventListener(CLICK, [&](Button* button)-> void
+	//Play Button
+	m_pPlayButton = new Button("../Assets/textures/buttonRed.png", "PlayButton", PLAY_BUTTON);
+	m_pPlayButton->getTransform()->position = glm::vec2(400.0f, 500.0f);
+	m_pPlayButton->addEventListener(CLICK, [&](Button* button)-> void
 	{
 		button->setActive(false);
 		TheGame::Instance()->changeSceneState(PLAY_SCENE);
 	});
 	
-	m_pStartButton->addEventListener(MOUSE_OVER, [&](Button* button)->void
+	m_pPlayButton->addEventListener(MOUSE_OVER, [&](Button* button)->void
 	{
 		button->setAlpha(128);
 	});
 
-	m_pStartButton->addEventListener(MOUSE_OUT, [&](Button* button)->void
+	m_pPlayButton->addEventListener(MOUSE_OUT, [&](Button* button)->void
 	{
 		button->setAlpha(255);
 	});
-	addChild(m_pStartButton);
+	addChild(m_pPlayButton);
 
-	
+	const SDL_Color white = { 255, 255, 255, 255 };
+	m_pLabelPlay = new Label("Play", "Dock51", 40, white, glm::vec2(400.0f, 500.0f));
+	m_pLabelPlay->setParent(this);
+	addChild(m_pLabelPlay);
 }
 

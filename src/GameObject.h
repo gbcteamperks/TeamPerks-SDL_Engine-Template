@@ -4,11 +4,21 @@
 
 #include "Transform.h"
 #include "RigidBody.h"
+//#include "CollisionManager.h"
 #include <string>
 
 // enums
 #include "GameObjectType.h"
 
+//--
+// enum for which boundary the object collided
+enum {
+	NOCOLLISION = 0,
+	RIGHTBOUNDARY,
+	LEFTBOUNDARY,
+	BELOWBOUNDARY,
+	ABOVEBOUNDARY
+};
 
 class GameObject {
 public:
@@ -33,11 +43,15 @@ public:
 	// getters and setters for game object properties
 	int getWidth() const;
 	int getHeight() const;
+	
 	void setWidth(int new_width);
 	void setHeight(int new_height);
 	GameObjectType getType() const;
 	void setType(GameObjectType new_type);
+	void m_BoundsRestrict();
 
+	//--GameObject* getCurrentObject();
+	
 private:
 	// transform component
 	Transform m_transform;
@@ -49,6 +63,10 @@ private:
 	int m_width;
 	int m_height;
 	GameObjectType m_type;
+	int m_boundHit = 0;		//refer above enum
+	//-- self reference
+	GameObject* m_currentObject;
+		 
 };
 
 #endif /* defined (__GAME_OBJECT__) */

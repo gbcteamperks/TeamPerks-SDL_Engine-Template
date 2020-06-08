@@ -18,6 +18,7 @@ void PlayScene::draw()
 void PlayScene::update()
 {
 	updateDisplayList();
+
 }
 
 void PlayScene::clean()
@@ -25,11 +26,11 @@ void PlayScene::clean()
 	delete m_pBackButton;
 	m_pBackButton = nullptr;
 
-	delete m_pNextButton;
-	m_pNextButton = nullptr;
+delete m_pNextButton;
+m_pNextButton = nullptr;
 
-	
-	removeAllChildren();
+
+removeAllChildren();
 }
 
 void PlayScene::handleEvents()
@@ -45,23 +46,10 @@ void PlayScene::handleEvents()
 			if (EventManager::Instance().getGameController(0)->LEFT_STICK_X > deadZone)
 			{
 				m_pPlayer->setAnimationState(PLAYER_RUN_RIGHT);
-				m_playerFacingRight = true;
 			}
 			else if (EventManager::Instance().getGameController(0)->LEFT_STICK_X < -deadZone)
 			{
 				m_pPlayer->setAnimationState(PLAYER_RUN_LEFT);
-				m_playerFacingRight = false;
-			}
-			else
-			{
-				if (m_playerFacingRight)
-				{
-					m_pPlayer->setAnimationState(PLAYER_IDLE_RIGHT);
-				}
-				else
-				{
-					m_pPlayer->setAnimationState(PLAYER_IDLE_LEFT);
-				}
 			}
 		}
 	}
@@ -70,29 +58,29 @@ void PlayScene::handleEvents()
 	// handle player movement if no Game Controllers found
 	if (SDL_NumJoysticks() < 1)
 	{
+		//----
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A))
 		{
-			m_pPlayer->setAnimationState(PLAYER_RUN_LEFT);
-			m_playerFacingRight = false;
+			m_pVictorVanHelsing->getTransform()->position -= glm::vec2(2.0f, 0.0f);
+			m_pVictorVanHelsing->setAnimationState(VICTOR_WALK_LEFT);
 		}
 		else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D))
 		{
-			m_pPlayer->setAnimationState(PLAYER_RUN_RIGHT);
-			m_playerFacingRight = true;
+			m_pVictorVanHelsing->getTransform()->position += glm::vec2(2.0f, 0.0f);
+			m_pVictorVanHelsing->setAnimationState(VICTOR_WALK_RIGHT);
 		}
-		else
+		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_W))
 		{
-			if (m_playerFacingRight)
-			{
-				m_pPlayer->setAnimationState(PLAYER_IDLE_RIGHT);
-			}
-			else
-			{
-				m_pPlayer->setAnimationState(PLAYER_IDLE_LEFT);
-			}
+			m_pVictorVanHelsing->getTransform()->position -= glm::vec2(0.0f, 2.0f);
+			m_pVictorVanHelsing->setAnimationState(VICTOR_WALK_UP);
+		}
+		else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_S))
+		{
+			m_pVictorVanHelsing->getTransform()->position += glm::vec2(0.0f, 2.0f);
+			m_pVictorVanHelsing->setAnimationState(VICTOR_WALK_DOWN);
 		}
 	}
-	
+
 
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_ESCAPE))
 	{
@@ -108,18 +96,67 @@ void PlayScene::handleEvents()
 	{
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
+
+	//-- CHECK FOR COLLISION OF ALL OBJECTS!
+	for (int i = 0; i < numberOfChildren(); i++)
+	{
+		for (int j = i + 1; j < numberOfChildren(); j++)
+		{
+			if (CollisionManager::circleAABBCheck(getDisplayList()[i], getDisplayList()[j]))
+			{
+				if (getDisplayList()[i]->getType() == STATICSPRITE || getDisplayList()[j]->getType() == STATICSPRITE)
+				{
+					continue;
+				}
+				if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[j]->getType() == BOSS 
+					||
+					getDisplayList()[i]->getType() == BOSS && getDisplayList()[j]->getType() == VICTOR
+					)
+				{
+					TheGame::Instance()->changeSceneState(END_SCENE);
+				}
+
+				if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[j]->getType() == PROJECTILE
+					||
+					getDisplayList()[i]->getType() == PROJECTILE && getDisplayList()[j]->getType() == VICTOR
+					)
+				{
+					TheGame::Instance()->changeSceneState(END_SCENE);
+				}
+				
+				//std::cout << "\nCollision!! of " << getDisplayList()[i]->getType() << " and " << getDisplayList()[j]->getType();
+			}
+		}
+	}
 }
 
 void PlayScene::start()
 {
-	// Plane Sprite
-	m_pPlaneSprite = new PlaneSprite();
-	addChild(m_pPlaneSprite);
+	// 
+	//m_pPlaneSprite = new PlaneSprite();
+	//addChild(m_pPlaneSprite);
 
-	// Player Sprite
-	m_pPlayer = new Player();
-	addChild(m_pPlayer);
-	m_playerFacingRight = true;
+	m_pBkg = new StaticSprite("../Assets/textures/map_testing.png", "titleSprite", 400.0f, 300.0f);
+	addChild(m_pBkg);
+
+
+	//boss hits
+	m_pTarget = new Target();
+	m_pTarget->getTransform()->position = glm::vec2(200.0f, 200.0f);
+	addChild(m_pTarget);
+
+	//Boss
+	m_pBossOne = new BossOne();
+	addChild(m_pBossOne);
+	m_pBossOne->getTransform()->position = glm::vec2(90.0f, 90.0f);
+	m_pBossOne->getBullet(m_pTarget);
+
+	//Victor
+	m_pVictorVanHelsing = new VictorVanHelsing();
+	m_pVictorVanHelsing->getTransform()->position = glm::vec2(390.0f, 400.0f);
+	addChild(m_pVictorVanHelsing);
+	
+/*
 
 	// Back Button
 	m_pBackButton = new Button("../Assets/textures/backButton.png", "backButton", BACK_BUTTON);
@@ -160,5 +197,5 @@ void PlayScene::start()
 		button->setAlpha(255);
 	});
 
-	addChild(m_pNextButton);
+	addChild(m_pNextButton);*/
 }
