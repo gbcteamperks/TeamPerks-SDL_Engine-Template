@@ -222,6 +222,7 @@
     <ClInclude Include="..\src\TextureManager.h" />
     <ClInclude Include="..\src\Transform.h" />
     <ClInclude Include="..\src\Util.h" />
+    <ClInclude Include="..\src\VictorAnimationState.h" />
     <ClInclude Include="..\src\VictorVanHelsing.h" />
   </ItemGroup>
   <ItemGroup>
@@ -237,12 +238,17 @@
     <Image Include="..\Assets\sprites\background.png" />
     <Image Include="..\Assets\sprites\Endsheet.png" />
     <Image Include="..\Assets\sprites\foreground.png" />
+    <Image Include="..\Assets\sprites\magicenemy-projectile.png" />
+    <Image Include="..\Assets\sprites\magicenemy.png" />
     <Image Include="..\Assets\sprites\megaman-idle.png" />
     <Image Include="..\Assets\sprites\megaman-run.png" />
+    <Image Include="..\Assets\sprites\victorvanhelsing.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Assets\sprites\atlas.txt" />
     <Text Include="..\Assets\sprites\Endsheet.txt" />
+    <Text Include="..\Assets\sprites\magicenemy.txt" />
+    <Text Include="..\Assets\sprites\victorvanhelsing.txt" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Assets\sprites\atlas.xml" />

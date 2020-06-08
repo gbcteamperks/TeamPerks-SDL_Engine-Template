@@ -1,14 +1,16 @@
 #include "BossOne.h"
 #include "TextureManager.h"
+#include "GameObject.h"
+#include "CollisionManager.h"
 
-BossOne::BossOne() : m_currentAnimationState(BOSSONE_IDLE_RIGHT)
+BossOne::BossOne() : m_currentAnimationState(BOSSONE_WALK_RIGHT)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
-		"../Assets/sprites/atlas.txt",
-		"../Assets/sprites/atlas.png",
-		"spritesheet");
+		"../Assets/sprites/magicenemy.txt",
+		"../Assets/sprites/magicenemy.png",
+		"magicenemy");
 
-	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("spritesheet");
+	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("magicenemy");
 
 	// set frame width
 	setWidth(53);
@@ -20,7 +22,7 @@ BossOne::BossOne() : m_currentAnimationState(BOSSONE_IDLE_RIGHT)
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
-	setType(PLAYER);
+	setType(BOSS);
 
 	m_buildAnimations();
 }
@@ -37,21 +39,21 @@ void BossOne::draw()
 	// draw the player according to animation state
 	switch (m_currentAnimationState)
 	{
-	case BOSSONE_IDLE_RIGHT:
-		TheTextureManager::Instance()->playAnimation("spritesheet", m_pAnimations["idle"],
+	case BOSSONE_WALK_RIGHT:
+		TheTextureManager::Instance()->playAnimation("magicenemy", m_pAnimations["walkright"],
 			x, y, 0.12f, 0, 255, true);
 		break;
-	case BOSSONE_IDLE_LEFT:
-		TheTextureManager::Instance()->playAnimation("spritesheet", m_pAnimations["idle"],
+	case BOSSONE_WALK_LEFT:
+		TheTextureManager::Instance()->playAnimation("magicenemy", m_pAnimations["walkright"],
 			x, y, 0.12f, 0, 255, true, SDL_FLIP_HORIZONTAL);
 		break;
-	case BOSSONE_RUN_RIGHT:
-		TheTextureManager::Instance()->playAnimation("spritesheet", m_pAnimations["run"],
+	case BOSSONE_WALK_UP:
+		TheTextureManager::Instance()->playAnimation("magicenemy", m_pAnimations["walkup"],
 			x, y, 0.25f, 0, 255, true);
 		break;
-	case BOSSONE_RUN_LEFT:
-		TheTextureManager::Instance()->playAnimation("spritesheet", m_pAnimations["run"],
-			x, y, 0.25f, 0, 255, true, SDL_FLIP_HORIZONTAL);
+	case BOSSONE_WALK_DOWN:
+		TheTextureManager::Instance()->playAnimation("magicenemy", m_pAnimations["walkdown"],
+			x, y, 0.25f, 0, 255, true);
 		break;
 	default:
 		break;
@@ -62,11 +64,47 @@ void BossOne::draw()
 void BossOne::update()
 {
 	runHereThere();
+	bossAttack();
+
+
 }
 
 void BossOne::clean()
 {
 }
+
+void BossOne::bossAttack()
+{	
+	
+
+	m_fire = true;
+	if (m_bulletNotVisible)
+	{
+		m_pBossBullet->getTransform()->position = glm::vec2(getTransform()->position.x, 90.0f);
+		m_fire = false;
+		m_bulletNotVisible = false;
+		m_bulletXPosition = getTransform()->position.x;
+		m_pBossBullet->getTransform()->position.y = getTransform()->position.y + 90;
+	}
+	m_fire = true;
+	if (m_pBossBullet->getTransform()->position.y > 600)
+	{
+		m_pBossBullet->getTransform()->position = glm::vec2(-100.0f, -100.0f);
+		m_bulletNotVisible = true;
+	}
+	
+	if (m_currentTime > 3)
+	{
+		if (m_fire == true)
+		{
+			m_pBossBullet->setXY(m_pBossBullet->getTransform()->position.x, m_pBossBullet->getTransform()->position.y + 5);
+		}
+	}
+	
+	
+}
+
+
 
 void BossOne::setAnimationState(const BossOneAnimationState new_state)
 {
@@ -81,47 +119,85 @@ void BossOne::setAnimation(const Animation & animation)
 
 void BossOne::m_buildAnimations()
 {
-	Animation idleAnimation = Animation();
+	Animation walkDown = Animation();
 
-	idleAnimation.name = "idle";
-	idleAnimation.frames.push_back(m_pSpriteSheet->getFrame("megaman-idle-0"));
-	idleAnimation.frames.push_back(m_pSpriteSheet->getFrame("megaman-idle-1"));
-	idleAnimation.frames.push_back(m_pSpriteSheet->getFrame("megaman-idle-2"));
-	idleAnimation.frames.push_back(m_pSpriteSheet->getFrame("megaman-idle-3"));
+	walkDown.name = "walkdown";
+	walkDown.frames.push_back(m_pSpriteSheet->getFrame("walkdown-1"));
+	walkDown.frames.push_back(m_pSpriteSheet->getFrame("walkdown-1"));
+	walkDown.frames.push_back(m_pSpriteSheet->getFrame("walkdown-1"));
+	walkDown.frames.push_back(m_pSpriteSheet->getFrame("walkdown-1"));
 
-	m_pAnimations["idle"] = idleAnimation;
+	m_pAnimations["walkdown"] = walkDown;
 
-	Animation runAnimation = Animation();
+	Animation walkRight = Animation();
 
-	runAnimation.name = "run";
-	runAnimation.frames.push_back(m_pSpriteSheet->getFrame("megaman-run-0"));
-	runAnimation.frames.push_back(m_pSpriteSheet->getFrame("megaman-run-1"));
-	runAnimation.frames.push_back(m_pSpriteSheet->getFrame("megaman-run-2"));
-	runAnimation.frames.push_back(m_pSpriteSheet->getFrame("megaman-run-3"));
+	walkRight.name = "walkright";
+	walkRight.frames.push_back(m_pSpriteSheet->getFrame("walkright-1"));
+	walkRight.frames.push_back(m_pSpriteSheet->getFrame("walkright-2"));
+	walkRight.frames.push_back(m_pSpriteSheet->getFrame("walkright-3"));
+	walkRight.frames.push_back(m_pSpriteSheet->getFrame("walkright-4"));
 
-	m_pAnimations["run"] = runAnimation;
+	m_pAnimations["walkright"] = walkRight;
+
+	Animation walkUp = Animation();
+
+	walkUp.name = "walkup";
+	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-1"));
+	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-2"));
+	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-3"));
+	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-4"));
+
+	m_pAnimations["walkup"] = walkUp;
 }
 
 void BossOne::runHereThere()
 {
-	if (m_bossFacingRight)
+	m_currentTime = (SDL_GetTicks() / 1000);
+	if (m_bossFacingRight && !m_bossWaitToFire)
 	{
-		setAnimationState(BOSSONE_RUN_RIGHT);
+		setAnimationState(BOSSONE_WALK_RIGHT);
 		getTransform()->position.x += 2;
 		if (getTransform()->position.x >= (Config::SCREEN_WIDTH) - getWidth())
 		{
 			m_bossFacingRight = false;
 		}
+		if (m_currentTime - m_prevTime > 5)
+		{
+			m_bossWaitToFire = true;
+			setAnimationState(BOSSONE_WALK_RIGHT);
+		}
 	}
-	else if (!m_bossFacingRight)
+	else if (!m_bossFacingRight && !m_bossWaitToFire)
 	{
-		setAnimationState(BOSSONE_RUN_LEFT);
+		setAnimationState(BOSSONE_WALK_LEFT);
 		getTransform()->position.x -= 2;
 		if (getTransform()->position.x <= getWidth())
 		{
 			m_bossFacingRight = true;
 		}
+		if (m_currentTime - m_prevTime > 5)
+		{
+			m_bossWaitToFire = true;
+			setAnimationState(BOSSONE_WALK_LEFT);
+		}
+	}
+	else
+	{	
+		//IDLE ANIMATION TRIGGER DELAY - in progress, but skipped due to time issues
+		if (m_currentTime - m_prevTime > 5.00f)
+		{
+			m_prevTime = m_currentTime;
+		}
+		else
+		{
+			m_bossWaitToFire = false;
+		}
 	}
 
 
+}
+
+void BossOne::getBullet(Target* bullet)
+{
+	m_pBossBullet = bullet;
 }

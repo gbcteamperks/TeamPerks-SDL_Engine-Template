@@ -1,0 +1,12 @@
+walkdown-1 1 1 48 64
+walkdown-2 49 1 48 64
+walkdown-3 97 1 48 64
+walkdown-4 145 1 48 64
+walkright-1 1 128 48 64
+walkright-2 49 128 48 64
+walkright-3 97 128 48 64
+walkright-4 145 128 48 64
+walkup-1 1 192 48 64
+walkup-2 49 192 48 64
+walkup-3 97 192 48 64
+walkup-4 145 192 48 64

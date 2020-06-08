@@ -2,14 +2,14 @@
 #include "TextureManager.h"
 #include "CollisionManager.h"
 
-VictorVanHelsing::VictorVanHelsing()
+VictorVanHelsing::VictorVanHelsing() : m_currentAnimationState(VICTOR_WALK_UP)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
-		"../Assets/sprites/atlas.txt",
-		"../Assets/sprites/atlas.png",
-		"spritesheet");
+		"../Assets/sprites/victorvanhelsing.txt",
+		"../Assets/sprites/victorvanhelsing.png",
+		"victorvanhelsing");
 
-	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("spritesheet");
+	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("victorvanhelsing");
 
 	// set frame width
 	setWidth(65);
@@ -21,7 +21,7 @@ VictorVanHelsing::VictorVanHelsing()
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
-	setType(PLANE);
+	setType(VICTOR);
 
 	m_buildAnimations();
 	m_pObject = this;
@@ -36,10 +36,27 @@ void VictorVanHelsing::draw()
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
 
-	// draw the plane sprite with simple propeller animation
-	TheTextureManager::Instance()->playAnimation(
-		"spritesheet", m_pAnimations["plane"],
-		x, y, 0.5f, 0, 255, true);
+	switch (m_currentAnimationState)
+	{
+	case VICTOR_WALK_RIGHT:
+		TheTextureManager::Instance()->playAnimation("victorvanhelsing", m_pAnimations["walkright"],
+			x, y, 0.12f, 0, 255, true);
+		break;
+	case VICTOR_WALK_LEFT:
+		TheTextureManager::Instance()->playAnimation("victorvanhelsing", m_pAnimations["walkright"],
+			x, y, 0.12f, 0, 255, true, SDL_FLIP_HORIZONTAL);
+		break;
+	case VICTOR_WALK_UP:
+		TheTextureManager::Instance()->playAnimation("victorvanhelsing", m_pAnimations["walkup"],
+			x, y, 0.25f, 0, 255, true);
+		break;
+	case VICTOR_WALK_DOWN:
+		TheTextureManager::Instance()->playAnimation("victorvanhelsing", m_pAnimations["walkdown"],
+			x, y, 0.25f, 0, 255, true);
+		break;
+	default:
+		break;
+	}
 }
 
 void VictorVanHelsing::update()
@@ -52,21 +69,58 @@ void VictorVanHelsing::clean()
 }
 
 
-void VictorVanHelsing::setAnimation(const Animation & animation)
+void VictorVanHelsing::setAnimationState(const VictorAnimationState new_state)
+{
+	m_currentAnimationState = new_state;
+}
+
+void VictorVanHelsing::setAnimation(const Animation& animation)
 {
 	m_pAnimations[animation.name] = animation;
 }
 
+
 void VictorVanHelsing::m_buildAnimations()
 {
-	Animation planeAnimation = Animation();
+	Animation walkDown = Animation();
 
-	planeAnimation.name = "plane";
-	planeAnimation.frames.push_back(m_pSpriteSheet->getFrame("plane1"));
-	planeAnimation.frames.push_back(m_pSpriteSheet->getFrame("plane2"));
-	planeAnimation.frames.push_back(m_pSpriteSheet->getFrame("plane3"));
+	walkDown.name = "walkdown";
+	walkDown.frames.push_back(m_pSpriteSheet->getFrame("walkdown-1"));
+	walkDown.frames.push_back(m_pSpriteSheet->getFrame("walkdown-2"));
+	walkDown.frames.push_back(m_pSpriteSheet->getFrame("walkdown-3"));
+	walkDown.frames.push_back(m_pSpriteSheet->getFrame("walkdown-4"));
 
-	m_pAnimations["plane"] = planeAnimation;
+	m_pAnimations["walkdown"] = walkDown;
+
+	Animation walkLeft = Animation();
+
+	walkLeft.name = "walkleft";
+	walkLeft.frames.push_back(m_pSpriteSheet->getFrame("walkleft-1"));
+	walkLeft.frames.push_back(m_pSpriteSheet->getFrame("walkleft-2"));
+	walkLeft.frames.push_back(m_pSpriteSheet->getFrame("walkleft-3"));
+	walkLeft.frames.push_back(m_pSpriteSheet->getFrame("walkleft-4"));
+
+	m_pAnimations["walkleft"] = walkLeft;
+
+	Animation walkRight = Animation();
+
+	walkRight.name = "walkright";
+	walkRight.frames.push_back(m_pSpriteSheet->getFrame("walkright-1"));
+	walkRight.frames.push_back(m_pSpriteSheet->getFrame("walkright-2"));
+	walkRight.frames.push_back(m_pSpriteSheet->getFrame("walkright-3"));
+	walkRight.frames.push_back(m_pSpriteSheet->getFrame("walkright-4"));
+
+	m_pAnimations["walkright"] = walkRight;
+
+	Animation walkUp = Animation();
+
+	walkUp.name = "walkup";
+	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-1"));
+	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-2"));
+	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-3"));
+	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-4"));
+
+	m_pAnimations["walkup"] = walkUp;
 }
 
 

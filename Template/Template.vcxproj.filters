@@ -238,6 +238,9 @@
     <ClInclude Include="..\src\BossOneAnimationState.h">
       <Filter>Enums</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\VictorAnimationState.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf">
@@ -278,12 +281,27 @@
     <Image Include="..\Assets\sprites\Endsheet.png">
       <Filter>Sprites</Filter>
     </Image>
+    <Image Include="..\Assets\sprites\magicenemy.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\magicenemy-projectile.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\victorvanhelsing.png">
+      <Filter>Sprites</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Assets\sprites\atlas.txt">
       <Filter>Sprites</Filter>
     </Text>
     <Text Include="..\Assets\sprites\Endsheet.txt">
+      <Filter>Sprites</Filter>
+    </Text>
+    <Text Include="..\Assets\sprites\magicenemy.txt">
+      <Filter>Sprites</Filter>
+    </Text>
+    <Text Include="..\Assets\sprites\victorvanhelsing.txt">
       <Filter>Sprites</Filter>
     </Text>
   </ItemGroup>

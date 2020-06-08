@@ -4,6 +4,7 @@
 
 #include "DisplayObject.h"
 #include "Animation.h"
+#include "VictorAnimationState.h"
 #include <unordered_map>
 #include "SpriteSheet.h"
 
@@ -19,14 +20,16 @@ public:
 	virtual void clean() override;
 	//bool isColliding(GameObject&) override;
 
+	void setAnimationState(VictorAnimationState new_state);
 	void setAnimation(const Animation& animation);
 
 private:
 	void m_buildAnimations();
 	SpriteSheet* m_pSpriteSheet;
-	VictorVanHelsing* m_pObject;
 
+	VictorAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
+	VictorVanHelsing* m_pObject;
 };
 
 #endif /* defined (__VICTOR_VAN_HELSING__) */

@@ -71,7 +71,7 @@ void GameObject::m_BoundsRestrict()
 	if (getTransform()->position.y + (getHeight() / 2) > Config::SCREEN_HEIGHT)
 	{
 		getTransform()->position = glm::vec2(getTransform()->position.x, Config::SCREEN_HEIGHT - getHeight() / 2);
-		//std::cout << "\y axis above";
+		//std::cout << "\n y axis above";
 		m_boundHit = BELOWBOUNDARY;
 	}
 
