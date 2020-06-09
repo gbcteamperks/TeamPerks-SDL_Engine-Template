@@ -102,7 +102,7 @@ void PlayScene::handleEvents()
 	{
 		for (int j = i + 1; j < numberOfChildren(); j++)
 		{
-			if (CollisionManager::circleAABBCheck(getDisplayList()[i], getDisplayList()[j]))
+			if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[j]))
 			{
 				if (getDisplayList()[i]->getType() == STATICSPRITE || getDisplayList()[j]->getType() == STATICSPRITE)
 				{
