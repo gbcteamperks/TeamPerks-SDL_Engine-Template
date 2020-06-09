@@ -108,21 +108,8 @@ void PlayScene::handleEvents()
 				{
 					continue;
 				}
-				if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[j]->getType() == BOSS 
-					||
-					getDisplayList()[i]->getType() == BOSS && getDisplayList()[j]->getType() == VICTOR
-					)
-				{
-					TheGame::Instance()->changeSceneState(END_SCENE);
-				}
-
-				if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[j]->getType() == PROJECTILE
-					||
-					getDisplayList()[i]->getType() == PROJECTILE && getDisplayList()[j]->getType() == VICTOR
-					)
-				{
-					TheGame::Instance()->changeSceneState(END_SCENE);
-				}
+				
+				TheGame::Instance()->changeSceneState(END_SCENE);
 				
 				//std::cout << "\nCollision!! of " << getDisplayList()[i]->getType() << " and " << getDisplayList()[j]->getType();
 			}
