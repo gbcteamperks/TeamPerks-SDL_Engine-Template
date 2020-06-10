@@ -61,6 +61,7 @@ void Player::draw()
 
 void Player::update()
 {
+	runHereThere();
 }
 
 void Player::clean()
@@ -99,4 +100,28 @@ void Player::m_buildAnimations()
 	runAnimation.frames.push_back(m_pSpriteSheet->getFrame("megaman-run-3"));
 
 	m_pAnimations["run"] = runAnimation;
+}
+
+void Player::runHereThere()
+{
+	if (m_playerFacingRight)
+	{
+		setAnimationState(PLAYER_RUN_RIGHT);
+		getTransform()->position.x += 2;
+		if (getTransform()->position.x >= (Config::SCREEN_WIDTH) - getWidth())
+		{
+			m_playerFacingRight = false;
+		}
+	}
+	else if (!m_playerFacingRight)
+	{
+		setAnimationState(PLAYER_RUN_LEFT);
+		getTransform()->position.x -= 2;
+		if (getTransform()->position.x <= getWidth())
+		{
+			m_playerFacingRight = true;
+		}
+	}
+	
+	
 }

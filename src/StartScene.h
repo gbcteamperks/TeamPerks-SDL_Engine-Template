@@ -26,7 +26,8 @@ private:
 	StaticSprite* m_pTitleSprite{};
 	
 
-	Button* m_pStartButton;
+	Button* m_pPlayButton;
+	Label* m_pLabelPlay{};
 };
 
-#endif /* defined (__START_SCENE__) */
+#endif 

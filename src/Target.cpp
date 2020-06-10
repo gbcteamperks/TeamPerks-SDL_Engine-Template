@@ -4,16 +4,14 @@
 
 Target::Target()
 {
-	TheTextureManager::Instance()->load("../Assets/textures/Circle.png","circle");
+	TheTextureManager::Instance()->load("../Assets/Sprites/magicenemy-projectile.png","circle");
 
-	const auto size = TheTextureManager::Instance()->getTextureSize("circle");
-	setWidth(size.x);
-	setHeight(size.y);
-	getTransform()->position = glm::vec2(100.0f, 100.0f);
-	getRigidBody()->velocity = glm::vec2(0, 0);
-	getRigidBody()->isColliding = false;
+	auto size = TheTextureManager::Instance()->getTextureSize("circle");
+	//setWidth(size.x);
+	//setHeight(size.y);
+	//getTransform()->position = glm::vec2(100.0f, 100.0f);
 
-	setType(TARGET);
+	setType(PROJECTILE);
 }
 
 Target::~Target()
@@ -22,32 +20,24 @@ Target::~Target()
 void Target::draw()
 {
 	// alias for x and y
-	const auto x = getTransform()->position.x;
-	const auto y = getTransform()->position.y;
+	auto x = getTransform()->position.x = m_x;
+	auto y = getTransform()->position.y = m_y;
 
 	// draw the target
 	TheTextureManager::Instance()->draw("circle", x, y, 0, 255, true);
 }
 
+
+void Target::setXY(int x, int y)
+{
+	m_x = x;
+	m_y = y;
+}
+
 void Target::update()
 {
-	m_move();
-	m_checkBounds();
 }
 
 void Target::clean()
-{
-}
-
-void Target::m_move()
-{
-	getTransform()->position = getTransform()->position + getRigidBody()->velocity * 5.0f;
-}
-
-void Target::m_checkBounds()
-{
-}
-
-void Target::m_reset()
 {
 }

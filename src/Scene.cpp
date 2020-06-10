@@ -55,3 +55,8 @@ void Scene::drawDisplayList()
 	}
 
 }
+
+std::vector<DisplayObject*> Scene::getDisplayList()
+{
+	return m_displayList;
+}

@@ -1,0 +1,16 @@
+background1 0 0 800 600
+background2 800 0 800 600
+background3 1600 0 800 600
+background4 2400 0 800 600
+background5 0 600 800 600
+background6 800 600 800 600
+background7 1600 600 800 600
+background8 2400 600 800 600
+background9 0 1200 800 600
+background10 800 1200 800 600
+background11 1600 1200 800 600
+background12 2400 1200 800 600
+background13 0 1800 800 600
+background14 800 1800 800 600
+background15 1600 1800 800 600
+background16 2400 1800 800 600

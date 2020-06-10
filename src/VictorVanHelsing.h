@@ -1,32 +1,39 @@
 #pragma once
-#ifndef __PLANE_SPRITE__
-#define __PLANE_SPRITE__
+#ifndef __VICTOR_VAN_HELSING__
+#define __VICTOR_VAN_HELSING__
 
 #include "DisplayObject.h"
 #include "Animation.h"
+#include "VictorAnimationState.h"
 #include <unordered_map>
 #include "SpriteSheet.h"
 
-class PlaneSprite : public DisplayObject
+class VictorVanHelsing : public DisplayObject
 {
 public:
-	PlaneSprite();
-	~PlaneSprite();
+	VictorVanHelsing();
+	~VictorVanHelsing();
 
 	// Life Cycle Functions
 	virtual void draw() override;
 	virtual void update() override;
 	virtual void clean() override;
 	//bool isColliding(GameObject&) override;
-	
+
+	void setAnimationState(VictorAnimationState new_state);
 	void setAnimation(const Animation& animation);
 
 private:
 	void m_buildAnimations();
 	SpriteSheet* m_pSpriteSheet;
-	PlaneSprite* m_pObject;
 
+	VictorAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
+	VictorVanHelsing* m_pObject;
 };
 
-#endif /* defined (__PLANE__SPRITE__) */
+#endif /* defined (__VICTOR_VAN_HELSING__) */
+
+
+
+

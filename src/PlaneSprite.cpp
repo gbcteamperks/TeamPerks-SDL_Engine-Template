@@ -1,5 +1,6 @@
 #include "PlaneSprite.h"
 #include "TextureManager.h"
+#include "CollisionManager.h"
 
 PlaneSprite::PlaneSprite()
 {
@@ -23,6 +24,7 @@ PlaneSprite::PlaneSprite()
 	setType(PLANE);
 
 	m_buildAnimations();
+	m_pObject = this;
 }
 
 PlaneSprite::~PlaneSprite()
@@ -42,11 +44,17 @@ void PlaneSprite::draw()
 
 void PlaneSprite::update()
 {
+	GameObject::m_BoundsRestrict();
+	//PlaneSprite::isColliding();
+	
 }
 
 void PlaneSprite::clean()
 {
 }
+
+
+
 
 void PlaneSprite::setAnimation(const Animation& animation)
 {
@@ -64,7 +72,6 @@ void PlaneSprite::m_buildAnimations()
 
 	m_pAnimations["plane"] = planeAnimation;
 }
-
 
 
 
