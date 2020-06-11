@@ -1,6 +1,7 @@
 #include "SoundManager.h"
 #include <algorithm>
 
+//aamar's task for the week ?
 SoundManager::SoundManager()
 {
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 2048);
