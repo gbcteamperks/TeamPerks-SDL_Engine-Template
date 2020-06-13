@@ -7,6 +7,7 @@
 #include "VictorAnimationState.h"
 #include <unordered_map>
 #include "SpriteSheet.h"
+#include "Ability.h"
 
 class VictorVanHelsing : public DisplayObject
 {
@@ -23,6 +24,17 @@ public:
 	void setAnimationState(VictorAnimationState new_state);
 	void setAnimation(const Animation& animation);
 
+	//ability functions
+	void addAbility(Ability *);
+	void deleteAbility();
+	void useCurrentAbility();
+	void changeAbility();
+
+	void abilityReady();
+	void abilityNotReady();
+	bool isAbilityReady();
+
+
 private:
 	void m_buildAnimations();
 	SpriteSheet* m_pSpriteSheet;
@@ -30,6 +42,9 @@ private:
 	VictorAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
 	VictorVanHelsing* m_pObject;
+	//ability list
+	std::vector<Ability*> m_pListAbilities;
+	bool m_abilityReady = false;
 };
 
 #endif /* defined (__VICTOR_VAN_HELSING__) */

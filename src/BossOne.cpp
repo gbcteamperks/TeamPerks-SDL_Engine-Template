@@ -1,7 +1,5 @@
 #include "BossOne.h"
-#include "TextureManager.h"
-#include "GameObject.h"
-#include "CollisionManager.h"
+
 
 BossOne::BossOne() : m_currentAnimationState(BOSSONE_WALK_RIGHT)
 {
@@ -13,10 +11,10 @@ BossOne::BossOne() : m_currentAnimationState(BOSSONE_WALK_RIGHT)
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("magicenemy");
 
 	// set frame width
-	setWidth(53);
+	setWidth(40);
 
 	// set frame height
-	setHeight(58);
+	setHeight(60);
 
 	getTransform()->position = glm::vec2(400.0f, 300.0f);
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
@@ -75,9 +73,14 @@ void BossOne::clean()
 
 void BossOne::bossAttack()
 {	
+	static int abilityTime = 0;
 	
-
-	m_fire = true;
+	if ((int)m_currentTime % 3 != 0)
+	{
+		abilityTime = 0;
+	}
+	
+	/*m_fire = true;
 	if (m_bulletNotVisible)
 	{
 		m_pBossBullet->getTransform()->position = glm::vec2(getTransform()->position.x, 90.0f);
@@ -92,13 +95,16 @@ void BossOne::bossAttack()
 		m_pBossBullet->getTransform()->position = glm::vec2(-100.0f, -100.0f);
 		m_bulletNotVisible = true;
 	}
-	
-	if (m_currentTime > 3)
+	*/
+	if ((int)m_currentTime%3 == 0 && abilityTime == 0)
 	{
-		if (m_fire == true)
+		abilityTime++;
+		useCurrentAbility();
+		
+		/*if (m_fire == true)
 		{
 			m_pBossBullet->setXY(m_pBossBullet->getTransform()->position.x, m_pBossBullet->getTransform()->position.y + 5);
-		}
+		}*/
 	}
 	
 	
@@ -200,4 +206,28 @@ void BossOne::runHereThere()
 void BossOne::getBullet(Target* bullet)
 {
 	m_pBossBullet = bullet;
+}
+
+void BossOne::addAbility(Ability* ability)
+{
+	m_pListAbilities.push_back(ability);
+}
+
+void BossOne::deleteAbility()
+{
+	m_pListAbilities.erase(m_pListAbilities.begin()); //delete the first ability added.
+}
+
+void BossOne::useCurrentAbility()
+{
+	if (m_pListAbilities.size() > 0 && m_abilityReady) {
+		m_pListAbilities.front()->execute(getTransform()->position, 90);
+	}
+}
+
+void BossOne::dropAbility()
+{
+	if (m_pListAbilities.size() > 0) {
+		m_pListAbilities.front()->pickable(getTransform()->position);//adding a pickeable item to DisplayList
+	}
 }

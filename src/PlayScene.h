@@ -10,8 +10,12 @@
 #include "Button.h"
 #include "StaticSprite.h"
 #include "VictorVanHelsing.h"
-#include "BossOne.h"
 #include "GameObjectType.h"
+#include "Game.h"
+#include "EventManager.h"
+#include "BossOne.h"
+#include "Fireball.h"
+#include "Sword.h"
 
 class PlayScene : public Scene
 {
@@ -25,6 +29,8 @@ public:
 	virtual void clean() override;
 	virtual void handleEvents() override;
 	virtual void start() override;
+
+	void collisions();
 	
 private:
 	glm::vec2 m_mousePosition;
@@ -34,6 +40,7 @@ private:
 	PlaneSprite* m_pPlaneSprite;
 	Player* m_pPlayer;
 	VictorVanHelsing* m_pVictorVanHelsing;
+
 	BossOne* m_pBossOne;
 	Target* m_pTarget;
 	
@@ -43,6 +50,9 @@ private:
 
 	int m_currentTime = 0;
 	int m_prevTime = 0;
+
+	//changeAbility
+	bool m_changeAbilityReady = false;
 };
 
 #endif /* defined (__LEVEL1_SCENE__) */

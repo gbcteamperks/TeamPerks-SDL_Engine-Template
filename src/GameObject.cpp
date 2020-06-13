@@ -82,3 +82,27 @@ void GameObject::m_BoundsRestrict()
 		//std::cout << "\n y axis below";
 	}
 }
+
+bool GameObject::m_CheckBounds()
+{
+	if (getTransform()->position.x  > Config::SCREEN_WIDTH + getWidth())
+	{
+		return true;
+	}
+
+	if (getTransform()->position.x  < -getWidth())
+	{
+		return true;
+	}
+
+	if (getTransform()->position.y  > Config::SCREEN_HEIGHT + getHeight())
+	{
+		return true;
+	}
+
+	if (getTransform()->position.y  < -getHeight())
+	{
+		return true;
+	}
+	return false;
+}

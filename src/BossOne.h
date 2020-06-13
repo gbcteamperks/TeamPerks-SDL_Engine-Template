@@ -9,6 +9,12 @@
 #include "SpriteSheet.h"
 #include <unordered_map>
 #include "Target.h"
+#include "TextureManager.h"
+#include "GameObject.h"
+#include "CollisionManager.h"
+#include "Ability.h"
+
+
 
 class BossOne : public DisplayObject
 {
@@ -28,6 +34,12 @@ public:
 	void runHereThere();
 	void getBullet(Target*);
 
+	//ability functions
+	void addAbility(Ability*);
+	void deleteAbility();
+	void useCurrentAbility();
+	void dropAbility();
+
 private:
 	void m_buildAnimations();
 	SpriteSheet* m_pSpriteSheet;
@@ -42,9 +54,15 @@ private:
 	float m_prevTime = 0.00f;
 	int m_bulletXPosition = 0;
 	float m_currentTime = 0.00f;
+
 	Target* m_pBossBullet;
+	//Fireball* m_pFireball;
 
 	std::vector<Target*> m_pListOfTargets;
+
+	//ability list
+	std::vector<Ability*> m_pListAbilities;
+	bool m_abilityReady = true;
 };
 
 #endif /* defined (__BOSS_ONE__) */
