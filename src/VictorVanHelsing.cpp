@@ -125,21 +125,6 @@ void VictorVanHelsing::changeAbility()
 	}
 }
 
-void VictorVanHelsing::abilityReady()
-{
-	m_abilityReady = true;
-}
-
-void VictorVanHelsing::abilityNotReady()
-{
-	m_abilityReady = false;
-}
-
-bool VictorVanHelsing::isAbilityReady()
-{
-	return m_abilityReady;
-}
-
 
 void VictorVanHelsing::m_buildAnimations()
 {

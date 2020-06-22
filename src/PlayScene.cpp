@@ -104,28 +104,15 @@ void PlayScene::handleEvents()
 	{
 		TheGame::Instance()->changeSceneState(START_SCENE);
 	}
-
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_Q))
+	//Change Ability
+	if (EventManager::Instance().KeyReleased(SDL_SCANCODE_E))
 	{
-		if (m_pVictorVanHelsing->isAbilityReady()) {
-			m_pVictorVanHelsing->useCurrentAbility();
-			m_pVictorVanHelsing->abilityNotReady();
-		}
+		m_pVictorVanHelsing->changeAbility();
 	}
-	if (EventManager::Instance().isKeyUp(SDL_SCANCODE_Q))
+	//Use Current Ability
+	if (EventManager::Instance().KeyReleased(SDL_SCANCODE_Q)) 
 	{
-		m_pVictorVanHelsing->abilityReady();
-	}
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_E))
-	{
-		if (m_changeAbilityReady) {
-			m_pVictorVanHelsing->changeAbility();
-			m_changeAbilityReady = false;
-		}
-	}
-	if (EventManager::Instance().isKeyUp(SDL_SCANCODE_E))
-	{
-		m_changeAbilityReady = true;
+		m_pVictorVanHelsing->useCurrentAbility();
 	}
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_2))
 	{
@@ -163,126 +150,44 @@ void PlayScene::start()
 	m_pVictorVanHelsing->addAbility(new Sword());
 	addChild(m_pVictorVanHelsing);
 	
-/*
 
-	// Back Button
-	m_pBackButton = new Button("../Assets/textures/backButton.png", "backButton", BACK_BUTTON);
-	m_pBackButton->getTransform()->position = glm::vec2(300.0f, 400.0f);
-	m_pBackButton->addEventListener(CLICK, [&](Button* button)-> void
-	{
-		button->setActive(false);
-		TheGame::Instance()->changeSceneState(START_SCENE);
-	});
-
-	m_pBackButton->addEventListener(MOUSE_OVER, [&](Button* button)->void
-	{
-		button->setAlpha(128);
-	});
-
-	m_pBackButton->addEventListener(MOUSE_OUT, [&](Button* button)->void
-	{
-		button->setAlpha(255);
-	});
-	addChild(m_pBackButton);
-
-	// Next Button
-	m_pNextButton = new Button("../Assets/textures/nextButton.png", "nextButton", NEXT_BUTTON);
-	m_pNextButton->getTransform()->position = glm::vec2(500.0f, 400.0f);
-	m_pNextButton->addEventListener(CLICK, [&](Button* button)-> void
-	{
-		button->setActive(false);
-		TheGame::Instance()->changeSceneState(END_SCENE);
-	});
-
-	m_pNextButton->addEventListener(MOUSE_OVER, [&](Button* button)->void
-	{
-		button->setAlpha(128);
-	});
-
-	m_pNextButton->addEventListener(MOUSE_OUT, [&](Button* button)->void
-	{
-		button->setAlpha(255);
-	});
-
-	addChild(m_pNextButton);*/
 }
 
 void PlayScene::collisions()
 {
-	bool removeChild = false;
-	const auto list = getDisplayList();
-	//-- CHECK FOR COLLISION OF ALL OBJECTS!
-	//for (int i = 0; i < numberOfChildren(); i++)
-	//{
-	//	for (int j = 0; j < numberOfChildren(); j++)
-	//	{
-	//		if (getDisplayList()[i]->getType() == SWORD && getDisplayList()[j]->getType() == BOSS) 
-	//		{
-	//			if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[j]))
-	//			{
-	//				std::cout << "collision detected" << std::endl;
-	//				m_pBossOne->dropAbility();
-	//				//TheGame::Instance()->changeSceneState(END_SCENE);
 
-	//				//std::cout << "\nCollision!! of " << getDisplayList()[i]->getType() << " and " << getDisplayList()[j]->getType();
-	//			}
-	//		}
-	//		if (getDisplayList()[i]->getType() == PICKABLE && getDisplayList()[j]->getType() == VICTOR)
-	//		{
-	//			if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[j]))
-	//			{
-	//				dynamic_cast<VictorVanHelsing*>(getDisplayList()[j])->addAbility(new Fireball());
-	//				removeChild = true;
-	//			}
-	//		}
-	//		
-	//	}
-	//}
-	/*if (removeChild) {
-		removeChildByType(PICKABLE);
-	}*/
 	bool changeState = false;
+	//Probably we have to change this "auto it", for int it = 0
 	for (auto it = getDisplayList().begin(); it != getDisplayList().end();it++) {
-		for (auto kt = getDisplayList().begin(); kt != getDisplayList().end();) {
-			if ((*it)->getType() == SWORD && (*kt)->getType() == BOSS) {
-				if (CollisionManager::AABBCheck((*it), (*kt))) {
-					std::cout << "collision detected" << std::endl;
-					
-					m_pBossOne->dropAbility();
-					(*kt)->clean();
-					delete (*kt);
-					kt = getDisplayList().erase(kt);
-					it = getDisplayList().begin();
-					//loop = false;
+		for (auto kt = getDisplayList().begin(); kt != getDisplayList().end();kt++) {
+			if ((*it) != nullptr && (*kt) != nullptr) {
+				if ((*it)->getType() == SWORD && (*kt)->getType() == BOSS) {
+					if (CollisionManager::AABBCheck((*it), (*kt))) {
+						m_pBossOne->dropAbility();
+						(*kt)->clean();
+						delete (*kt);
+						(*kt) = nullptr;
+					}
+				
 				}
-				else {
-					kt++;
+				else if ((*it)->getType() == VICTOR && (*kt)->getType() == PICKABLE) {
+					if (CollisionManager::AABBCheck((*it), (*kt))) {
+						dynamic_cast<VictorVanHelsing*>((*it))->addAbility(new Fireball());
+						(*kt)->clean();
+						delete (*kt);
+						(*kt) = nullptr;
+					}
 				}
-			}
-			else if ((*it)->getType() == VICTOR && (*kt)->getType() == PICKABLE) {
-				if (CollisionManager::AABBCheck((*it), (*kt))) {
-					std::cout << "collision detected" << std::endl;
-					dynamic_cast<VictorVanHelsing*>((*it))->addAbility(new Fireball());
-					(*kt)->clean();
-					delete (*kt);
-					kt = getDisplayList().erase(kt);
-					it = getDisplayList().begin();
-				}
-				else {
-					kt++;
+				else if ((*it)->getType() == PROJECTILE && (*kt)->getType() == VICTOR) {
+					if (CollisionManager::AABBCheck((*it), (*kt))) {
+						changeState = true;
+					}
 				}
 			}
-			else if ((*it)->getType() == PROJECTILE && (*kt)->getType() == VICTOR) {
-				if (CollisionManager::AABBCheck((*it), (*kt))) {
-					changeState = true;
-				}
-				kt++;
-			}
-			else {
-				kt++;
-			}
+			
 		}
 	}
+	getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr),getDisplayList().end());
 	if (changeState) {
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}

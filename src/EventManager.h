@@ -27,6 +27,7 @@ public:
 	// keyboard events
 	bool isKeyDown(SDL_Scancode key) const;
 	bool isKeyUp(SDL_Scancode key) const;
+	bool KeyReleased(const SDL_Scancode c); //alex's
 
 	// mouse events
 	bool getMouseButton(int button_number) const;
@@ -48,6 +49,7 @@ private:
 	// handle keyboard events
 	void onKeyDown();
 	void onKeyUp();
+	
 
 	// handle mouse events
 	void onMouseMove(SDL_Event& event);
@@ -62,6 +64,11 @@ private:
 	
 	// keyboard states array
 	const Uint8* m_keyStates;
+
+	//alex's variables
+	const Uint8* s_keysCurr;
+	Uint8* s_keysLast;
+	int s_numKeys;
 
 	// mouse specific
 	bool m_mouseButtons[3];

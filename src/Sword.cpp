@@ -64,7 +64,7 @@ void Sword::start()
 void Sword::execute(glm::vec2 position, int angle)
 {
 	if (!m_addedToDisplay) {
-		Game::Instance()->getCurrentScene()->addChild(this);
+		Game::Instance()->getCurrentScene()->addChild(this); //add the pointer to this instance.
 		m_addedToDisplay = true;
 	}
 	getTransform()->position = position;

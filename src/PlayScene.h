@@ -51,8 +51,6 @@ private:
 	int m_currentTime = 0;
 	int m_prevTime = 0;
 
-	//changeAbility
-	bool m_changeAbilityReady = false;
 };
 
 #endif /* defined (__LEVEL1_SCENE__) */
