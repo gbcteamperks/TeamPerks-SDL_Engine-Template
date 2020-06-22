@@ -36,6 +36,9 @@
     <Filter Include="Sprites">
       <UniqueIdentifier>{9f997137-cba7-478f-a242-d1013bfa4107}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Abilities">
+      <UniqueIdentifier>{baa00658-b553-41df-8df5-4934c3742fba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -118,6 +121,15 @@
     </ClCompile>
     <ClCompile Include="..\src\BossOne.cpp">
       <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Fireball.cpp">
+      <Filter>Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Ability.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Sword.cpp">
+      <Filter>Abilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +252,15 @@
     </ClInclude>
     <ClInclude Include="..\src\VictorAnimationState.h">
       <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Ability.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Fireball.h">
+      <Filter>Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Sword.h">
+      <Filter>Abilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

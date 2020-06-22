@@ -12,10 +12,10 @@ VictorVanHelsing::VictorVanHelsing() : m_currentAnimationState(VICTOR_WALK_UP)
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("victorvanhelsing");
 
 	// set frame width
-	setWidth(65);
+	setWidth(40);
 
 	// set frame height
-	setHeight(65);
+	setHeight(60);
 
 	getTransform()->position = glm::vec2(400.0f, 200.0f);
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
@@ -77,6 +77,67 @@ void VictorVanHelsing::setAnimationState(const VictorAnimationState new_state)
 void VictorVanHelsing::setAnimation(const Animation& animation)
 {
 	m_pAnimations[animation.name] = animation;
+}
+
+void VictorVanHelsing::addAbility(Ability* ability)
+{	
+	m_pListAbilities.push_back(ability);
+}
+
+void VictorVanHelsing::deleteAbility()
+{
+	m_pListAbilities.erase(m_pListAbilities.begin()); //delete the first ability added.
+}
+
+void VictorVanHelsing::useCurrentAbility()
+{
+	if (m_pListAbilities.size() > 0 && m_abilityReady) {
+		switch (m_currentAnimationState)
+		{
+		case VICTOR_WALK_RIGHT:
+			m_pListAbilities.front()->execute(getTransform()->position, 0);
+			break;
+		case VICTOR_WALK_LEFT:
+			m_pListAbilities.front()->execute(getTransform()->position, 180);
+			break;
+		case VICTOR_WALK_UP:
+			m_pListAbilities.front()->execute(getTransform()->position, -90);
+			break;
+		case VICTOR_WALK_DOWN:
+			m_pListAbilities.front()->execute(getTransform()->position, 90);
+			break;
+		default:
+			m_pListAbilities.front()->execute(getTransform()->position, -90);
+			break;
+		}
+	}
+}
+
+void VictorVanHelsing::changeAbility()
+{
+	if (m_pListAbilities.size() > 1) {
+		static auto it = m_pListAbilities.begin();
+		it++;
+		if (it == m_pListAbilities.end()) {
+			it = m_pListAbilities.begin() + 1;
+		}
+		std::iter_swap(m_pListAbilities.begin(), it);
+	}
+}
+
+void VictorVanHelsing::abilityReady()
+{
+	m_abilityReady = true;
+}
+
+void VictorVanHelsing::abilityNotReady()
+{
+	m_abilityReady = false;
+}
+
+bool VictorVanHelsing::isAbilityReady()
+{
+	return m_abilityReady;
 }
 
 

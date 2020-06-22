@@ -1,6 +1,5 @@
 #include "PlayScene.h"
-#include "Game.h"
-#include "EventManager.h"
+
 
 PlayScene::PlayScene()
 {
@@ -18,6 +17,20 @@ void PlayScene::draw()
 void PlayScene::update()
 {
 	updateDisplayList();
+	
+	//delete projectiles
+	if (getDisplayList().size() > 0) {
+		for (auto it = getDisplayList().begin(); it != getDisplayList().end();) {
+			if ((*it)->getType() == PROJECTILE && (*it)->m_CheckBounds()) {
+				(*it)->clean();
+				delete (*it);
+				it = getDisplayList().erase(it);
+			}
+			else {
+				it++;
+			}
+		}
+	}
 
 }
 
@@ -92,29 +105,34 @@ void PlayScene::handleEvents()
 		TheGame::Instance()->changeSceneState(START_SCENE);
 	}
 
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_Q))
+	{
+		if (m_pVictorVanHelsing->isAbilityReady()) {
+			m_pVictorVanHelsing->useCurrentAbility();
+			m_pVictorVanHelsing->abilityNotReady();
+		}
+	}
+	if (EventManager::Instance().isKeyUp(SDL_SCANCODE_Q))
+	{
+		m_pVictorVanHelsing->abilityReady();
+	}
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_E))
+	{
+		if (m_changeAbilityReady) {
+			m_pVictorVanHelsing->changeAbility();
+			m_changeAbilityReady = false;
+		}
+	}
+	if (EventManager::Instance().isKeyUp(SDL_SCANCODE_E))
+	{
+		m_changeAbilityReady = true;
+	}
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_2))
 	{
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
 
-	//-- CHECK FOR COLLISION OF ALL OBJECTS!
-	for (int i = 0; i < numberOfChildren(); i++)
-	{
-		for (int j = i + 1; j < numberOfChildren(); j++)
-		{
-			if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[j]))
-			{
-				if (getDisplayList()[i]->getType() == STATICSPRITE || getDisplayList()[j]->getType() == STATICSPRITE)
-				{
-					continue;
-				}
-				
-				TheGame::Instance()->changeSceneState(END_SCENE);
-				
-				//std::cout << "\nCollision!! of " << getDisplayList()[i]->getType() << " and " << getDisplayList()[j]->getType();
-			}
-		}
-	}
+	collisions();
 }
 
 void PlayScene::start()
@@ -134,13 +152,15 @@ void PlayScene::start()
 
 	//Boss
 	m_pBossOne = new BossOne();
-	addChild(m_pBossOne);
 	m_pBossOne->getTransform()->position = glm::vec2(90.0f, 90.0f);
 	m_pBossOne->getBullet(m_pTarget);
+	m_pBossOne->addAbility(new Fireball());
+	addChild(m_pBossOne);
 
 	//Victor
 	m_pVictorVanHelsing = new VictorVanHelsing();
 	m_pVictorVanHelsing->getTransform()->position = glm::vec2(390.0f, 400.0f);
+	m_pVictorVanHelsing->addAbility(new Sword());
 	addChild(m_pVictorVanHelsing);
 	
 /*
@@ -185,4 +205,86 @@ void PlayScene::start()
 	});
 
 	addChild(m_pNextButton);*/
+}
+
+void PlayScene::collisions()
+{
+	bool removeChild = false;
+	const auto list = getDisplayList();
+	//-- CHECK FOR COLLISION OF ALL OBJECTS!
+	//for (int i = 0; i < numberOfChildren(); i++)
+	//{
+	//	for (int j = 0; j < numberOfChildren(); j++)
+	//	{
+	//		if (getDisplayList()[i]->getType() == SWORD && getDisplayList()[j]->getType() == BOSS) 
+	//		{
+	//			if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[j]))
+	//			{
+	//				std::cout << "collision detected" << std::endl;
+	//				m_pBossOne->dropAbility();
+	//				//TheGame::Instance()->changeSceneState(END_SCENE);
+
+	//				//std::cout << "\nCollision!! of " << getDisplayList()[i]->getType() << " and " << getDisplayList()[j]->getType();
+	//			}
+	//		}
+	//		if (getDisplayList()[i]->getType() == PICKABLE && getDisplayList()[j]->getType() == VICTOR)
+	//		{
+	//			if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[j]))
+	//			{
+	//				dynamic_cast<VictorVanHelsing*>(getDisplayList()[j])->addAbility(new Fireball());
+	//				removeChild = true;
+	//			}
+	//		}
+	//		
+	//	}
+	//}
+	/*if (removeChild) {
+		removeChildByType(PICKABLE);
+	}*/
+	bool changeState = false;
+	for (auto it = getDisplayList().begin(); it != getDisplayList().end();it++) {
+		for (auto kt = getDisplayList().begin(); kt != getDisplayList().end();) {
+			if ((*it)->getType() == SWORD && (*kt)->getType() == BOSS) {
+				if (CollisionManager::AABBCheck((*it), (*kt))) {
+					std::cout << "collision detected" << std::endl;
+					
+					m_pBossOne->dropAbility();
+					(*kt)->clean();
+					delete (*kt);
+					kt = getDisplayList().erase(kt);
+					it = getDisplayList().begin();
+					//loop = false;
+				}
+				else {
+					kt++;
+				}
+			}
+			else if ((*it)->getType() == VICTOR && (*kt)->getType() == PICKABLE) {
+				if (CollisionManager::AABBCheck((*it), (*kt))) {
+					std::cout << "collision detected" << std::endl;
+					dynamic_cast<VictorVanHelsing*>((*it))->addAbility(new Fireball());
+					(*kt)->clean();
+					delete (*kt);
+					kt = getDisplayList().erase(kt);
+					it = getDisplayList().begin();
+				}
+				else {
+					kt++;
+				}
+			}
+			else if ((*it)->getType() == PROJECTILE && (*kt)->getType() == VICTOR) {
+				if (CollisionManager::AABBCheck((*it), (*kt))) {
+					changeState = true;
+				}
+				kt++;
+			}
+			else {
+				kt++;
+			}
+		}
+	}
+	if (changeState) {
+		TheGame::Instance()->changeSceneState(END_SCENE);
+	}
+
 }

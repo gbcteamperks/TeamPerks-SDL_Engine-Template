@@ -23,10 +23,11 @@ public:
 	void addChild(DisplayObject* child);
 	void removeAllChildren();
 	int numberOfChildren() const;
+	void removeChildByType(GameObjectType);
 
 	void updateDisplayList();
 	void drawDisplayList();
-	std::vector<DisplayObject*> getDisplayList();
+	std::vector<DisplayObject*>& getDisplayList();
 
 private:
 	std::vector<DisplayObject*> m_displayList;

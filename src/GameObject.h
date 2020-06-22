@@ -49,6 +49,7 @@ public:
 	GameObjectType getType() const;
 	void setType(GameObjectType new_type);
 	void m_BoundsRestrict();
+	bool m_CheckBounds();
 
 	//--GameObject* getCurrentObject();
 	
