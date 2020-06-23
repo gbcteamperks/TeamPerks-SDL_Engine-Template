@@ -131,6 +131,9 @@
     <ClCompile Include="..\src\Sword.cpp">
       <Filter>Abilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\MathManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -253,13 +256,16 @@
     <ClInclude Include="..\src\VictorAnimationState.h">
       <Filter>Enums</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Ability.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Fireball.h">
       <Filter>Abilities</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Sword.h">
+      <Filter>Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MathManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Ability.h">
       <Filter>Abilities</Filter>
     </ClInclude>
   </ItemGroup>

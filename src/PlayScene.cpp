@@ -39,8 +39,8 @@ void PlayScene::clean()
 	delete m_pBackButton;
 	m_pBackButton = nullptr;
 
-delete m_pNextButton;
-m_pNextButton = nullptr;
+	delete m_pNextButton;
+	m_pNextButton = nullptr;
 
 
 removeAllChildren();

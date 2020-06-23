@@ -32,6 +32,11 @@ int GameObject::getHeight() const
 	return m_height;
 }
 
+int GameObject::getAngle() const
+{
+	return m_angle;
+}
+
 GameObjectType GameObject::getType() const
 {
 	return m_type;
@@ -45,6 +50,11 @@ void GameObject::setWidth(const int new_width)
 void GameObject::setHeight(const int new_height)
 {
 	m_height = new_height;
+}
+
+void GameObject::setAngle(int new_angle)
+{
+	m_angle = new_angle;
 }
 
 void GameObject::setType(const GameObjectType new_type)

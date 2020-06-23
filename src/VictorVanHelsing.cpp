@@ -1,6 +1,9 @@
 #include "VictorVanHelsing.h"
 #include "TextureManager.h"
 #include "CollisionManager.h"
+#include "EventManager.h"
+#include "MathManager.h"
+
 
 VictorVanHelsing::VictorVanHelsing() : m_currentAnimationState(VICTOR_WALK_UP)
 {
@@ -91,7 +94,13 @@ void VictorVanHelsing::deleteAbility()
 
 void VictorVanHelsing::useCurrentAbility()
 {
-	if (m_pListAbilities.size() > 0 && m_abilityReady) {
+	setAngle(MAMA::AngleBetweenPoints(getTransform()->position, EventManager::Instance().getMousePosition()));
+	if (m_pListAbilities.size() > 0) 
+	{
+		m_pListAbilities.front()->execute(getTransform()->position, getAngle());
+	}
+	
+	/*if (m_pListAbilities.size() > 0 && m_abilityReady) {
 		switch (m_currentAnimationState)
 		{
 		case VICTOR_WALK_RIGHT:
@@ -110,18 +119,18 @@ void VictorVanHelsing::useCurrentAbility()
 			m_pListAbilities.front()->execute(getTransform()->position, -90);
 			break;
 		}
-	}
+	}*/
 }
 
 void VictorVanHelsing::changeAbility()
 {
-	if (m_pListAbilities.size() > 1) {
-		static auto it = m_pListAbilities.begin();
-		it++;
-		if (it == m_pListAbilities.end()) {
-			it = m_pListAbilities.begin() + 1;
+	static int AbilityCounter = 0;
+	AbilityCounter++;
+	if(m_pListAbilities.size() > 1){
+		if(AbilityCounter > m_pListAbilities.size() - 1){
+			AbilityCounter = 1;
 		}
-		std::iter_swap(m_pListAbilities.begin(), it);
+		std::iter_swap(m_pListAbilities.begin(), m_pListAbilities.begin()+ AbilityCounter);
 	}
 }
 
