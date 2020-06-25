@@ -30,10 +30,6 @@ public:
 	void useCurrentAbility();
 	void changeAbility();
 
-	void abilityReady();
-	void abilityNotReady();
-	bool isAbilityReady();
-
 
 private:
 	void m_buildAnimations();
@@ -44,7 +40,7 @@ private:
 	VictorVanHelsing* m_pObject;
 	//ability list
 	std::vector<Ability*> m_pListAbilities;
-	bool m_abilityReady = false;
+	bool m_abilityReady = true;
 };
 
 #endif /* defined (__VICTOR_VAN_HELSING__) */
