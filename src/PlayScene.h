@@ -33,12 +33,6 @@ public:
 	virtual void start() override;
 
 	void collisions();
-	void loadTiles(std::string spritePath, std::string name, std::string tileData);
-	void loadLevel(std::string dataPath);
-	void updateLevel(float scroll, bool x);
-
-	std::map<char, Tile*> m_tiles;
-	std::array<std::array<Tile*, 360>, 204> m_level;
 
 	bool m_bgScrollX = false, m_bgScrollY = false;
 	float playerSpeed = 2.0f;

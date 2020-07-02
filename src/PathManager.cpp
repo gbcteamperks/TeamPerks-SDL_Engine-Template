@@ -1,7 +1,11 @@
 //#include "PathManager.h"
 //#include "MathManager.h"
-//
 //#include <iostream>
+//
+////PathManager* PathManager::s_pInstance = nullptr;
+////PathManager::PathManager() = default;
+////PathManager::~PathManager() = default;
+//
 //void PathManager::getShortestPath(PathNode* start, PathNode* goal)
 //{
 //    s_path.clear(); //Clear old path to save new one

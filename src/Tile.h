@@ -2,20 +2,19 @@
 #ifndef _TILE_H
 #define _TILE_H
 #include "DisplayObject.h"
-#include "TextureManager.h"
+#include "Pathing.h"
 
 class Tile : public DisplayObject 
 {
 private:
 	bool m_bObstacle;
 	bool m_bHazard;
-	//std::string m_sPath;
 	std::string m_sName;
 	float m_fX;
 	float m_fY;
 public:
 
-	//PathNode* m_node;
+	PathNode* m_node;
 	//Label *m_lCost, *m_lX, *m_lY;
 	Tile(std::string name, float posX, float posY, bool o, bool h);
 	~Tile();
@@ -26,7 +25,7 @@ public:
 	bool& isObstacle();
 	bool isHazard();
 	Tile* Clone();
-	//PathNode* Node();
+	PathNode* Node();
 };
 
 #endif // !_TILE_H
