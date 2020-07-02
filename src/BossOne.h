@@ -56,7 +56,6 @@ private:
 	float m_currentTime = 0.00f;
 
 	Target* m_pBossBullet;
-	//Fireball* m_pFireball;
 
 	std::vector<Target*> m_pListOfTargets;
 

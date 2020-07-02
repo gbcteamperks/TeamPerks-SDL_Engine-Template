@@ -99,27 +99,7 @@ void VictorVanHelsing::useCurrentAbility()
 	{
 		m_pListAbilities.front()->execute(getTransform()->position, getAngle());
 	}
-	
-	/*if (m_pListAbilities.size() > 0 && m_abilityReady) {
-		switch (m_currentAnimationState)
-		{
-		case VICTOR_WALK_RIGHT:
-			m_pListAbilities.front()->execute(getTransform()->position, 0);
-			break;
-		case VICTOR_WALK_LEFT:
-			m_pListAbilities.front()->execute(getTransform()->position, 180);
-			break;
-		case VICTOR_WALK_UP:
-			m_pListAbilities.front()->execute(getTransform()->position, -90);
-			break;
-		case VICTOR_WALK_DOWN:
-			m_pListAbilities.front()->execute(getTransform()->position, 90);
-			break;
-		default:
-			m_pListAbilities.front()->execute(getTransform()->position, -90);
-			break;
-		}
-	}*/
+
 }
 
 void VictorVanHelsing::changeAbility()

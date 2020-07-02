@@ -1,5 +1,5 @@
 #include "PlayScene.h"
-
+#include "MotherSpider.h"
 
 PlayScene::PlayScene()
 {
@@ -124,9 +124,6 @@ void PlayScene::handleEvents()
 
 void PlayScene::start()
 {
-	// 
-	//m_pPlaneSprite = new PlaneSprite();
-	//addChild(m_pPlaneSprite);
 
 	m_pBkg = new StaticSprite("../Assets/textures/map_testing.png", "titleSprite", 400.0f, 300.0f);
 	addChild(m_pBkg);
@@ -149,6 +146,9 @@ void PlayScene::start()
 	m_pVictorVanHelsing->getTransform()->position = glm::vec2(390.0f, 400.0f);
 	m_pVictorVanHelsing->addAbility(new Sword());
 	addChild(m_pVictorVanHelsing);
+
+	//BigSpider
+	addChild(new MotherSpider());
 	
 
 }

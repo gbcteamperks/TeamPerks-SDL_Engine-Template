@@ -1,8 +1,9 @@
 #include "Player.h"
 #include "TextureManager.h"
 
-Player::Player(): m_currentAnimationState(PLAYER_IDLE_RIGHT)
+Player::Player()
 {
+	// m_currentAnimationState=PLAYER_IDLE_RIGHT;
 	TheTextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/atlas.txt",
 		"../Assets/sprites/atlas.png", 
@@ -35,7 +36,7 @@ void Player::draw()
 	const auto y = getTransform()->position.y;
 
 	// draw the player according to animation state
-	switch(m_currentAnimationState)
+	/*switch(m_currentAnimationState)
 	{
 	case PLAYER_IDLE_RIGHT:
 		TheTextureManager::Instance()->playAnimation("spritesheet", m_pAnimations["idle"],
@@ -55,7 +56,7 @@ void Player::draw()
 		break;
 	default:
 		break;
-	}
+	}*/
 	
 }
 

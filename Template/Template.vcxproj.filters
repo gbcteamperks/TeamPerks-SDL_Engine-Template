@@ -134,6 +134,12 @@
     <ClCompile Include="..\src\MathManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\MotherSpider.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ExplosiveSpider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -268,6 +274,12 @@
     <ClInclude Include="..\src\Ability.h">
       <Filter>Abilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\MotherSpider.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ExplosiveSpider.h">
+      <Filter>Abilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf">
@@ -315,6 +327,15 @@
       <Filter>Sprites</Filter>
     </Image>
     <Image Include="..\Assets\sprites\victorvanhelsing.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\spiderBig.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\spiderExplode.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\explosionSpider.png">
       <Filter>Sprites</Filter>
     </Image>
   </ItemGroup>
