@@ -160,6 +160,7 @@
     <ClCompile Include="..\src\BossOne.cpp" />
     <ClCompile Include="..\src\Button.cpp" />
     <ClCompile Include="..\src\CollisionManager.cpp" />
+    <ClCompile Include="..\src\DebugManager.cpp" />
     <ClCompile Include="..\src\DisplayObject.cpp" />
     <ClCompile Include="..\src\EndScene.cpp" />
     <ClCompile Include="..\src\ExplosiveSpider.cpp" />
@@ -169,8 +170,11 @@
     <ClCompile Include="..\src\GameController.cpp" />
     <ClCompile Include="..\src\GameObject.cpp" />
     <ClCompile Include="..\src\Label.cpp" />
+    <ClCompile Include="..\src\LevelManager.cpp" />
     <ClCompile Include="..\src\MathManager.cpp" />
     <ClCompile Include="..\src\MotherSpider.cpp" />
+    <ClCompile Include="..\src\Pathing.cpp" />
+    <ClCompile Include="..\src\PathManager.cpp" />
     <ClCompile Include="..\src\PlayScene.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\PlaneSprite.cpp" />
@@ -186,6 +190,7 @@
     <ClCompile Include="..\src\Sword.cpp" />
     <ClCompile Include="..\src\Target.cpp" />
     <ClCompile Include="..\src\TextureManager.cpp" />
+    <ClCompile Include="..\src\Tile.cpp" />
     <ClCompile Include="..\src\Util.cpp" />
     <ClCompile Include="..\src\VictorVanHelsing.cpp" />
   </ItemGroup>
@@ -199,6 +204,7 @@
     <ClInclude Include="..\src\CollisionManager.h" />
     <ClInclude Include="..\src\CollisionShape.h" />
     <ClInclude Include="..\src\Config.h" />
+    <ClInclude Include="..\src\DebugManager.h" />
     <ClInclude Include="..\src\DisplayObject.h" />
     <ClInclude Include="..\src\EndScene.h" />
     <ClInclude Include="..\src\Event.h" />
@@ -212,9 +218,12 @@
     <ClInclude Include="..\src\GameObject.h" />
     <ClInclude Include="..\src\GameObjectType.h" />
     <ClInclude Include="..\src\Label.h" />
+    <ClInclude Include="..\src\LevelManager.h" />
     <ClInclude Include="..\src\MathManager.h" />
     <ClInclude Include="..\src\MotherSpider.h" />
     <ClInclude Include="..\src\MouseButtons.h" />
+    <ClInclude Include="..\src\Pathing.h" />
+    <ClInclude Include="..\src\PathManager.h" />
     <ClInclude Include="..\src\PlayScene.h" />
     <ClInclude Include="..\src\PlaneSprite.h" />
     <ClInclude Include="..\src\Player.h" />
@@ -232,6 +241,7 @@
     <ClInclude Include="..\src\Sword.h" />
     <ClInclude Include="..\src\Target.h" />
     <ClInclude Include="..\src\TextureManager.h" />
+    <ClInclude Include="..\src\Tile.h" />
     <ClInclude Include="..\src\Transform.h" />
     <ClInclude Include="..\src\Util.h" />
     <ClInclude Include="..\src\VictorAnimationState.h" />

@@ -16,7 +16,9 @@
 #include "BossOne.h"
 #include "Fireball.h"
 #include "Sword.h"
-
+#include "Tile.h"
+#include <array>
+#include <map>
 class PlayScene : public Scene
 {
 public:
@@ -31,6 +33,9 @@ public:
 	virtual void start() override;
 
 	void collisions();
+
+	bool m_bgScrollX = false, m_bgScrollY = false;
+	float playerSpeed = 2.0f;
 	
 private:
 	glm::vec2 m_mousePosition;
@@ -50,6 +55,8 @@ private:
 
 	int m_currentTime = 0;
 	int m_prevTime = 0;
+
+	
 
 };
 
