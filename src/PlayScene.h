@@ -16,7 +16,9 @@
 #include "BossOne.h"
 #include "Fireball.h"
 #include "Sword.h"
-
+#include "Tile.h"
+#include <array>
+#include <map>
 class PlayScene : public Scene
 {
 public:
@@ -31,6 +33,15 @@ public:
 	virtual void start() override;
 
 	void collisions();
+	void loadTiles(std::string spritePath, std::string name, std::string tileData);
+	void loadLevel(std::string dataPath);
+	void updateLevel(float scroll, bool x);
+
+	std::map<char, Tile*> m_tiles;
+	std::array<std::array<Tile*, 360>, 204> m_level;
+
+	bool m_bgScrollX = false, m_bgScrollY = false;
+	float playerSpeed = 2.0f;
 	
 private:
 	glm::vec2 m_mousePosition;
@@ -50,6 +61,8 @@ private:
 
 	int m_currentTime = 0;
 	int m_prevTime = 0;
+
+	
 
 };
 

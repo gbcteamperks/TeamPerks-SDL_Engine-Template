@@ -1,6 +1,7 @@
 #include "PlayScene.h"
-
-
+#include "Config.h"
+#include <fstream>
+#include <string>
 PlayScene::PlayScene()
 {
 	PlayScene::start();
@@ -11,6 +12,15 @@ PlayScene::~PlayScene()
 
 void PlayScene::draw()
 {
+	for (int row = 0; row < Config::ROW_NUM; row++)
+	{
+		for (int col = 0; col < Config::COL_NUM; col++)
+		{
+			
+			m_level[row][col]->draw();
+		
+		}
+	}
 	drawDisplayList();
 }
 
@@ -74,23 +84,57 @@ void PlayScene::handleEvents()
 		//----
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A))
 		{
-			m_pVictorVanHelsing->getTransform()->position -= glm::vec2(2.0f, 0.0f);
+			//m_pVictorVanHelsing->getTransform()->position -= glm::vec2(playerSpeed, 0.0f);
 			m_pVictorVanHelsing->setAnimationState(VICTOR_WALK_LEFT);
+			
+			if (m_pVictorVanHelsing->getTransform()->position.x /*> Config::SCREEN_WIDTH * 0.3f*/)
+			{
+				if (m_level[0][0]->getTransform()->position.x < 0)
+				{
+					updateLevel(playerSpeed, true);
+				}
+			}
+
+			
+
 		}
 		else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D))
 		{
-			m_pVictorVanHelsing->getTransform()->position += glm::vec2(2.0f, 0.0f);
+			//m_pVictorVanHelsing->getTransform()->position += glm::vec2(playerSpeed, 0.0f);
 			m_pVictorVanHelsing->setAnimationState(VICTOR_WALK_RIGHT);
+			if (m_pVictorVanHelsing->getTransform()->position.x /*> Config::SCREEN_WIDTH * 0.7f*/)
+			{
+				if (m_level[0][Config::COL_NUM - 1]->getTransform()->position.x > Config::SCREEN_WIDTH - 32)
+				{
+					updateLevel(-playerSpeed, true);
+				}
+			}
+		
 		}
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_W))
 		{
-			m_pVictorVanHelsing->getTransform()->position -= glm::vec2(0.0f, 2.0f);
+			//m_pVictorVanHelsing->getTransform()->position -= glm::vec2(0.0f, playerSpeed);
 			m_pVictorVanHelsing->setAnimationState(VICTOR_WALK_UP);
+			if (m_pVictorVanHelsing->getTransform()->position.y /*< Config::SCREEN_HEIGHT * 0.3f*/)
+			{
+				if (m_level[0][0]->getTransform()->position.y < 0)
+				{
+					updateLevel(playerSpeed, false);
+				}
+			}
+			
 		}
 		else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_S))
 		{
-			m_pVictorVanHelsing->getTransform()->position += glm::vec2(0.0f, 2.0f);
+			//m_pVictorVanHelsing->getTransform()->position += glm::vec2(0.0f, playerSpeed);
 			m_pVictorVanHelsing->setAnimationState(VICTOR_WALK_DOWN);
+			if (m_pVictorVanHelsing->getTransform()->position.y /*> Config::SCREEN_HEIGHT * 0.7f*/)
+			{
+				if (m_level[Config::ROW_NUM - 1][0]->getTransform()->position.y > Config::SCREEN_HEIGHT - 32)
+				{
+					updateLevel(-playerSpeed, false);
+				}
+			}
 		}
 	}
 
@@ -124,13 +168,16 @@ void PlayScene::handleEvents()
 
 void PlayScene::start()
 {
+	
 	// 
 	//m_pPlaneSprite = new PlaneSprite();
 	//addChild(m_pPlaneSprite);
 
-	m_pBkg = new StaticSprite("../Assets/textures/map_testing.png", "titleSprite", 400.0f, 300.0f);
-	addChild(m_pBkg);
+	loadTiles("../Assets/sprites/TileTest.png", "tiles", "../Assets/sprites/TileData.txt");
+	std::cout << "here\n";
+	loadLevel("../Assets/data/Level1.txt");
 
+	std::cout << "start";
 
 	//boss hits
 	m_pTarget = new Target();
@@ -193,3 +240,81 @@ void PlayScene::collisions()
 	}
 
 }
+
+void PlayScene::loadTiles(std::string spritePath, std::string name,std::string tileData)
+{
+	/*std::string path = spritePath;
+	std::string nam = name;
+	std::string data = tileData;*/
+	
+
+	std::ifstream inFile(tileData);
+	if (inFile.is_open()) 
+	{
+		//create map of Tile Prototypes(what we copy to make the level)
+		char key;
+		int x, y;
+		bool o, h;
+		int i = 1;
+		TheTextureManager::Instance()->load(spritePath, name);
+	/*	std::string path = "../Assets/sprites/" +1;
+		std::cout << path << std::endl;*/
+		while (!inFile.eof()) 
+		{
+			/*std::string n = 'T' + std::to_string(i);
+			std::string png = n + ".png"; 
+			std::cout << path + png << std::endl;*/
+			inFile >> key >> x >> y >> o >> h;
+			m_tiles.emplace(key, new Tile("tiles", x, y, o, h));
+			//i++;
+			
+		}
+	}
+	inFile.close();
+	
+	
+}
+
+void PlayScene::loadLevel(std::string dataPath)
+{
+	
+	std::ifstream inFile(dataPath);
+	if (inFile.is_open()) 
+	{
+		//build level from tiles
+		char key;
+		for (int row = 0; row < Config::ROW_NUM; row++) 
+		{
+			for (int col = 0; col < Config::COL_NUM; col++)
+			{
+				std::cout << "start" << col << " " << row;
+				inFile >> key;
+				m_level[row][col] = m_tiles[key]->Clone();
+				m_level[row][col]->getTransform()->position.x = (float)64 * col;
+				m_level[row][col]->getTransform()->position.y = (float)64 * row;
+				//add obstacles
+			}
+		}
+	}
+	inFile.close();
+}
+
+void PlayScene::updateLevel(float scroll, bool x)
+{
+
+	for (int row = 0; row < Config::ROW_NUM; row++)
+	{
+		for (int col = 0; col < Config::COL_NUM; col++)
+		{
+			if (x) 
+			{
+				m_level[row][col]->getTransform()->position.x += scroll;
+			}
+			else 
+			{
+				m_level[row][col]->getTransform()->position.y += scroll;
+			}
+		}
+	}
+}
+
