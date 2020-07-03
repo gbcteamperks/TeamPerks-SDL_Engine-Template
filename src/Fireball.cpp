@@ -28,7 +28,7 @@ Fireball::Fireball(glm::vec2 position, bool running, int angle, bool pickeable)
 	getRigidBody()->velocity += 6.0;
 	glm::vec2 direction = { cos(m_angle * M_PI / 180.0) , sin(m_angle * M_PI / 180.0) };
 	getRigidBody()->velocity *= direction;
-	getTransform()->position += (70.0f * direction);
+	getTransform()->position += (80.0f * direction);
 	/*getRigidBody()->velocity.x *= cos(m_angle * M_PI / 180.0);
 	getRigidBody()->velocity.y *= sin(m_angle * M_PI / 180.0);*/
 

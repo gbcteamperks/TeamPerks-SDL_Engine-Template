@@ -194,33 +194,33 @@ void PlayScene::collisions()
 {
 
 	bool changeState = false;
-	//Probably we have to change this "auto it", for int it = 0
-	for (auto it = getDisplayList().begin(); it != getDisplayList().end();it++) {
-		for (auto kt = getDisplayList().begin(); kt != getDisplayList().end();kt++) 
+	
+	for (int i = 0; i < getDisplayList().size(); i++) {
+		for (int k = 0; k < getDisplayList().size();k++) 
 		{
-			if ((*it) != nullptr && (*kt) != nullptr) {
-				if ((*it)->getType() == SWORD && (*kt)->getType() == BOSS) 
+			if (getDisplayList()[i] != nullptr && getDisplayList()[k] != nullptr) {
+				if (getDisplayList()[i]->getType() == SWORD && getDisplayList()[k]->getType() == BOSS)
 				{
-					if (CollisionManager::AABBCheck((*it), (*kt))) {
-						dynamic_cast<Enemy*>(*kt)->dropAbility();
-						(*kt)->clean();
-						delete (*kt);
-						(*kt) = nullptr;
+					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+						dynamic_cast<Enemy*>(getDisplayList()[k])->dropAbility();
+						getDisplayList()[k]->clean();
+						delete getDisplayList()[k];
+						getDisplayList()[k] = nullptr;
 					}
 				
 				}
-				else if ((*it)->getType() == VICTOR && (*kt)->getType() == PICKABLE) 
+				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == PICKABLE)
 				{
-					if (CollisionManager::AABBCheck((*it), (*kt))) {
-						dynamic_cast<VictorVanHelsing*>((*it))->addAbility(new Fireball());
-						(*kt)->clean();
-						delete (*kt);
-						(*kt) = nullptr;
+					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+						dynamic_cast<VictorVanHelsing*>(getDisplayList()[i])->addAbility(new Fireball());
+						getDisplayList()[k]->clean();
+						delete getDisplayList()[k];
+						getDisplayList()[k] = nullptr;
 					}
 				}
-				else if ((*it)->getType() == PROJECTILE && (*kt)->getType() == VICTOR) 
+				else if (getDisplayList()[i]->getType() == PROJECTILE && getDisplayList()[k]->getType() == VICTOR)
 				{
-					if (CollisionManager::AABBCheck((*it), (*kt))) {
+					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
 						changeState = true;
 					}
 				}
