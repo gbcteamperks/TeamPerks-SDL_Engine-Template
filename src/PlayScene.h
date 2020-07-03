@@ -13,7 +13,7 @@
 #include "GameObjectType.h"
 #include "Game.h"
 #include "EventManager.h"
-#include "BossOne.h"
+#include "Enemy.h"
 #include "Fireball.h"
 #include "Sword.h"
 #include "Tile.h"
@@ -41,18 +41,7 @@ private:
 	glm::vec2 m_mousePosition;
 
 	StaticSprite* m_pBkg{};
-
-	PlaneSprite* m_pPlaneSprite;
-	Player* m_pPlayer;
-	VictorVanHelsing* m_pVictorVanHelsing;
-
-	BossOne* m_pBossOne;
-	Target* m_pTarget;
-	
-
-	Button* m_pBackButton;
-	Button* m_pNextButton;
-
+	std::vector<VictorVanHelsing*> listPlayers;
 	int m_currentTime = 0;
 	int m_prevTime = 0;
 

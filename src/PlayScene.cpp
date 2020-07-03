@@ -1,5 +1,7 @@
 #include "PlayScene.h"
 #include "MotherSpider.h"
+#include "EnemyWizard.h"
+#include "VictorVanHelsing.h"
 #include "Config.h"
 #include "LevelManager.h"
 #include <fstream>
@@ -25,28 +27,30 @@ void PlayScene::update()
 	
 	//delete projectiles
 	if (getDisplayList().size() > 0) {
-		for (auto it = getDisplayList().begin(); it != getDisplayList().end();) {
-			if ((*it)->getType() == PROJECTILE && (*it)->m_CheckBounds()) {
+		for (auto it = getDisplayList().begin(); it != getDisplayList().end();it++) {
+			if ((*it)->getType() == PROJECTILE && (*it)->m_CheckBounds()) 
+			{
 				(*it)->clean();
 				delete (*it);
-				it = getDisplayList().erase(it);
+				(*it) = nullptr;
 			}
-			else {
-				it++;
+			else if ((*it)->getType() == PROJECTILE) 
+			{
+				if (dynamic_cast<Ability*>(*it)->getAbilityDone())
+				{
+					(*it)->clean();
+					delete (*it);
+					(*it) = nullptr;
+				}
 			}
 		}
 	}
+	getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr), getDisplayList().end());
 
 }
 
 void PlayScene::clean()
 {
-	delete m_pBackButton;
-	m_pBackButton = nullptr;
-
-	delete m_pNextButton;
-	m_pNextButton = nullptr;
-
 	LVLMAN::Instance()->clean();
 
 removeAllChildren();
@@ -64,11 +68,11 @@ void PlayScene::handleEvents()
 			const auto deadZone = 10000;
 			if (EventManager::Instance().getGameController(0)->LEFT_STICK_X > deadZone)
 			{
-				m_pPlayer->setAnimationState(PLAYER_RUN_RIGHT);
+				//m_pPlayer->setAnimationState(PLAYER_RUN_RIGHT);
 			}
 			else if (EventManager::Instance().getGameController(0)->LEFT_STICK_X < -deadZone)
 			{
-				m_pPlayer->setAnimationState(PLAYER_RUN_LEFT);
+				//m_pPlayer->setAnimationState(PLAYER_RUN_LEFT);
 			}
 		}
 	}
@@ -85,10 +89,10 @@ void PlayScene::handleEvents()
 		}
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A))
 		{
-			m_pVictorVanHelsing->getTransform()->position -= glm::vec2(playerSpeed, 0.0f);
-			m_pVictorVanHelsing->setAnimationState(VICTOR_WALK_LEFT);
+			listPlayers[0]->getTransform()->position -= glm::vec2(playerSpeed, 0.0f);
+			listPlayers[0]->setAnimationState(VICTOR_WALK_LEFT);
 			
-			if (m_pVictorVanHelsing->getTransform()->position.x /*> Config::SCREEN_WIDTH * 0.3f*/)
+			if (listPlayers[0]->getTransform()->position.x /*> Config::SCREEN_WIDTH * 0.3f*/)
 			{
 				if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.x < 0)
 				{
@@ -101,9 +105,9 @@ void PlayScene::handleEvents()
 		}
 		else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D))
 		{
-			m_pVictorVanHelsing->getTransform()->position += glm::vec2(playerSpeed, 0.0f);
-			m_pVictorVanHelsing->setAnimationState(VICTOR_WALK_RIGHT);
-			if (m_pVictorVanHelsing->getTransform()->position.x /*> Config::SCREEN_WIDTH * 0.7f*/)
+			listPlayers[0]->getTransform()->position += glm::vec2(playerSpeed, 0.0f);
+			listPlayers[0]->setAnimationState(VICTOR_WALK_RIGHT);
+			if (listPlayers[0]->getTransform()->position.x /*> Config::SCREEN_WIDTH * 0.7f*/)
 			{
 				if (LVLMAN::Instance()->getLevel()[0][Config::COL_NUM - 1]->getTransform()->position.x > Config::SCREEN_WIDTH - 32)
 				{
@@ -114,9 +118,9 @@ void PlayScene::handleEvents()
 		}
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_W))
 		{
-			m_pVictorVanHelsing->getTransform()->position -= glm::vec2(0.0f, playerSpeed);
-			m_pVictorVanHelsing->setAnimationState(VICTOR_WALK_UP);
-			if (m_pVictorVanHelsing->getTransform()->position.y /*< Config::SCREEN_HEIGHT * 0.3f*/)
+			listPlayers[0]->getTransform()->position -= glm::vec2(0.0f, playerSpeed);
+			listPlayers[0]->setAnimationState(VICTOR_WALK_UP);
+			if (listPlayers[0]->getTransform()->position.y /*< Config::SCREEN_HEIGHT * 0.3f*/)
 			{
 				if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.y < 0)
 				{
@@ -127,9 +131,9 @@ void PlayScene::handleEvents()
 		}
 		else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_S))
 		{
-			m_pVictorVanHelsing->getTransform()->position += glm::vec2(0.0f, playerSpeed);
-			m_pVictorVanHelsing->setAnimationState(VICTOR_WALK_DOWN);
-			if (m_pVictorVanHelsing->getTransform()->position.y /*> Config::SCREEN_HEIGHT * 0.7f*/)
+			listPlayers[0]->getTransform()->position += glm::vec2(0.0f, playerSpeed);
+			listPlayers[0]->setAnimationState(VICTOR_WALK_DOWN);
+			if (listPlayers[0]->getTransform()->position.y /*> Config::SCREEN_HEIGHT * 0.7f*/)
 			{
 				if (LVLMAN::Instance()->getLevel()[Config::ROW_NUM - 1][0]->getTransform()->position.y > Config::SCREEN_HEIGHT - 32)
 				{
@@ -152,12 +156,12 @@ void PlayScene::handleEvents()
 	//Change Ability
 	if (EventManager::Instance().KeyReleased(SDL_SCANCODE_E))
 	{
-		m_pVictorVanHelsing->changeAbility();
+		listPlayers[0]->changeAbility();
 	}
 	//Use Current Ability
 	if (EventManager::Instance().KeyReleased(SDL_SCANCODE_Q)) 
 	{
-		m_pVictorVanHelsing->useCurrentAbility();
+		listPlayers[0]->useCurrentAbility();
 	}
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_2))
 	{
@@ -174,39 +178,16 @@ void PlayScene::start()
 	
 	std::cout << "start";
 
-	//boss hits
-	m_pTarget = new Target();
-	m_pTarget->getTransform()->position = glm::vec2(200.0f, 200.0f);
-	addChild(m_pTarget);
-
 	//Boss
-	m_pBossOne = new BossOne();
-	m_pBossOne->getTransform()->position = glm::vec2(90.0f, 90.0f);
-	m_pBossOne->getBullet(m_pTarget);
-	m_pBossOne->addAbility(new Fireball());
-	addChild(m_pBossOne);
+	addChild(new EnemyWizard());
 
 	//Victor
-	m_pVictorVanHelsing = new VictorVanHelsing();
-	m_pVictorVanHelsing->getTransform()->position = glm::vec2(390.0f, 400.0f);
-	m_pVictorVanHelsing->addAbility(new Sword());
-	addChild(m_pVictorVanHelsing);
+	listPlayers.push_back(new VictorVanHelsing());
+	addChild(listPlayers[0]);
 
 	//BigSpider
 	addChild(new MotherSpider());
 	
-	for (int row = 0; row < Config::ROW_NUM; row++)
-	{
-		for (int col = 0; col < Config::COL_NUM; col++)
-		{
-
-			if (LVLMAN::Instance()->getLevel()[row][col]->isObstacle() == true)
-			{
-				addChild(LVLMAN::Instance()->getLevel()[row][col]);
-			}
-
-		}
-	}
 }
 
 void PlayScene::collisions()
@@ -221,7 +202,7 @@ void PlayScene::collisions()
 				if ((*it)->getType() == SWORD && (*kt)->getType() == BOSS) 
 				{
 					if (CollisionManager::AABBCheck((*it), (*kt))) {
-						m_pBossOne->dropAbility();
+						dynamic_cast<Enemy*>(*kt)->dropAbility();
 						(*kt)->clean();
 						delete (*kt);
 						(*kt) = nullptr;

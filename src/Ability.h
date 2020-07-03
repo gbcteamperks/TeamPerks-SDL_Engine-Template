@@ -18,9 +18,11 @@ public:
 	virtual void sound();
 	virtual void animation();
 	virtual void pickable(glm::vec2 position) = 0;
+
+	bool& getAbilityDone() { return m_abilityDone; }
 	
 protected:
-	
+	bool m_abilityDone = false;
 	
 };
 #endif

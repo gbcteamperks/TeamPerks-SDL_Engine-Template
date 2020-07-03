@@ -29,7 +29,7 @@ ExplosiveSpider::ExplosiveSpider(glm::vec2 position, bool running, int angle, bo
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("spiderExplode");
 
 	m_pSpriteSheetExplosion = TheTextureManager::Instance()->getSpriteSheet("explosionSpider");
-
+	m_pSpriteSheetExplosion->setWidthAndHeight(64, 64);
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
@@ -65,11 +65,10 @@ void ExplosiveSpider::update()
 {
 	if (m_running && !m_pickable)
 	{
-		static int tempCounter = 0;
-		if (tempCounter < 120) {
+		if (walkTimer < 120) {
 			getTransform()->position += getRigidBody()->velocity;
 		}
-		tempCounter++;
+		walkTimer++;
 	}
 }
 
@@ -77,14 +76,13 @@ void ExplosiveSpider::draw()
 {
 	if (m_running && !m_pickable)
 	{
-		static int tempCounter = 0;
-		if (tempCounter < 240) {
+		if (explosionTimer < 240) {
 			animation();
 		}
 		else {
 			AnimateDeath();
 		}
-		tempCounter++;
+		explosionTimer++;
 	}
 	else if (m_running && m_pickable)
 	{
@@ -291,13 +289,15 @@ void ExplosiveSpider::AnimateDeath()
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
 	float animationVelocity = 0.50f;
-	TheTextureManager::Instance()->playAnimation("explosionSpider", m_pAnimations["Explosion"],
-		x, y, animationVelocity, 0, 255, true);
+	if (TheTextureManager::Instance()->playAnimation("explosionSpider", m_pAnimations["Explosion"],
+		x, y, animationVelocity, 0, 255, true))
+	{
+		m_abilityDone = true;
+	}
+
 }
-
-
 void ExplosiveSpider::pickable(glm::vec2 position)
 {
-	Game::Instance()->getCurrentScene()->addChild(new ExplosiveSpider(position, true, 0, true));
+	//Game::Instance()->getCurrentScene()->addChild(new ExplosiveSpider(position, true, 0, true));
 }
 

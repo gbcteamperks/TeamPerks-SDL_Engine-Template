@@ -246,7 +246,7 @@ void TextureManager::animateFrames(int frame_width, int frame_height, const int 
 
 }
 
-void TextureManager::playAnimation(
+bool TextureManager::playAnimation(
 	const std::string& sprite_sheet_name, Animation& animation, 
 	int x, int y, float speed_factor, 
 	double angle, int alpha, bool centered, SDL_RendererFlip flip)
@@ -269,12 +269,23 @@ void TextureManager::playAnimation(
 	SDL_Rect srcRect;
 	SDL_Rect destRect;
 
+	int textureWidth;
+	int textureHeight;
+
 	srcRect.x = 0;
 	srcRect.y = 0;
 
 	// frame_height size
-	const auto textureWidth = animation.frames[animation.current_frame].w;
-	const auto textureHeight = animation.frames[animation.current_frame].h;
+	if (animation.frames[animation.current_frame].dw == 0 || animation.frames[animation.current_frame].dh == 0) 
+	{
+		textureWidth = animation.frames[animation.current_frame].w;
+		textureHeight = animation.frames[animation.current_frame].h;
+	}
+	else
+	{
+		textureWidth = animation.frames[animation.current_frame].dw;
+		textureHeight = animation.frames[animation.current_frame].dh;
+	}
 
 	// starting point of the where we are looking
 	srcRect.x = animation.frames[animation.current_frame].x;
@@ -299,6 +310,10 @@ void TextureManager::playAnimation(
 
 	SDL_SetTextureAlphaMod(m_textureMap[sprite_sheet_name].get(), alpha);
 	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[sprite_sheet_name].get(), &srcRect, &destRect, angle, nullptr, flip);
+	
+	if (animation.current_frame == totalFrames - 1) //animation done
+		return true;
+	return false;
 }
 
 void TextureManager::drawText(const std::string& id, const int x, const int y, const double angle, const int alpha, const bool centered, const SDL_RendererFlip flip)

@@ -11,7 +11,7 @@ MotherSpider::MotherSpider()
 		"spiderBig");
 
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("spiderBig");
-
+	m_pSpriteSheet->setWidthAndHeight(128, 128);
 	// set frame width
 	setWidth(64);
 
@@ -22,7 +22,7 @@ MotherSpider::MotherSpider()
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
-	setType(PLAYER);
+	setType(BOSS);
 	addAbility(new ExplosiveSpider());
 
 	m_buildAnimations();
@@ -62,19 +62,6 @@ void MotherSpider::clean()
 {
 }
 
-void MotherSpider::setAnimationState(PlayerAnimationState new_state)
-{
-}
-
-void MotherSpider::addAbility(Ability* ability)
-{
-	m_pListAbilities.push_back(ability);
-}
-
-void MotherSpider::deleteAbility()
-{
-	m_pListAbilities.erase(m_pListAbilities.begin()); //delete the first ability added.
-}
 
 void MotherSpider::useCurrentAbility()
 {
@@ -91,12 +78,6 @@ void MotherSpider::useCurrentAbility()
 	}
 }
 
-void MotherSpider::dropAbility()
-{
-	if (m_pListAbilities.size() > 0) {
-		m_pListAbilities.front()->pickable(getTransform()->position);//adding a pickeable item to DisplayList
-	}
-}
 void MotherSpider::changeAbility()
 {
 	static int AbilityCounter = 0;
@@ -153,13 +134,14 @@ void MotherSpider::m_buildAnimations()
 	Animation runrightAnimation = Animation();
 
 	runrightAnimation.name = "run_right";
-
+	
 	runrightAnimation.frames.push_back(m_pSpriteSheet->getFrame("spider_right5"));
 	runrightAnimation.frames.push_back(m_pSpriteSheet->getFrame("spider_right6"));
 	runrightAnimation.frames.push_back(m_pSpriteSheet->getFrame("spider_right7"));
 	runrightAnimation.frames.push_back(m_pSpriteSheet->getFrame("spider_right8"));
 	runrightAnimation.frames.push_back(m_pSpriteSheet->getFrame("spider_right9"));
 	runrightAnimation.frames.push_back(m_pSpriteSheet->getFrame("spider_right10"));
+	runrightAnimation.setWidthAndHeight(64, 64);
 
 	m_pAnimations["run_right"] = runrightAnimation;
 

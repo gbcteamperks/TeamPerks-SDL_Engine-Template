@@ -20,6 +20,15 @@ public:
 	// setters
 	void addFrame(const Frame& frame);
 	void setTexture(SDL_Texture* texture);
+
+	void setWidthAndHeight(int w, int h)
+	{
+		for (auto it = m_frames.begin(); it != m_frames.end(); it++)
+		{
+			it->second.dw = w;
+			it->second.dh = h;
+		}
+	}
 	
 private:
 	std::string m_name;

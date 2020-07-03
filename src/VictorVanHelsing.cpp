@@ -3,7 +3,7 @@
 #include "CollisionManager.h"
 #include "EventManager.h"
 #include "MathManager.h"
-
+#include "Sword.h"
 
 VictorVanHelsing::VictorVanHelsing() : m_currentAnimationState(VICTOR_WALK_UP)
 {
@@ -20,10 +20,11 @@ VictorVanHelsing::VictorVanHelsing() : m_currentAnimationState(VICTOR_WALK_UP)
 	// set frame height
 	setHeight(60);
 
-	getTransform()->position = glm::vec2(400.0f, 200.0f);
+	getTransform()->position = glm::vec2(390.0f, 400.0f);
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
+	addAbility(new Sword());
 	setType(VICTOR);
 
 	m_buildAnimations();

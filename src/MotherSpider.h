@@ -1,12 +1,12 @@
 #pragma once
-#include "DisplayObject.h"
+#include "Enemy.h"
 #include "Animation.h"
 #include "PlayerAnimationState.h"
 #include "SpriteSheet.h"
 #include "Ability.h"
 #include <map>
 
-class MotherSpider : public DisplayObject {
+class MotherSpider : public Enemy {
 public:
 	MotherSpider();
 	~MotherSpider();
@@ -15,14 +15,7 @@ public:
 	virtual void update() override;
 	virtual void clean() override;
 
-	// setters
-	void setAnimationState(PlayerAnimationState new_state);
-
-	//ability functions
-	void addAbility(Ability*);
-	void deleteAbility();
 	void useCurrentAbility();
-	void dropAbility();
 	void changeAbility();
 
 private:
@@ -34,5 +27,4 @@ private:
 	PlayerAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
 
-	std::vector<Ability*> m_pListAbilities;
 };

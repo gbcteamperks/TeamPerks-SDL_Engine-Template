@@ -157,12 +157,13 @@
   <ItemGroup>
     <ClCompile Include="..\src\Ability.cpp" />
     <ClCompile Include="..\src\BackgroundEndS.cpp" />
-    <ClCompile Include="..\src\BossOne.cpp" />
+    <ClCompile Include="..\src\Enemy.cpp" />
     <ClCompile Include="..\src\Button.cpp" />
     <ClCompile Include="..\src\CollisionManager.cpp" />
     <ClCompile Include="..\src\DebugManager.cpp" />
     <ClCompile Include="..\src\DisplayObject.cpp" />
     <ClCompile Include="..\src\EndScene.cpp" />
+    <ClCompile Include="..\src\EnemyWizard.cpp" />
     <ClCompile Include="..\src\ExplosiveSpider.cpp" />
     <ClCompile Include="..\src\Fireball.cpp" />
     <ClCompile Include="..\src\FontManager.cpp" />
@@ -198,7 +199,7 @@
     <ClInclude Include="..\src\Ability.h" />
     <ClInclude Include="..\src\Animation.h" />
     <ClInclude Include="..\src\BackgroundEndS.h" />
-    <ClInclude Include="..\src\BossOne.h" />
+    <ClInclude Include="..\src\Enemy.h" />
     <ClInclude Include="..\src\BossOneAnimationState.h" />
     <ClInclude Include="..\src\Button.h" />
     <ClInclude Include="..\src\CollisionManager.h" />
@@ -207,6 +208,7 @@
     <ClInclude Include="..\src\DebugManager.h" />
     <ClInclude Include="..\src\DisplayObject.h" />
     <ClInclude Include="..\src\EndScene.h" />
+    <ClInclude Include="..\src\EnemyWizard.h" />
     <ClInclude Include="..\src\Event.h" />
     <ClInclude Include="..\src\EventManager.h" />
     <ClInclude Include="..\src\ExplosiveSpider.h" />

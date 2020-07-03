@@ -119,9 +119,6 @@
     <ClCompile Include="..\src\VictorVanHelsing.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\BossOne.cpp">
-      <Filter>Game Objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Fireball.cpp">
       <Filter>Abilities</Filter>
     </ClCompile>
@@ -137,9 +134,6 @@
     <ClCompile Include="..\src\MotherSpider.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ExplosiveSpider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -154,6 +148,15 @@
     </ClCompile>
     <ClCompile Include="..\src\DebugManager.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ExplosiveSpider.cpp">
+      <Filter>Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Enemy.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\EnemyWizard.cpp">
+      <Filter>Game Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,9 +271,6 @@
     <ClInclude Include="..\src\VictorVanHelsing.h">
       <Filter>Game Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\BossOne.h">
-      <Filter>Game Objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\BossOneAnimationState.h">
       <Filter>Enums</Filter>
     </ClInclude>
@@ -289,7 +289,6 @@
     <ClInclude Include="..\src\Ability.h">
       <Filter>Abilities</Filter>
     </ClInclude>
-
     <ClInclude Include="..\src\MotherSpider.h">
       <Filter>Game Objects</Filter>
     </ClInclude>
@@ -310,6 +309,12 @@
     </ClInclude>
     <ClInclude Include="..\src\DebugManager.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Enemy.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\EnemyWizard.h">
+      <Filter>Game Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

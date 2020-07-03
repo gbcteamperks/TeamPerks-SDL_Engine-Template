@@ -31,6 +31,7 @@ private:
 
 	bool m_running = false;
 	bool m_pickable = false;
+	int walkTimer = 0, explosionTimer = 0;
 	int m_damage;
 	int m_angle;
 	std::string m_key;
