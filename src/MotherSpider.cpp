@@ -1,6 +1,7 @@
 #include "MotherSpider.h"
 #include "TextureManager.h"
 #include "ExplosiveSpider.h"
+#include "Orb.h"
 
 
 MotherSpider::MotherSpider()
@@ -24,6 +25,7 @@ MotherSpider::MotherSpider()
 	getRigidBody()->isColliding = false;
 	setType(BOSS);
 	addAbility(new ExplosiveSpider());
+	addAbility(new Orb());
 
 	m_buildAnimations();
 }
@@ -70,23 +72,12 @@ void MotherSpider::useCurrentAbility()
 		{
 		case ABILITY_LEFT:
 			m_pListAbilities.front()->execute(getTransform()->position, 180); // to the left
+			changeAbility();
 			break;
 		default:
 			break;
 		}
 		
-	}
-}
-
-void MotherSpider::changeAbility()
-{
-	static int AbilityCounter = 0;
-	AbilityCounter++;
-	if (m_pListAbilities.size() > 1) {
-		if (AbilityCounter > m_pListAbilities.size() - 1) {
-			AbilityCounter = 1;
-		}
-		std::iter_swap(m_pListAbilities.begin(), m_pListAbilities.begin() + AbilityCounter);
 	}
 }
 

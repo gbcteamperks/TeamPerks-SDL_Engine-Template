@@ -2,11 +2,11 @@
 #include "Ability.h"
 #include "Game.h"
 
-class ExplosiveSpider : public Ability {
+class Orb : public Ability {
 public:
-	ExplosiveSpider();
-	ExplosiveSpider(glm::vec2 position, bool running, int angle, bool pickeable);
-	~ExplosiveSpider();
+	Orb();
+	Orb(glm::vec2 position, bool running, int angle, bool pickeable);
+	~Orb();
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void clean() override;
@@ -25,14 +25,14 @@ private:
 	void AnimateDeath();
 
 	SpriteSheet* m_pSpriteSheet;
-	SpriteSheet* m_pSpriteSheetExplosion;
+	SpriteSheet* m_pSpriteSheetGem;
+	
 	PlayerAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
 
 	bool m_running = false;
 	bool m_pickable = false;
 
-	int walkTimer = 0, explosionTimer = 0;
 	int m_damage;
 	int m_angle;
 

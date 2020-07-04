@@ -86,8 +86,7 @@ void ExplosiveSpider::draw()
 	}
 	else if (m_running && m_pickable)
 	{
-		TheTextureManager::Instance()->draw("spiderExplode", getTransform()->position.x, getTransform()->position.y, 90, 255, true);
-		//TheTextureManager::Instance()->draw("blackRect", getTransform()->position.x, getTransform()->position.y, 0, 255, true);
+		animation();
 	}
 }
 
@@ -298,6 +297,6 @@ void ExplosiveSpider::AnimateDeath()
 }
 void ExplosiveSpider::pickable(glm::vec2 position)
 {
-	//Game::Instance()->getCurrentScene()->addChild(new ExplosiveSpider(position, true, 0, true));
+	Game::Instance()->getCurrentScene()->addChild(new ExplosiveSpider(position, true, 0, true));
 }
 

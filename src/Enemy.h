@@ -36,6 +36,7 @@ public:
 	void deleteAbility();
 	virtual void useCurrentAbility();
 	void dropAbility();
+	void changeAbility();
 
 protected:
 	//ability list

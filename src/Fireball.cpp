@@ -28,10 +28,6 @@ Fireball::Fireball(glm::vec2 position, bool running, int angle, bool pickeable)
 	getRigidBody()->velocity += 6.0;
 	glm::vec2 direction = { cos(m_angle * M_PI / 180.0) , sin(m_angle * M_PI / 180.0) };
 	getRigidBody()->velocity *= direction;
-	getTransform()->position += (80.0f * direction);
-	/*getRigidBody()->velocity.x *= cos(m_angle * M_PI / 180.0);
-	getRigidBody()->velocity.y *= sin(m_angle * M_PI / 180.0);*/
-
 
 	TheTextureManager::Instance()->load("../Assets/Sprites/magicenemy-projectile.png", "circle");
 	TheTextureManager::Instance()->load("../Assets/texture/buttonRed.png", "blackRect");
@@ -44,6 +40,7 @@ Fireball::Fireball(glm::vec2 position, bool running, int angle, bool pickeable)
 	}
 	else {
 		setType(PROJECTILE);
+		getTransform()->position += (80.0f * direction);
 	}
 	start();
 }

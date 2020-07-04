@@ -16,7 +16,6 @@ public:
 	virtual void clean() override;
 
 	void useCurrentAbility();
-	void changeAbility();
 
 private:
 	//animation variables

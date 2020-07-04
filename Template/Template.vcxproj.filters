@@ -158,6 +158,9 @@
     <ClCompile Include="..\src\EnemyWizard.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Orb.cpp">
+      <Filter>Abilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -316,6 +319,9 @@
     <ClInclude Include="..\src\EnemyWizard.h">
       <Filter>Game Objects</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Orb.h">
+      <Filter>Abilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf">
@@ -374,6 +380,9 @@
     <Image Include="..\Assets\sprites\explosionSpider.png">
       <Filter>Sprites</Filter>
     </Image>
+    <Image Include="..\Assets\sprites\Items_BlueGem.png">
+      <Filter>Sprites</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Assets\sprites\atlas.txt">
@@ -386,6 +395,9 @@
       <Filter>Sprites</Filter>
     </Text>
     <Text Include="..\Assets\sprites\victorvanhelsing.txt">
+      <Filter>Sprites</Filter>
+    </Text>
+    <Text Include="..\Assets\sprites\BlueGem.txt">
       <Filter>Sprites</Filter>
     </Text>
   </ItemGroup>

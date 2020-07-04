@@ -39,3 +39,15 @@ void Enemy::dropAbility()
 		m_pListAbilities.front()->pickable(getTransform()->position);//adding a pickeable item to DisplayList
 	}
 }
+
+void Enemy::changeAbility()
+{
+	static int AbilityCounter = 0;
+	AbilityCounter++;
+	if (m_pListAbilities.size() > 1) {
+		if (AbilityCounter > m_pListAbilities.size() - 1) {
+			AbilityCounter = 1;
+		}
+		std::iter_swap(m_pListAbilities.begin(), m_pListAbilities.begin() + AbilityCounter);
+	}
+}
