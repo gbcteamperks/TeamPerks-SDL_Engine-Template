@@ -5,14 +5,14 @@ Sword::Sword()
 	m_running = false;
 	m_damage = 0;
 
-	//getTransform()->position = glm::vec2(0.0f,0.0f);
+
 	TheTextureManager::Instance()->load("../Assets/textures/swordSilver.png", "sword");
 
-	//auto size = TheTextureManager::Instance()->getTextureSize("sword");
+
 	setWidth(30);
 	setHeight(30);
 	getRigidBody()->isColliding = false;
-	//getTransform()->position = glm::vec2(100.0f, 100.0f);
+
 
 	setType(SWORD);
 	
@@ -20,6 +20,31 @@ Sword::Sword()
 
 Sword::Sword(glm::vec2 position, bool running, int angle, bool pickeable)
 {
+	m_angle = angle;
+	m_running = running;
+	m_pickable = pickeable;
+	m_damage = 0;
+
+	TheTextureManager::Instance()->load("../Assets/textures/swordSilver.png", "sword");
+
+	getTransform()->position = position;
+	getRigidBody()->velocity += 0;
+	glm::vec2 direction = { cos(m_angle * M_PI / 180.0) , sin(m_angle * M_PI / 180.0) };
+	getRigidBody()->velocity *= direction;
+
+
+	setWidth(30);//for collision
+	setHeight(30);
+	getRigidBody()->isColliding = false;
+
+	if (m_pickable) {
+		setType(PICKABLE);
+	}
+	else {
+		setType(SWORD);
+		getTransform()->position += (70.0f * direction);
+	}
+	start();
 }
 
 Sword::~Sword()
@@ -28,19 +53,11 @@ Sword::~Sword()
 
 void Sword::update()
 {
-	static int c = 15; //timer
-	if (m_initialiazed) {
-		c = 0;
-		m_initialiazed = false;
-		m_running = true;
+	
+	if (abilityTimer > 15) {
+		m_abilityDone = true;
 	}
-	if (c < 15) { //do the animation
-
-	}
-	else {
-		m_running = false;
-	}
-	c++;
+	abilityTimer++;
 }
 
 void Sword::draw()
@@ -57,20 +74,16 @@ void Sword::clean()
 
 void Sword::start()
 {
-	glm::vec2 direction = { cos(m_angle * M_PI / 180.0) , sin(m_angle * M_PI / 180.0) };
-	getTransform()->position += (60.0f * direction);
+	if (m_pickable)
+	{
+		sound();
+		//animation();
+	}
 }
 
 void Sword::execute(glm::vec2 position, int angle)
 {
-	if (!m_addedToDisplay) {
-		Game::Instance()->getCurrentScene()->addChild(this); //add the pointer to this instance.
-		m_addedToDisplay = true;
-	}
-	getTransform()->position = position;
-	m_angle = angle;
-	m_initialiazed = true;
-	start();
+	Game::Instance()->getCurrentScene()->addChild(new Sword(position, true, angle, false)); 
 }
 
 void Sword::stop()

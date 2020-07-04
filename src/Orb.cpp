@@ -52,6 +52,7 @@ Orb::Orb(glm::vec2 position, bool running, int angle, bool pickeable)
 	setWidth(30);//for collision
 	setHeight(30);
 	getRigidBody()->isColliding = false;
+
 	if (m_pickable) {
 		setType(PICKABLE);
 	}

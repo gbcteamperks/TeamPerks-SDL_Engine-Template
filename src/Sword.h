@@ -21,17 +21,14 @@ public:
 	void animation();
 	void pickable(glm::vec2 position);
 
+	Sword* getAbility() override { return new Sword(); }
+
 private:
 
-	bool m_initialiazed = false;
 	bool m_running = false;
 	bool m_pickable = false;
-	bool m_addedToDisplay = false;
 	int m_damage;
 	int m_angle;
-	std::string m_key;
-	StaticSprite* m_pPortrait;
-	
-
+	int abilityTimer = 0;
 };
 #endif

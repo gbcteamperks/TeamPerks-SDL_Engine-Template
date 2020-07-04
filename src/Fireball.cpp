@@ -16,6 +16,7 @@ Fireball::Fireball()
 	//getTransform()->position = glm::vec2(100.0f, 100.0f);
 	
 	setType(PROJECTILE);
+
 }
 Fireball::Fireball(glm::vec2 position, bool running, int angle, bool pickeable)
 {

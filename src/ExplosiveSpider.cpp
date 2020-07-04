@@ -13,6 +13,7 @@ ExplosiveSpider::ExplosiveSpider()
 	//getTransform()->position = glm::vec2(100.0f, 100.0f);
 
 	setType(PROJECTILE);
+	
 }
 ExplosiveSpider::ExplosiveSpider(glm::vec2 position, bool running, int angle, bool pickeable)
 {

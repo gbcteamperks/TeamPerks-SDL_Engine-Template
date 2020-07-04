@@ -34,7 +34,7 @@ void PlayScene::update()
 				delete (*it);
 				(*it) = nullptr;
 			}
-			else if ((*it)->getType() == PROJECTILE) 
+			else if ((*it)->getParentType() == ABILITY) 
 			{
 				if (dynamic_cast<Ability*>(*it)->getAbilityDone())
 				{
@@ -43,6 +43,7 @@ void PlayScene::update()
 					(*it) = nullptr;
 				}
 			}
+
 		}
 	}
 	getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr), getDisplayList().end());
@@ -212,7 +213,7 @@ void PlayScene::collisions()
 				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == PICKABLE)
 				{
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
-						dynamic_cast<VictorVanHelsing*>(getDisplayList()[i])->addAbility(new Fireball());
+						dynamic_cast<VictorVanHelsing*>(getDisplayList()[i])->addAbility(dynamic_cast<Ability*>(getDisplayList()[k])->getAbility());
 						getDisplayList()[k]->clean();
 						delete getDisplayList()[k];
 						getDisplayList()[k] = nullptr;
