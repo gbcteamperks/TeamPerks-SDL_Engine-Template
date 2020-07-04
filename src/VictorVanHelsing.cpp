@@ -5,7 +5,7 @@
 #include "MathManager.h"
 #include "Sword.h"
 
-VictorVanHelsing::VictorVanHelsing() : m_currentAnimationState(VICTOR_WALK_UP)
+VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICTOR_WALK_UP)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/victorvanhelsing.txt",
@@ -20,7 +20,7 @@ VictorVanHelsing::VictorVanHelsing() : m_currentAnimationState(VICTOR_WALK_UP)
 	// set frame height
 	setHeight(60);
 
-	getTransform()->position = glm::vec2(390.0f, 400.0f);
+	getTransform()->position = pos;
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
@@ -93,12 +93,23 @@ void VictorVanHelsing::deleteAbility()
 	m_pListAbilities.erase(m_pListAbilities.begin()); //delete the first ability added.
 }
 
-void VictorVanHelsing::useCurrentAbility()
+void VictorVanHelsing::useCurrentAbility(int player)
 {
-	setAngle(MAMA::AngleBetweenPoints(getTransform()->position, EventManager::Instance().getMousePosition()));
-	if (m_pListAbilities.size() > 0) 
+	if (player == 1) 
 	{
-		m_pListAbilities.front()->execute(getTransform()->position, getAngle());
+		setAngle(MAMA::AngleBetweenPoints(getTransform()->position, EventManager::Instance().getMousePosition()));
+		if (m_pListAbilities.size() > 0) 
+		{
+			m_pListAbilities.front()->execute(getTransform()->position, getAngle());
+		}
+	}
+	if (player == 2)
+	{
+		if (m_pListAbilities.size() > 0)
+		{
+			setAngle(MAMA::AngleBetweenPoints(getTransform()->position, EventManager::Instance().getGameController(0)->getLeftJoystickPosition()));
+			m_pListAbilities.front()->execute(getTransform()->position, getAngle());
+		}
 	}
 
 }

@@ -3,6 +3,7 @@
 #define __GAME_CONTROLLER__
 
 #include <SDL.h>
+#include <glm/vec2.hpp>
 
 struct GameController
 {
@@ -10,7 +11,11 @@ struct GameController
 	~GameController();
 
 	void update();
-
+	glm::vec2 getLeftJoystickPosition();
+	bool Arealeased();
+	bool Brealeased();
+	bool Xrealeased();
+	bool Yrealeased();
 	SDL_GameController* handle;
 
 	// DPAD Buttons
@@ -29,15 +34,16 @@ struct GameController
 	bool RIGHT_SHOULDER;
 
 	// face buttons
-	bool A_BUTTON;
-	bool B_BUTTON;
-	bool X_BUTTON;
-	bool Y_BUTTON;
+	bool A_BUTTON[2] = { false,false };
+	bool B_BUTTON[2] = { false,false };
+	bool X_BUTTON[2] = { false,false };
+	bool Y_BUTTON[2] = { false,false };
 
 	// left stick
-	Sint16 LEFT_STICK_X;
-	Sint16 LEFT_STICK_Y;
+	Sint16 LEFT_STICK_X[2];
+	Sint16 LEFT_STICK_Y[2];
 	bool LEFT_STICK_BUTTON;
+	int deadZone = 10000;
 
 	// right stick
 	Sint16 RIGHT_STICK_X;

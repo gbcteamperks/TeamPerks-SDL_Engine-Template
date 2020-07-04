@@ -12,7 +12,7 @@
 class VictorVanHelsing : public DisplayObject
 {
 public:
-	VictorVanHelsing();
+	VictorVanHelsing(glm::vec2 position);
 	~VictorVanHelsing();
 
 	// Life Cycle Functions
@@ -27,7 +27,7 @@ public:
 	//ability functions
 	void addAbility(Ability *);
 	void deleteAbility();
-	void useCurrentAbility();
+	void useCurrentAbility(int player);
 	void changeAbility();
 
 
