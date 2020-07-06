@@ -66,9 +66,10 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 		p1.y + p1Height > p2.y
 		)
 	{
-		if (!object2->getRigidBody()->isColliding) {
+		if (!object2->getRigidBody()->isColliding && !object1->getRigidBody()->isColliding) {
 
-		object2->getRigidBody()->isColliding = true;
+			object2->getRigidBody()->isColliding = true;
+			object1->getRigidBody()->isColliding = true;
 		
 			/*switch (object2->getType()) {
 			case TARGET:

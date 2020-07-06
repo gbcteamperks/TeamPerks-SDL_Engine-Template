@@ -5,9 +5,13 @@ enum GameObjectType {
 	NONE = -1,
 	SHIP,
 	PROJECTILE,
+	SWORD,
+	PICKABLE,
+	ABILITY,
 	VICTOR,
 	BOSS,
 	TARGET,
+	CHARACTERS,
 	PLAYER,
 	PLANE,
 	BACKGROUND,
@@ -17,6 +21,7 @@ enum GameObjectType {
 	RESTART_BUTTON,
 	BACK_BUTTON,
 	NEXT_BUTTON,
-	NUM_OF_TYPES
+	NUM_OF_TYPES,
+	TILE
 };
 #endif /* defined (__GAME_OBJECT_TYPE__) */

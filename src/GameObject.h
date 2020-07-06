@@ -43,12 +43,17 @@ public:
 	// getters and setters for game object properties
 	int getWidth() const;
 	int getHeight() const;
-	
+	int getAngle() const;
+
 	void setWidth(int new_width);
 	void setHeight(int new_height);
+	void setAngle(int new_angle);
 	GameObjectType getType() const;
+	GameObjectType getParentType() const;
 	void setType(GameObjectType new_type);
+	void setParentType(GameObjectType new_type);
 	void m_BoundsRestrict();
+	bool m_CheckBounds();
 
 	//--GameObject* getCurrentObject();
 	
@@ -63,8 +68,11 @@ private:
 	int m_width;
 	int m_height;
 	GameObjectType m_type;
+	GameObjectType m_parent;
 	int m_boundHit = 0;		//refer above enum
 	//-- self reference
+
+	int m_angle;
 	GameObject* m_currentObject;
 		 
 };

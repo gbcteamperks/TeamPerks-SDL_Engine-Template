@@ -10,6 +10,8 @@ struct Frame
 	int y;
 	int w;
 	int h;
+	int dw = 0; //destination width
+	int dh = 0;
 };
 
 #endif /* defined (__FRAME__) */

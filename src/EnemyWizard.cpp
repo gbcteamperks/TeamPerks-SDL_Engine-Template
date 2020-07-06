@@ -1,9 +1,7 @@
-#include "BossOne.h"
-#include "TextureManager.h"
-#include "GameObject.h"
-#include "CollisionManager.h"
+#include "EnemyWizard.h"
+#include "Fireball.h"
 
-BossOne::BossOne() : m_currentAnimationState(BOSSONE_WALK_RIGHT)
+EnemyWizard::EnemyWizard() : m_currentAnimationState(BOSSONE_WALK_RIGHT)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/magicenemy.txt",
@@ -13,24 +11,25 @@ BossOne::BossOne() : m_currentAnimationState(BOSSONE_WALK_RIGHT)
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("magicenemy");
 
 	// set frame width
-	setWidth(53);
+	setWidth(40);
 
 	// set frame height
-	setHeight(58);
+	setHeight(60);
 
-	getTransform()->position = glm::vec2(400.0f, 300.0f);
+	getTransform()->position = glm::vec2(90.0f, 90.0f);
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
+	addAbility(new Fireball());
 	setType(BOSS);
 
 	m_buildAnimations();
 }
 
-BossOne::~BossOne()
+EnemyWizard::~EnemyWizard()
 = default;
 
-void BossOne::draw()
+void EnemyWizard::draw()
 {
 	// alias for x and y
 	const auto x = getTransform()->position.x;
@@ -61,7 +60,7 @@ void BossOne::draw()
 
 }
 
-void BossOne::update()
+void EnemyWizard::update()
 {
 	runHereThere();
 	bossAttack();
@@ -69,55 +68,42 @@ void BossOne::update()
 
 }
 
-void BossOne::clean()
+void EnemyWizard::clean()
 {
 }
 
-void BossOne::bossAttack()
-{	
-	
+void EnemyWizard::bossAttack()
+{
+	static int abilityTime = 0;
 
-	m_fire = true;
-	if (m_bulletNotVisible)
+	if ((int)m_currentTime % 3 != 0)
 	{
-		m_pBossBullet->getTransform()->position = glm::vec2(getTransform()->position.x, 90.0f);
-		m_fire = false;
-		m_bulletNotVisible = false;
-		m_bulletXPosition = getTransform()->position.x;
-		m_pBossBullet->getTransform()->position.y = getTransform()->position.y + 90;
+		abilityTime = 0;
 	}
-	m_fire = true;
-	if (m_pBossBullet->getTransform()->position.y > 600)
+
+	if ((int)m_currentTime % 3 == 0 && abilityTime == 0)
 	{
-		m_pBossBullet->getTransform()->position = glm::vec2(-100.0f, -100.0f);
-		m_bulletNotVisible = true;
+		abilityTime++;
+		useCurrentAbility();
 	}
-	
-	if (m_currentTime > 3)
-	{
-		if (m_fire == true)
-		{
-			m_pBossBullet->setXY(m_pBossBullet->getTransform()->position.x, m_pBossBullet->getTransform()->position.y + 5);
-		}
-	}
-	
-	
+
+
 }
 
 
 
-void BossOne::setAnimationState(const BossOneAnimationState new_state)
+void EnemyWizard::setAnimationState(const BossOneAnimationState new_state)
 {
 	m_currentAnimationState = new_state;
 }
 
-void BossOne::setAnimation(const Animation & animation)
+void EnemyWizard::setAnimation(const Animation & animation)
 {
 	m_pAnimations[animation.name] = animation;
 }
 
 
-void BossOne::m_buildAnimations()
+void EnemyWizard::m_buildAnimations()
 {
 	Animation walkDown = Animation();
 
@@ -150,7 +136,7 @@ void BossOne::m_buildAnimations()
 	m_pAnimations["walkup"] = walkUp;
 }
 
-void BossOne::runHereThere()
+void EnemyWizard::runHereThere()
 {
 	m_currentTime = (SDL_GetTicks() / 1000);
 	if (m_bossFacingRight && !m_bossWaitToFire)
@@ -182,7 +168,7 @@ void BossOne::runHereThere()
 		}
 	}
 	else
-	{	
+	{
 		//IDLE ANIMATION TRIGGER DELAY - in progress, but skipped due to time issues
 		if (m_currentTime - m_prevTime > 5.00f)
 		{
@@ -195,9 +181,4 @@ void BossOne::runHereThere()
 	}
 
 
-}
-
-void BossOne::getBullet(Target* bullet)
-{
-	m_pBossBullet = bullet;
 }

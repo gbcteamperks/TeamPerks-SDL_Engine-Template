@@ -1,20 +1,10 @@
-
 #pragma once
-#ifndef __BOSS_ONE__
-#define __BOSS_ONE__
+#include "Enemy.h"
 
-#include "DisplayObject.h"
-#include "BossOneAnimationState.h"
-#include "Animation.h"
-#include "SpriteSheet.h"
-#include <unordered_map>
-#include "Target.h"
-
-class BossOne : public DisplayObject
-{
+class EnemyWizard : public Enemy {
 public:
-	BossOne();
-	~BossOne();
+	EnemyWizard();
+	~EnemyWizard();
 
 	// Life Cycle Methods
 	virtual void draw() override;
@@ -24,12 +14,14 @@ public:
 
 	// setters
 	void setAnimationState(BossOneAnimationState new_state);
+
+	//animation
 	void setAnimation(const Animation& animation);
+	void m_buildAnimations() override;
 	void runHereThere();
-	void getBullet(Target*);
 
 private:
-	void m_buildAnimations();
+
 	SpriteSheet* m_pSpriteSheet;
 
 	BossOneAnimationState m_currentAnimationState;
@@ -42,9 +34,4 @@ private:
 	float m_prevTime = 0.00f;
 	int m_bulletXPosition = 0;
 	float m_currentTime = 0.00f;
-	Target* m_pBossBullet;
-
-	std::vector<Target*> m_pListOfTargets;
 };
-
-#endif /* defined (__BOSS_ONE__) */

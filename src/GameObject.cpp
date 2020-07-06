@@ -32,9 +32,19 @@ int GameObject::getHeight() const
 	return m_height;
 }
 
+int GameObject::getAngle() const
+{
+	return m_angle;
+}
+
 GameObjectType GameObject::getType() const
 {
 	return m_type;
+}
+
+GameObjectType GameObject::getParentType() const
+{
+	return m_parent;
 }
 
 void GameObject::setWidth(const int new_width)
@@ -47,9 +57,19 @@ void GameObject::setHeight(const int new_height)
 	m_height = new_height;
 }
 
+void GameObject::setAngle(int new_angle)
+{
+	m_angle = new_angle;
+}
+
 void GameObject::setType(const GameObjectType new_type)
 {
 	m_type = new_type;
+}
+
+void GameObject::setParentType(const GameObjectType new_type)
+{
+	m_parent = new_type;
 }
 
 //boundry restrict
@@ -81,4 +101,28 @@ void GameObject::m_BoundsRestrict()
 		m_boundHit = ABOVEBOUNDARY;
 		//std::cout << "\n y axis below";
 	}
+}
+
+bool GameObject::m_CheckBounds()
+{
+	if (getTransform()->position.x  > Config::SCREEN_WIDTH + getWidth())
+	{
+		return true;
+	}
+
+	if (getTransform()->position.x  < -getWidth())
+	{
+		return true;
+	}
+
+	if (getTransform()->position.y  > Config::SCREEN_HEIGHT + getHeight())
+	{
+		return true;
+	}
+
+	if (getTransform()->position.y  < -getHeight())
+	{
+		return true;
+	}
+	return false;
 }
