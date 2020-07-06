@@ -43,7 +43,7 @@ struct GameController
 	Sint16 LEFT_STICK_X[2];
 	Sint16 LEFT_STICK_Y[2];
 	bool LEFT_STICK_BUTTON;
-	int deadZone = 10000;
+	int deadZone = 5000;
 
 	// right stick
 	Sint16 RIGHT_STICK_X;
