@@ -1,5 +1,6 @@
 #include "LevelManager.h"
 #include "TextureManager.h"
+#include "MathManager.h"
 #include <fstream>
 
 LevelManager* LevelManager::s_pInstance = nullptr;
@@ -55,7 +56,7 @@ void LevelManager::loadTiles(std::string spritePath, std::string texture_Name, s
 		char key;
 		int x, y;
 		bool o, h;
-		int i = 1;
+	
 		TheTextureManager::Instance()->load(spritePath, texture_Name);
 		while (!inFile.eof())
 		{
@@ -110,4 +111,31 @@ void LevelManager::clearLevel()
 			m_level[row][col] = nullptr;
 		}
 	}
+}
+
+bool LevelManager::checkCollision(GameObject* obj, const int dX, const int dY)
+{
+	int pX = obj->getTransform()->position.x/64;
+	int pY = obj->getTransform()->position.y/64;
+	//pX = pX * 64;
+	//pY = pY * 64;
+	//std::cout <<" x: "<<pX << " y: " << pY << "\n";
+	SDL_Rect p = { obj->getTransform()->position.x + dX + 8, obj->getTransform()->position.y + dY + 6,obj->getWidth() - 16,obj->getHeight() -10 }; // Adjusted bounding box.
+	//std::cout << "p " << " x " << p.x << " y " << p.y << " w " << p.w << " h " << p.h <<"\n";
+	Tile* tiles[4] = { m_level[pY][pX],																				// Player's tile.
+					   m_level[pY][(pX + 1 == Config::COL_NUM ? Config::COL_NUM - 1 : pX + 1)],						// Right tile.
+					   m_level[(pY + 1 == Config::ROW_NUM ? Config::ROW_NUM - 1 : pY + 1)][(pX + 1 == Config::COL_NUM ? Config::COL_NUM - 1 : pX + 1)],	// Bottom-Right tile.
+					   m_level[(pY + 1 == Config::ROW_NUM ? Config::ROW_NUM - 1 : pY + 1)][pX] 
+					};									
+	for (int i = 0; i < 4; i++)
+	{
+		SDL_Rect t = MAMA::RectConverter(tiles[i]);
+		//std::cout << i <<" x: " << tiles[i]->getTransform()->position.x <<"y: " << tiles[i]->getTransform()->position.y << "is obstacle" << tiles[i]->isObstacle() << "\n";
+		if (tiles[i]->isObstacle() && SDL_HasIntersection(&p, &t))
+		{ // Collision!
+			return true;
+			// Other potential code...
+		}
+	}
+	return false;
 }
