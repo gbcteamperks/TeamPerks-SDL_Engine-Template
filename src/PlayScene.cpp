@@ -6,6 +6,7 @@
 #include "LevelManager.h"
 #include <fstream>
 #include <string>
+#include "RatKing.h"
 
 PlayScene::PlayScene()
 {
@@ -276,7 +277,8 @@ void PlayScene::start()
 	addChild(new MotherSpider());
 
 
-	//addChild(new MotherSpider());
+	//KingRat
+	addChild(new RatKing());
 
 	
 }

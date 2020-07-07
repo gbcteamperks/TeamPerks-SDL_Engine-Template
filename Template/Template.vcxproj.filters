@@ -170,6 +170,12 @@
     <ClCompile Include="..\src\Needle.cpp">
       <Filter>UI Objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\RatKing.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\RatBiter.cpp">
+      <Filter>Abilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -339,6 +345,12 @@
     </ClInclude>
     <ClInclude Include="..\src\Needle.h">
       <Filter>UI Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\RatKing.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\RatBiter.h">
+      <Filter>Abilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
