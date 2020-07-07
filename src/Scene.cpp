@@ -33,6 +33,23 @@ int Scene::numberOfChildren() const
 	return m_displayList.size();
 }
 
+void Scene::removeChildByType(GameObjectType type)
+{
+	for (auto it = m_displayList.begin(); it != m_displayList.end();) {
+		if ((*it)->getType() == type) {
+
+			(*it)->clean();
+			delete (*it);
+			it = m_displayList.erase(it);
+
+		}
+		else {
+			it++;
+
+		}
+	}
+}
+
 void Scene::updateDisplayList()
 {
 	for (auto count = 0; count < m_displayList.size(); ++count)
@@ -50,13 +67,15 @@ void Scene::drawDisplayList()
 	{
 		if (m_displayList[count] != nullptr)
 		{
-			m_displayList[count]->draw();
+			if (m_displayList[count]->getType() != TILE) {
+				m_displayList[count]->draw();
+			}
 		}
 	}
 
 }
 
-std::vector<DisplayObject*> Scene::getDisplayList()
+std::vector<DisplayObject*> & Scene::getDisplayList()
 {
 	return m_displayList;
 }

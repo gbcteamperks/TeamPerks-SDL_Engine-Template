@@ -10,9 +10,15 @@
 #include "Button.h"
 #include "StaticSprite.h"
 #include "VictorVanHelsing.h"
-#include "BossOne.h"
 #include "GameObjectType.h"
-
+#include "Game.h"
+#include "EventManager.h"
+#include "Enemy.h"
+#include "Fireball.h"
+#include "Sword.h"
+#include "Tile.h"
+#include <array>
+#include <map>
 class PlayScene : public Scene
 {
 public:
@@ -25,24 +31,23 @@ public:
 	virtual void clean() override;
 	virtual void handleEvents() override;
 	virtual void start() override;
+
+	void collisions();
+
+	bool m_bgScrollX = false, m_bgScrollY = false;
+	float playerSpeed = 2.0f;
+
+
 	
 private:
 	glm::vec2 m_mousePosition;
-
+	std::vector<VictorVanHelsing*> listPlayers;
 	StaticSprite* m_pBkg{};
-
-	PlaneSprite* m_pPlaneSprite;
-	Player* m_pPlayer;
-	VictorVanHelsing* m_pVictorVanHelsing;
-	BossOne* m_pBossOne;
-	Target* m_pTarget;
-	
-
-	Button* m_pBackButton;
-	Button* m_pNextButton;
-
 	int m_currentTime = 0;
 	int m_prevTime = 0;
+
+	
+
 };
 
 #endif /* defined (__LEVEL1_SCENE__) */

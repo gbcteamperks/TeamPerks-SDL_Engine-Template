@@ -3,8 +3,7 @@
 GameController::GameController(SDL_GameController* controller):
 	handle(controller), DPAD_UP(false), DPAD_DOWN(false), DPAD_LEFT(false), DPAD_RIGHT(false),
 	START_BUTTON(false), BACK_BUTTON(false), LEFT_SHOULDER(false), RIGHT_SHOULDER(false),
-	A_BUTTON(false), B_BUTTON(false), X_BUTTON(false), Y_BUTTON(false),
-	LEFT_STICK_X(false), LEFT_STICK_Y(false), RIGHT_STICK_X(false), RIGHT_STICK_Y(false)
+	RIGHT_STICK_X(false), RIGHT_STICK_Y(false)
 {}
 
 GameController::~GameController()
@@ -28,17 +27,73 @@ void GameController::update()
     RIGHT_SHOULDER = SDL_GameControllerGetButton(handle, SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
 
     // face buttons
-    A_BUTTON = SDL_GameControllerGetButton(handle, SDL_CONTROLLER_BUTTON_A);
-    B_BUTTON = SDL_GameControllerGetButton(handle, SDL_CONTROLLER_BUTTON_B);
-    X_BUTTON = SDL_GameControllerGetButton(handle, SDL_CONTROLLER_BUTTON_X);
-    Y_BUTTON = SDL_GameControllerGetButton(handle, SDL_CONTROLLER_BUTTON_Y);
+    A_BUTTON[0] = A_BUTTON[1];
+    B_BUTTON[0] = B_BUTTON[1];
+    X_BUTTON[0] = X_BUTTON[1];
+    Y_BUTTON[0] = Y_BUTTON[1];
+    A_BUTTON[1] = SDL_GameControllerGetButton(handle, SDL_CONTROLLER_BUTTON_A);
+    B_BUTTON[1] = SDL_GameControllerGetButton(handle, SDL_CONTROLLER_BUTTON_B);
+    X_BUTTON[1] = SDL_GameControllerGetButton(handle, SDL_CONTROLLER_BUTTON_X);
+    Y_BUTTON[1] = SDL_GameControllerGetButton(handle, SDL_CONTROLLER_BUTTON_Y);
 
     // sticks
-    LEFT_STICK_X = SDL_GameControllerGetAxis(handle, SDL_CONTROLLER_AXIS_LEFTX);
-    LEFT_STICK_Y = SDL_GameControllerGetAxis(handle, SDL_CONTROLLER_AXIS_LEFTY);
+    
+    LEFT_STICK_X[1] = SDL_GameControllerGetAxis(handle, SDL_CONTROLLER_AXIS_LEFTX);
+    LEFT_STICK_Y[1] = SDL_GameControllerGetAxis(handle, SDL_CONTROLLER_AXIS_LEFTY);
+
+    if (LEFT_STICK_X[1] > deadZone || LEFT_STICK_X[1] < -deadZone)
+    {
+        LEFT_STICK_X[0] = LEFT_STICK_X[1];
+    }
+    if (LEFT_STICK_Y[1] > deadZone || LEFT_STICK_Y[1] < -deadZone)
+    {
+        LEFT_STICK_Y[0] = LEFT_STICK_Y[1];
+    }
+
     LEFT_STICK_BUTTON = SDL_GameControllerGetButton(handle, SDL_CONTROLLER_BUTTON_LEFTSTICK);
 
     RIGHT_STICK_X = SDL_GameControllerGetAxis(handle, SDL_CONTROLLER_AXIS_RIGHTX);
     RIGHT_STICK_Y = SDL_GameControllerGetAxis(handle, SDL_CONTROLLER_AXIS_RIGHTY);
     RIGHT_STICK_BUTTON = SDL_GameControllerGetButton(handle, SDL_CONTROLLER_BUTTON_RIGHTSTICK);
+}
+
+glm::vec2 GameController::getLeftJoystickPosition()
+{
+    return glm::vec2(LEFT_STICK_X[0], LEFT_STICK_Y[0]);
+}
+
+bool GameController::Arealeased()
+{
+    if (A_BUTTON[0] == true && A_BUTTON[1] == false) 
+    {
+        return true;
+    }
+    return false;
+}
+
+bool GameController::Brealeased()
+{
+    if (B_BUTTON[0] == true && B_BUTTON[1] == false)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool GameController::Xrealeased()
+{
+    if (X_BUTTON[0] == true && X_BUTTON[1] == false)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool GameController::Yrealeased()
+{
+    if (Y_BUTTON[0] == true && Y_BUTTON[1] == false)
+    {
+        return true;
+    }
+    return false;
 }

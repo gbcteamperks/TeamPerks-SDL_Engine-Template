@@ -13,6 +13,8 @@ void EventManager::update()
 {
 	if(m_isActive)
 	{
+        std::memcpy(s_keysLast, s_keysCurr, s_numKeys);//alex's code
+
 		for (auto controller : m_pGameControllers)
 		{
 			if(SDL_GameControllerGetAttached(controller->handle))
@@ -68,6 +70,7 @@ void EventManager::update()
 	            break;
 	        }
 	    }
+        s_keysCurr = SDL_GetKeyboardState(&s_numKeys);//alex method for keyReleased
     }
 }
 
@@ -118,6 +121,11 @@ bool EventManager::isKeyUp(const SDL_Scancode key) const
     return false;
 }
 
+bool EventManager::KeyReleased(const SDL_Scancode c)
+{
+    return (s_keysCurr[c] < s_keysLast[c]);
+}
+
 void EventManager::onKeyDown()
 {
     m_keyStates = SDL_GetKeyboardState(nullptr);
@@ -127,6 +135,8 @@ void EventManager::onKeyUp()
 {
     m_keyStates = SDL_GetKeyboardState(nullptr);
 }
+
+
 
 void EventManager::onMouseMove(SDL_Event& event)
 {
@@ -214,6 +224,10 @@ GameController* EventManager::getGameController(const int controller_number)
 EventManager::EventManager():
     m_keyStates(nullptr), m_mouseWheel(0), m_isActive(true)
 {
+    s_keysCurr = SDL_GetKeyboardState(&s_numKeys);
+    s_keysLast = new Uint8[s_numKeys];
+    std::memcpy(s_keysLast, s_keysCurr, s_numKeys);
+    std::cout << "EventManager init done!" << std::endl;
 	// initialize mouse position
     m_mousePosition = glm::vec2(0.0f, 0.0f);
 	

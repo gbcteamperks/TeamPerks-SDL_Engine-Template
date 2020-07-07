@@ -162,6 +162,11 @@ void Game::changeSceneState(const SceneState new_state)
 	
 }
 
+Scene* Game::getCurrentScene()
+{
+	return m_currentScene;
+}
+
 void Game::quit()
 {
 	m_bRunning = false;
