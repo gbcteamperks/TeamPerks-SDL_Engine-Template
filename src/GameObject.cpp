@@ -7,6 +7,7 @@ GameObject::GameObject():
 	m_width(0), m_height(0), m_type(NONE)
 {
 	m_currentObject = this;
+	
 }
 
 GameObject::~GameObject()
@@ -125,4 +126,11 @@ bool GameObject::m_CheckBounds()
 		return true;
 	}
 	return false;
+}
+
+int& GameObject::getLife()
+{
+	
+	*GameObject::m_pLife = 100;
+	return* m_pLife;
 }

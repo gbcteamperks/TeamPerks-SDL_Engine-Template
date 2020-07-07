@@ -4,6 +4,8 @@
 #include "EventManager.h"
 #include "MathManager.h"
 #include "Sword.h"
+#include "LifeBar.h"
+#include "Needle.h"
 
 VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICTOR_WALK_UP)
 {
@@ -29,6 +31,9 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 
 	m_buildAnimations();
 	m_pObject = this;
+
+	UIList.push_back(new LifeBar());
+	UIList.push_back(new Needle());
 }
 
 VictorVanHelsing::~VictorVanHelsing()
@@ -43,29 +48,41 @@ void VictorVanHelsing::draw()
 	switch (m_currentAnimationState)
 	{
 	case VICTOR_WALK_RIGHT:
+		right = true;
 		TheTextureManager::Instance()->playAnimation("victorvanhelsing", m_pAnimations["walkright"],
 			x, y, 0.12f, 0, 255, true);
 		break;
 	case VICTOR_WALK_LEFT:
+		right = false;
 		TheTextureManager::Instance()->playAnimation("victorvanhelsing", m_pAnimations["walkright"],
 			x, y, 0.12f, 0, 255, true, SDL_FLIP_HORIZONTAL);
 		break;
 	case VICTOR_WALK_UP:
+		down = false;
 		TheTextureManager::Instance()->playAnimation("victorvanhelsing", m_pAnimations["walkup"],
 			x, y, 0.25f, 0, 255, true);
 		break;
 	case VICTOR_WALK_DOWN:
+		down = true;
 		TheTextureManager::Instance()->playAnimation("victorvanhelsing", m_pAnimations["walkdown"],
 			x, y, 0.25f, 0, 255, true);
 		break;
 	default:
 		break;
 	}
+	for (auto s : UIList)
+	{
+		s->draw();
+	}
 }
 
 void VictorVanHelsing::update()
 {
 	GameObject::m_BoundsRestrict();
+	for (auto s : UIList)
+	{
+		s->update(this);
+	}
 }
 
 void VictorVanHelsing::clean()

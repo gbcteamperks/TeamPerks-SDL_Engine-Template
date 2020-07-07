@@ -41,9 +41,8 @@ public:
 	
 private:
 	glm::vec2 m_mousePosition;
-
-	StaticSprite* m_pBkg{};
 	std::vector<VictorVanHelsing*> listPlayers;
+	StaticSprite* m_pBkg{};
 	int m_currentTime = 0;
 	int m_prevTime = 0;
 

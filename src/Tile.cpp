@@ -25,7 +25,7 @@ void Tile::draw()
     const auto x = getTransform()->position.x;
     const auto y = getTransform()->position.y;
 
-    TheTextureManager::Instance()->drawTile(m_sName, x, y,m_fX,m_fY, 0, 255, true);
+    TheTextureManager::Instance()->drawTile(m_sName, x, y,m_fX,m_fY, 0, 255, false);
 }
 
 void Tile::update()

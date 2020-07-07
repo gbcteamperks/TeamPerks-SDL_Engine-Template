@@ -161,11 +161,14 @@
     <ClCompile Include="..\src\Orb.cpp">
       <Filter>Abilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\RatKing.cpp">
-      <Filter>Game Objects</Filter>
+    <ClCompile Include="..\src\UIElement.cpp">
+      <Filter>UI Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\RatBiter.cpp">
-      <Filter>Abilities</Filter>
+    <ClCompile Include="..\src\LifeBar.cpp">
+      <Filter>UI Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Needle.cpp">
+      <Filter>UI Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,11 +331,14 @@
     <ClInclude Include="..\src\Orb.h">
       <Filter>Abilities</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\RatKing.h">
-      <Filter>Game Objects</Filter>
+    <ClInclude Include="..\src\UIElement.h">
+      <Filter>UI Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\RatBiter.h">
-      <Filter>Abilities</Filter>
+    <ClInclude Include="..\src\LifeBar.h">
+      <Filter>UI Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Needle.h">
+      <Filter>UI Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -393,6 +399,9 @@
       <Filter>Sprites</Filter>
     </Image>
     <Image Include="..\Assets\sprites\Items_BlueGem.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\TileTest.png">
       <Filter>Sprites</Filter>
     </Image>
   </ItemGroup>

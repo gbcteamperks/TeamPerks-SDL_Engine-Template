@@ -56,7 +56,8 @@ public:
 	bool m_CheckBounds();
 
 	//--GameObject* getCurrentObject();
-	
+
+	virtual int& getLife();
 private:
 	// transform component
 	Transform m_transform;
@@ -74,7 +75,8 @@ private:
 
 	int m_angle;
 	GameObject* m_currentObject;
-		 
+	int* m_pLife;
+
 };
 
 #endif /* defined (__GAME_OBJECT__) */
