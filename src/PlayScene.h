@@ -36,6 +36,8 @@ public:
 
 	bool m_bgScrollX = false, m_bgScrollY = false;
 	float playerSpeed = 2.0f;
+
+
 	
 private:
 	glm::vec2 m_mousePosition;

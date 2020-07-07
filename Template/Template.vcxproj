@@ -181,6 +181,8 @@
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\PlaneSprite.cpp" />
     <ClCompile Include="..\src\Player.cpp" />
+    <ClCompile Include="..\src\RatBiter.cpp" />
+    <ClCompile Include="..\src\RatKing.cpp" />
     <ClCompile Include="..\src\Renderer.cpp" />
     <ClCompile Include="..\src\Scene.cpp" />
     <ClCompile Include="..\src\ship.cpp" />
@@ -232,6 +234,8 @@
     <ClInclude Include="..\src\PlaneSprite.h" />
     <ClInclude Include="..\src\Player.h" />
     <ClInclude Include="..\src\PlayerAnimationState.h" />
+    <ClInclude Include="..\src\RatBiter.h" />
+    <ClInclude Include="..\src\RatKing.h" />
     <ClInclude Include="..\src\Renderer.h" />
     <ClInclude Include="..\src\RigidBody.h" />
     <ClInclude Include="..\src\Scene.h" />

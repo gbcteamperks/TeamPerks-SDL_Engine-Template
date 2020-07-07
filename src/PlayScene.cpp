@@ -2,6 +2,7 @@
 #include "MotherSpider.h"
 #include "EnemyWizard.h"
 #include "VictorVanHelsing.h"
+#include "RatKing.h"
 #include "Config.h"
 #include "LevelManager.h"
 #include <fstream>
@@ -9,6 +10,7 @@
 
 PlayScene::PlayScene()
 {
+	
 	PlayScene::start();
 }
 
@@ -245,6 +247,9 @@ void PlayScene::start()
 
 	//BigSpider
 	addChild(new MotherSpider());
+
+	//RatKing
+	addChild(new RatKing());
 	
 }
 
@@ -294,5 +299,4 @@ void PlayScene::collisions()
 	}
 
 }
-
 

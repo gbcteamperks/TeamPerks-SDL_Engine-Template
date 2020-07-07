@@ -161,6 +161,12 @@
     <ClCompile Include="..\src\Orb.cpp">
       <Filter>Abilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\RatKing.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\RatBiter.cpp">
+      <Filter>Abilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -320,6 +326,12 @@
       <Filter>Game Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Orb.h">
+      <Filter>Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\RatKing.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\RatBiter.h">
       <Filter>Abilities</Filter>
     </ClInclude>
   </ItemGroup>
