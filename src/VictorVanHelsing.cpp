@@ -43,18 +43,22 @@ void VictorVanHelsing::draw()
 	switch (m_currentAnimationState)
 	{
 	case VICTOR_WALK_RIGHT:
+		right = true;
 		TheTextureManager::Instance()->playAnimation("victorvanhelsing", m_pAnimations["walkright"],
 			x, y, 0.12f, 0, 255, true);
 		break;
 	case VICTOR_WALK_LEFT:
+		right = false;
 		TheTextureManager::Instance()->playAnimation("victorvanhelsing", m_pAnimations["walkright"],
 			x, y, 0.12f, 0, 255, true, SDL_FLIP_HORIZONTAL);
 		break;
 	case VICTOR_WALK_UP:
+		down = false;
 		TheTextureManager::Instance()->playAnimation("victorvanhelsing", m_pAnimations["walkup"],
 			x, y, 0.25f, 0, 255, true);
 		break;
 	case VICTOR_WALK_DOWN:
+		down = true;
 		TheTextureManager::Instance()->playAnimation("victorvanhelsing", m_pAnimations["walkdown"],
 			x, y, 0.25f, 0, 255, true);
 		break;

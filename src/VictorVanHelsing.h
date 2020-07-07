@@ -30,6 +30,8 @@ public:
 	void useCurrentAbility(int player);
 	void changeAbility();
 
+	bool right, down = false;
+
 
 private:
 	void m_buildAnimations();
@@ -41,6 +43,7 @@ private:
 	//ability list
 	std::vector<Ability*> m_pListAbilities;
 	bool m_abilityReady = true;
+	
 };
 
 #endif /* defined (__VICTOR_VAN_HELSING__) */

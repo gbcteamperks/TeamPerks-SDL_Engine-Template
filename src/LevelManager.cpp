@@ -25,6 +25,14 @@ void LevelManager::update(float scroll, bool x)
 			}
 		}
 	}
+	if (x) 
+	{
+		m_sumDX += scroll;
+	}
+	else
+	{
+		m_sumDY += scroll;
+	}
 }
 
 void LevelManager::clean()
@@ -115,26 +123,29 @@ void LevelManager::clearLevel()
 
 bool LevelManager::checkCollision(GameObject* obj, const int dX, const int dY)
 {
-	int pX = obj->getTransform()->position.x/64;
-	int pY = obj->getTransform()->position.y/64;
-	//pX = pX * 64;
-	//pY = pY * 64;
-	//std::cout <<" x: "<<pX << " y: " << pY << "\n";
-	SDL_Rect p = { obj->getTransform()->position.x + dX + 8, obj->getTransform()->position.y + dY + 6,obj->getWidth() - 16,obj->getHeight() -10 }; // Adjusted bounding box.
+	int row = (obj->getTransform()->position.y - m_sumDY) / 64;
+	int col = (obj->getTransform()->position.x - m_sumDX) / 64;
+
+	
+	//std::cout <<" x: "<<col << " y: " << row << "\n";
+	SDL_Rect p = { obj->getTransform()->position.x + dX, obj->getTransform()->position.y + dY,obj->getWidth(),obj->getHeight()}; // Adjusted bounding box.
 	//std::cout << "p " << " x " << p.x << " y " << p.y << " w " << p.w << " h " << p.h <<"\n";
-	Tile* tiles[4] = { m_level[pY][pX],																				// Player's tile.
-					   m_level[pY][(pX + 1 == Config::COL_NUM ? Config::COL_NUM - 1 : pX + 1)],						// Right tile.
-					   m_level[(pY + 1 == Config::ROW_NUM ? Config::ROW_NUM - 1 : pY + 1)][(pX + 1 == Config::COL_NUM ? Config::COL_NUM - 1 : pX + 1)],	// Bottom-Right tile.
-					   m_level[(pY + 1 == Config::ROW_NUM ? Config::ROW_NUM - 1 : pY + 1)][pX] 
+	Tile* tiles[4] = { m_level[row][col],																				// Player's tile.
+					   m_level[row][(col + 1 == Config::COL_NUM ? Config::COL_NUM - 1 : col + 1)],						// Right tile.
+					   m_level[(row + 1 == Config::ROW_NUM ? Config::ROW_NUM - 1 : row + 1)][(col + 1 == Config::COL_NUM ? Config::COL_NUM - 1 : col + 1)],	// Bottom-Right tile.
+					   m_level[(row + 1 == Config::ROW_NUM ? Config::ROW_NUM - 1 : row + 1)][col] // Bottom tile.
 					};									
 	for (int i = 0; i < 4; i++)
 	{
 		SDL_Rect t = MAMA::RectConverter(tiles[i]);
 		//std::cout << i <<" x: " << tiles[i]->getTransform()->position.x <<"y: " << tiles[i]->getTransform()->position.y << "is obstacle" << tiles[i]->isObstacle() << "\n";
-		if (tiles[i]->isObstacle() && SDL_HasIntersection(&p, &t))
-		{ // Collision!
-			return true;
-			// Other potential code...
+		if (tiles[i]->isObstacle())
+		{	
+			if (SDL_HasIntersection(&p, &t))
+			{
+				std::cout << "Collision" << std::endl;
+				return true;
+			}
 		}
 	}
 	return false;

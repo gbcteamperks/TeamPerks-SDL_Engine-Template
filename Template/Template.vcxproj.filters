@@ -383,6 +383,9 @@
     <Image Include="..\Assets\sprites\Items_BlueGem.png">
       <Filter>Sprites</Filter>
     </Image>
+    <Image Include="..\Assets\sprites\TileTest.png">
+      <Filter>Sprites</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Assets\sprites\atlas.txt">

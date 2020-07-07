@@ -13,7 +13,8 @@ class LevelManager
 private:
 
 	static LevelManager* s_pInstance;
-
+	int m_sumDX = 0;
+	int m_sumDY = 0;
 	LevelManager();
 	~LevelManager();
 	
