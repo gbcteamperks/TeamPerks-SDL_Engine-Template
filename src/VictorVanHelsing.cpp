@@ -4,6 +4,8 @@
 #include "EventManager.h"
 #include "MathManager.h"
 #include "Sword.h"
+#include "LifeBar.h"
+#include "Needle.h"
 
 VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICTOR_WALK_UP)
 {
@@ -29,6 +31,9 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 
 	m_buildAnimations();
 	m_pObject = this;
+
+	UIList.push_back(new LifeBar());
+	UIList.push_back(new Needle());
 }
 
 VictorVanHelsing::~VictorVanHelsing()
@@ -61,11 +66,19 @@ void VictorVanHelsing::draw()
 	default:
 		break;
 	}
+	for (auto s : UIList)
+	{
+		s->draw();
+	}
 }
 
 void VictorVanHelsing::update()
 {
 	GameObject::m_BoundsRestrict();
+	for (auto s : UIList)
+	{
+		s->update(this);
+	}
 }
 
 void VictorVanHelsing::clean()

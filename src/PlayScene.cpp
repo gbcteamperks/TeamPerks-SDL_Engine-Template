@@ -47,7 +47,8 @@ void PlayScene::update()
 		}
 	}
 	getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr), getDisplayList().end());
-
+	
+	
 }
 
 void PlayScene::clean()
@@ -245,6 +246,8 @@ void PlayScene::start()
 
 	//BigSpider
 	addChild(new MotherSpider());
+
+	
 	
 }
 
@@ -279,7 +282,12 @@ void PlayScene::collisions()
 				else if (getDisplayList()[i]->getType() == PROJECTILE && getDisplayList()[k]->getType() == VICTOR)
 				{
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
-						changeState = true;
+						
+						listPlayers[0]->getLife() -= 5;
+						if (listPlayers[0]->getLife() == 0)
+						{
+							changeState = true;
+						}
 					}
 				}
 				

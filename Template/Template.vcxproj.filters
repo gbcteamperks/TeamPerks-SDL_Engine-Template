@@ -161,6 +161,15 @@
     <ClCompile Include="..\src\Orb.cpp">
       <Filter>Abilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\UIElement.cpp">
+      <Filter>UI Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\LifeBar.cpp">
+      <Filter>UI Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Needle.cpp">
+      <Filter>UI Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -321,6 +330,15 @@
     </ClInclude>
     <ClInclude Include="..\src\Orb.h">
       <Filter>Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\UIElement.h">
+      <Filter>UI Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\LifeBar.h">
+      <Filter>UI Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Needle.h">
+      <Filter>UI Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
