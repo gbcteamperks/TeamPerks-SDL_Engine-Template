@@ -13,7 +13,8 @@ class LevelManager
 private:
 
 	static LevelManager* s_pInstance;
-
+	int m_sumDX = 0;
+	int m_sumDY = 0;
 	LevelManager();
 	~LevelManager();
 	
@@ -44,6 +45,8 @@ public:
 
 	std::map<int, Tile*>& const getTiles() { return m_tiles; }
 	std::array<std::array<Tile*, Config::ROW_NUM>, Config::COL_NUM>& const getLevel() { return m_level; }
+
+	bool checkCollision(GameObject* obj, const int dX, const int dY);
 
 };
 typedef LevelManager LVLMAN;

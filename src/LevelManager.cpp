@@ -1,5 +1,6 @@
 #include "LevelManager.h"
 #include "TextureManager.h"
+#include "MathManager.h"
 #include <fstream>
 
 LevelManager* LevelManager::s_pInstance = nullptr;
@@ -23,6 +24,14 @@ void LevelManager::update(float scroll, bool x)
 				m_level[row][col]->getTransform()->position.y += scroll;
 			}
 		}
+	}
+	if (x) 
+	{
+		m_sumDX += scroll;
+	}
+	else
+	{
+		m_sumDY += scroll;
 	}
 }
 
@@ -55,7 +64,7 @@ void LevelManager::loadTiles(std::string spritePath, std::string texture_Name, s
 		char key;
 		int x, y;
 		bool o, h;
-		int i = 1;
+	
 		TheTextureManager::Instance()->load(spritePath, texture_Name);
 		while (!inFile.eof())
 		{
@@ -110,4 +119,34 @@ void LevelManager::clearLevel()
 			m_level[row][col] = nullptr;
 		}
 	}
+}
+
+bool LevelManager::checkCollision(GameObject* obj, const int dX, const int dY)
+{
+	int row = (obj->getTransform()->position.y - m_sumDY) / 64;
+	int col = (obj->getTransform()->position.x - m_sumDX) / 64;
+
+	
+	//std::cout <<" x: "<<col << " y: " << row << "\n";
+	SDL_Rect p = { obj->getTransform()->position.x + dX, obj->getTransform()->position.y + dY,obj->getWidth(),obj->getHeight()}; // Adjusted bounding box.
+	//std::cout << "p " << " x " << p.x << " y " << p.y << " w " << p.w << " h " << p.h <<"\n";
+	Tile* tiles[4] = { m_level[row][col],																				// Player's tile.
+					   m_level[row][(col + 1 == Config::COL_NUM ? Config::COL_NUM - 1 : col + 1)],						// Right tile.
+					   m_level[(row + 1 == Config::ROW_NUM ? Config::ROW_NUM - 1 : row + 1)][(col + 1 == Config::COL_NUM ? Config::COL_NUM - 1 : col + 1)],	// Bottom-Right tile.
+					   m_level[(row + 1 == Config::ROW_NUM ? Config::ROW_NUM - 1 : row + 1)][col] // Bottom tile.
+					};									
+	for (int i = 0; i < 4; i++)
+	{
+		SDL_Rect t = MAMA::RectConverter(tiles[i]);
+		//std::cout << i <<" x: " << tiles[i]->getTransform()->position.x <<"y: " << tiles[i]->getTransform()->position.y << "is obstacle" << tiles[i]->isObstacle() << "\n";
+		if (tiles[i]->isObstacle())
+		{	
+			if (SDL_HasIntersection(&p, &t))
+			{
+				std::cout << "Collision" << std::endl;
+				return true;
+			}
+		}
+	}
+	return false;
 }

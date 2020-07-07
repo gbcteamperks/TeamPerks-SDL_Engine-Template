@@ -6,7 +6,7 @@
 #include <cmath>
 #include "SDL.h"
 #include <glm/vec2.hpp>
-
+#include "GameObject.h"
 
 class MathManager
 {
@@ -24,6 +24,7 @@ public: // Public methods.
 	static double LerpRad(double a, double b, double factor);
 	static double Distance(const int& x1, const int& x2, const int& y1, const int& y2);
 	static double Distance(const double &x1, const double& x2, const double& y1, const double& y2);
+	static SDL_Rect RectConverter(GameObject* obj);
 private: // Private properties.
 	MathManager() {}
 };

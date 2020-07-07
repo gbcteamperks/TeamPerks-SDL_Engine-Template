@@ -61,6 +61,7 @@ void PlayScene::clean()
 void PlayScene::handleEvents()
 {
 	EventManager::Instance().update();
+	
 
 	// handle player movement with GameController
 	if (SDL_NumJoysticks() > 0)
@@ -82,7 +83,7 @@ void PlayScene::handleEvents()
 				{
 					listPlayers[1]->getTransform()->position += glm::vec2(playerSpeed, 0.0f);
 					listPlayers[1]->setAnimationState(VICTOR_WALK_RIGHT);
-					if (listPlayers[1]->getTransform()->position.x /*> Config::SCREEN_WIDTH * 0.7f*/)
+					if (listPlayers[1]->getTransform()->position.x > Config::SCREEN_WIDTH * 0.7f) // right side of the screen
 					{
 						if (LVLMAN::Instance()->getLevel()[0][Config::COL_NUM - 1]->getTransform()->position.x > Config::SCREEN_WIDTH - 32)
 						{
@@ -95,7 +96,7 @@ void PlayScene::handleEvents()
 					listPlayers[1]->getTransform()->position -= glm::vec2(playerSpeed, 0.0f);
 					listPlayers[1]->setAnimationState(VICTOR_WALK_LEFT);
 
-					if (listPlayers[1]->getTransform()->position.x /*> Config::SCREEN_WIDTH * 0.3f*/)
+					if (listPlayers[1]->getTransform()->position.x < Config::SCREEN_WIDTH * 0.3f) // left side
 					{
 						if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.x < 0)
 						{
@@ -107,7 +108,7 @@ void PlayScene::handleEvents()
 				{
 					listPlayers[1]->getTransform()->position -= glm::vec2(0.0f, playerSpeed);
 					listPlayers[1]->setAnimationState(VICTOR_WALK_UP);
-					if (listPlayers[1]->getTransform()->position.y /*< Config::SCREEN_HEIGHT * 0.3f*/)
+					if (listPlayers[1]->getTransform()->position.y < Config::SCREEN_HEIGHT * 0.3f) // up side
 					{
 						if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.y < 0)
 						{
@@ -119,7 +120,7 @@ void PlayScene::handleEvents()
 				{
 					listPlayers[1]->getTransform()->position += glm::vec2(0.0f, playerSpeed);
 					listPlayers[1]->setAnimationState(VICTOR_WALK_DOWN);
-					if (listPlayers[1]->getTransform()->position.y /*> Config::SCREEN_HEIGHT * 0.7f*/)
+					if (listPlayers[1]->getTransform()->position.y > Config::SCREEN_HEIGHT * 0.7f) // down side
 					{
 						if (LVLMAN::Instance()->getLevel()[Config::ROW_NUM - 1][0]->getTransform()->position.y > Config::SCREEN_HEIGHT - 32)
 						{
@@ -144,59 +145,86 @@ void PlayScene::handleEvents()
 	//KeyBoard
 		//----
 	playerSpeed = 2.0f;
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_LSHIFT)) 
+
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A)/* && LVLMAN::Instance()->checkCollision(listPlayers[0], -playerSpeed, 0)*/)
 	{
-		playerSpeed = 5.0f;
-	}
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A))
-	{
-		listPlayers[0]->getTransform()->position -= glm::vec2(playerSpeed, 0.0f);
-		listPlayers[0]->setAnimationState(VICTOR_WALK_LEFT);
-			
-		if (listPlayers[0]->getTransform()->position.x /*> Config::SCREEN_WIDTH * 0.3f*/)
+		if (!LVLMAN::Instance()->checkCollision(listPlayers[0], -playerSpeed, 0)) 
 		{
-			if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.x < 0)
+			
+			listPlayers[0]->setAnimationState(VICTOR_WALK_LEFT);
+
+			if (listPlayers[0]->getTransform()->position.x < Config::SCREEN_WIDTH * 0.3f && !listPlayers[0]->right) // left
 			{
-				LVLMAN::Instance()->update(playerSpeed, true);
+					LVLMAN::Instance()->update(playerSpeed, true);
+				if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.x < 0)
+				{
+				}
+			}
+			else
+			{
+				listPlayers[0]->getTransform()->position.x -= playerSpeed;
 			}
 		}
 	}
-	else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D))
+	else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], playerSpeed, 0)*/)
 	{
-		listPlayers[0]->getTransform()->position += glm::vec2(playerSpeed, 0.0f);
-		listPlayers[0]->setAnimationState(VICTOR_WALK_RIGHT);
-		if (listPlayers[0]->getTransform()->position.x /*> Config::SCREEN_WIDTH * 0.7f*/)
+		if (!LVLMAN::Instance()->checkCollision(listPlayers[0], playerSpeed, 0)) 
 		{
-			if (LVLMAN::Instance()->getLevel()[0][Config::COL_NUM - 1]->getTransform()->position.x > Config::SCREEN_WIDTH - 32)
+			
+			listPlayers[0]->setAnimationState(VICTOR_WALK_RIGHT);
+			if (listPlayers[0]->getTransform()->position.x > Config::SCREEN_WIDTH * 0.7f && listPlayers[0]->right) //right
 			{
-				LVLMAN::Instance()->update(-playerSpeed, true);
+					LVLMAN::Instance()->update(-playerSpeed, true);
+				if (LVLMAN::Instance()->getLevel()[0][Config::COL_NUM - 1]->getTransform()->position.x > Config::SCREEN_WIDTH - 32)
+				{
+				}
+			}
+			else
+			{
+				listPlayers[0]->getTransform()->position.x += playerSpeed;
 			}
 		}
 		
 	}
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_W))
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_W) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], 0, -playerSpeed)*/)
 	{
-		listPlayers[0]->getTransform()->position -= glm::vec2(0.0f, playerSpeed);
-		listPlayers[0]->setAnimationState(VICTOR_WALK_UP);
-		if (listPlayers[0]->getTransform()->position.y /*< Config::SCREEN_HEIGHT * 0.3f*/)
+		//std::cout << listPlayers[0]->getTransform()->position.x << " y " << listPlayers[0]->getTransform()->position.y << "\n";
+		//std::cout << LVLMAN::Instance()->getLevel()[7][3]->getTransform()->position.x << " y " << LVLMAN::Instance()->getLevel()[7][3]->getTransform()->position.y << "\n";
+		if (!LVLMAN::Instance()->checkCollision(listPlayers[0], 0, -playerSpeed)) 
 		{
-			if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.y < 0)
+			
+			listPlayers[0]->setAnimationState(VICTOR_WALK_UP);
+			if (listPlayers[0]->getTransform()->position.y < Config::SCREEN_HEIGHT * 0.3f && !listPlayers[0]->down) // up
 			{
-				LVLMAN::Instance()->update(playerSpeed, false);
+					LVLMAN::Instance()->update(playerSpeed, false);
+				if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.y < 0)
+				{
+				}
+			}
+			else
+			{
+				listPlayers[0]->getTransform()->position -= glm::vec2(0.0f, playerSpeed);
 			}
 		}
 			
 	}
-	else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_S))
+	else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_S) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], 0, playerSpeed)*/)
 	{
-		listPlayers[0]->getTransform()->position += glm::vec2(0.0f, playerSpeed);
-		listPlayers[0]->setAnimationState(VICTOR_WALK_DOWN);
-		if (listPlayers[0]->getTransform()->position.y /*> Config::SCREEN_HEIGHT * 0.7f*/)
+		if (!LVLMAN::Instance()->checkCollision(listPlayers[0], 0, playerSpeed)) 
 		{
-			if (LVLMAN::Instance()->getLevel()[Config::ROW_NUM - 1][0]->getTransform()->position.y > Config::SCREEN_HEIGHT - 32)
+			listPlayers[0]->setAnimationState(VICTOR_WALK_DOWN);
+			if (listPlayers[0]->getTransform()->position.y > Config::SCREEN_HEIGHT * 0.7f && listPlayers[0]->down) //down
 			{
-				LVLMAN::Instance()->update(-playerSpeed, false);
+					LVLMAN::Instance()->update(-playerSpeed, false);
+				if (LVLMAN::Instance()->getLevel()[Config::ROW_NUM - 1][0]->getTransform()->position.y > Config::SCREEN_HEIGHT - 32)
+				{
+				}
 			}
+			else
+			{
+				listPlayers[0]->getTransform()->position += glm::vec2(0.0f, playerSpeed);
+			}
+		
 		}
 	}
 	
@@ -233,12 +261,12 @@ void PlayScene::handleEvents()
 void PlayScene::start()
 {
 	LVLMAN::Instance()->loadTiles("../Assets/sprites/TileTest.png", "tiles", "../Assets/sprites/TileData.txt");
-	LVLMAN::Instance()->loadLevel("../Assets/data/Level1.txt");
+	LVLMAN::Instance()->loadLevel("../Assets/data/Level.txt");
 	
 	std::cout << "start";
 
 	//Boss
-	addChild(new EnemyWizard());
+	//addChild(new EnemyWizard());
 
 	//Victor
 	listPlayers.push_back(new VictorVanHelsing(glm::vec2(390.0f, 400.0f)));
@@ -247,7 +275,9 @@ void PlayScene::start()
 	//BigSpider
 	addChild(new MotherSpider());
 
-	
+
+	//addChild(new MotherSpider());
+
 	
 }
 

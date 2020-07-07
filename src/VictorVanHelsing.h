@@ -33,6 +33,8 @@ public:
 	//Test To Lfe Bar
 	int& getLife() { return m_Life; }
 
+	bool right, down = false;
+
 
 private:
 	void m_buildAnimations();
@@ -44,8 +46,10 @@ private:
 	//ability list
 	std::vector<Ability*> m_pListAbilities;
 	bool m_abilityReady = true;
+
 	int m_Life = 100;
 	std::vector<UIElement*> UIList;
+
 };
 
 #endif /* defined (__VICTOR_VAN_HELSING__) */

@@ -1,5 +1,5 @@
 #include "MathManager.h"
-
+#include <iostream>
 glm::vec2 MathManager::Distance(glm::vec2 pos1, glm::vec2 pos2)
 {
 	glm::vec2 temp;
@@ -83,4 +83,11 @@ double MathManager::LerpRad(double a, double b, double factor)
 	else
 		result = LerpD(a, b, factor);
 	return result;
+}
+
+SDL_Rect MathManager::RectConverter(GameObject* obj)
+{
+	SDL_Rect temp = { (int)obj->getTransform()->position.x, (int)obj->getTransform()->position.y, (int)obj->getWidth(), (int)obj->getHeight() };
+	//std::cout << "Tile Temp " << " x " << temp.x << " y " << temp.y << " w " << temp.w << " h " << temp.h <<"\n";
+	return temp;
 }
