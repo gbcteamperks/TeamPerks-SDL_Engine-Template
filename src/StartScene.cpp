@@ -66,6 +66,7 @@ void StartScene::start()
 	m_pPlayButton->addEventListener(CLICK, [&](Button* button)-> void
 	{
 		button->setActive(false);
+		SoundManager::Instance().stopMusic();
 		TheGame::Instance()->changeSceneState(PLAY_SCENE);
 	});
 	
@@ -84,5 +85,10 @@ void StartScene::start()
 	m_pLabelPlay = new Label("Play", "Dock51", 40, white, glm::vec2(400.0f, 500.0f));
 	m_pLabelPlay->setParent(this);
 	addChild(m_pLabelPlay);
+
+	//Music
+	SoundManager::Instance().load("../Assets/audio/StartSceneMusic.mp3", "StartSceneMusic", SOUND_MUSIC);
+	SoundManager::Instance().playMusic("StartSceneMusic");
+	SoundManager::Instance().setAllVolume(20);
 }
 

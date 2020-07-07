@@ -84,6 +84,7 @@ void Sword::start()
 void Sword::execute(glm::vec2 position, int angle)
 {
 	Game::Instance()->getCurrentScene()->addChild(new Sword(position, true, angle, false)); 
+	SoundManager::Instance().playSound("Sword");
 }
 
 void Sword::stop()

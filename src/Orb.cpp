@@ -99,6 +99,7 @@ void Orb::execute(glm::vec2 position, int angle)
 {
 	//getTransform()->position = position;
 	Game::Instance()->getCurrentScene()->addChild(new Orb(position, true, angle, false));
+	SoundManager::Instance().playSound("Orb");
 
 }
 

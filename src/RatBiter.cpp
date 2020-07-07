@@ -103,6 +103,7 @@ void RatBiter::start()
 void RatBiter::execute(glm::vec2 position, int angle)
 {
 	Game::Instance()->getCurrentScene()->addChild(new RatBiter(position, true, angle, false));
+	SoundManager::Instance().playSound("Rat");
 }
 
 void RatBiter::stop()

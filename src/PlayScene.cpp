@@ -55,6 +55,7 @@ void PlayScene::update()
 void PlayScene::clean()
 {
 	LVLMAN::Instance()->clean();
+	SoundManager::Instance().stopMusic();
 
 	removeAllChildren();
 }
@@ -144,7 +145,7 @@ void PlayScene::handleEvents()
 	}
 
 	//KeyBoard
-		//----
+	
 	playerSpeed = 2.0f;
 
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A)/* && LVLMAN::Instance()->checkCollision(listPlayers[0], -playerSpeed, 0)*/)
@@ -267,7 +268,7 @@ void PlayScene::start()
 	std::cout << "start";
 
 	//Boss
-	//addChild(new EnemyWizard());
+	addChild(new EnemyWizard());
 
 	//Victor
 	listPlayers.push_back(new VictorVanHelsing(glm::vec2(390.0f, 400.0f)));
@@ -280,7 +281,15 @@ void PlayScene::start()
 	//KingRat
 	addChild(new RatKing());
 
-	
+	//Music
+	SoundManager::Instance().load("../Assets/audio/PlaySceneMusic.mp3", "PlaySceneMusic", SOUND_MUSIC);
+	SoundManager::Instance().playMusic("PlaySceneMusic");
+	//Sound fx
+	SoundManager::Instance().load("../Assets/audio/sword-1b.wav", "Sword", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/Rat.mp3", "Rat", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/Fireball.wav", "FireBall", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/electricshock.wav", "Orb", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/Grunting-sound.mp3", "Grunt", SOUND_SFX);
 }
 
 void PlayScene::collisions()
@@ -316,6 +325,7 @@ void PlayScene::collisions()
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
 						
 						listPlayers[0]->getLife() -= 5;
+						SoundManager::Instance().playSound("Grunt");
 						if (listPlayers[0]->getLife() == 0)
 						{
 							changeState = true;
