@@ -112,6 +112,12 @@ void RatBiter::stop()
 
 void RatBiter::sound()
 {
+	//add sound
+	if (m_running)
+	{
+		//play sound here.
+
+	}
 }
 
 
