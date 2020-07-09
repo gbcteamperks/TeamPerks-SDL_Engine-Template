@@ -262,7 +262,7 @@ void PlayScene::handleEvents()
 
 void PlayScene::start()
 {
-	LVLMAN::Instance()->loadTiles("../Assets/sprites/TileTest.png", "tiles", "../Assets/sprites/TileData.txt");
+	LVLMAN::Instance()->loadTiles("../Assets/sprites/Tiles32.png", "tiles", "../Assets/sprites/TileData.txt");
 	LVLMAN::Instance()->loadLevel("../Assets/data/Level.txt");
 	
 	std::cout << "start";

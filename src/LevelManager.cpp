@@ -57,6 +57,7 @@ void LevelManager::render()
 
 void LevelManager::loadTiles(std::string spritePath, std::string texture_Name, std::string tileDataPath)
 {
+	TextureManager::Instance()->load(spritePath, texture_Name);
 	std::ifstream inFile(tileDataPath);
 	if (inFile.is_open())
 	{
@@ -64,15 +65,26 @@ void LevelManager::loadTiles(std::string spritePath, std::string texture_Name, s
 		char key;
 		int x, y;
 		bool o, h;
-	
-		TheTextureManager::Instance()->load(spritePath, texture_Name);
+
 		while (!inFile.eof())
 		{
 			inFile >> key >> x >> y >> o >> h;
+			std::cout << "tile x " << x << " tile y " << y << "\n";
 			m_tiles.emplace(key, new Tile("tiles", x, y, o, h));
 		}
+	
 	}
 	inFile.close();
+	/*m_tiles[0]->setXY(31, 0);
+	m_tiles[1]->setXY(63, 0);
+	m_tiles[2]->setXY(95, 0);
+	m_tiles[3]->setXY(127, 0);
+	m_tiles[4]->setXY(159, 0);
+	m_tiles[5]->setXY(31, 32);
+	m_tiles[6]->setXY(63, 32);
+	m_tiles[7]->setXY(95, 32);
+	m_tiles[8]->setXY(127, 32);
+	m_tiles[9]->setXY(159, 32);*/
 }
 
 void LevelManager::loadLevel(std::string levelDataPath)
@@ -88,8 +100,8 @@ void LevelManager::loadLevel(std::string levelDataPath)
 			{
 				inFile >> key;
 				m_level[row][col] = m_tiles[key]->Clone();
-				m_level[row][col]->getTransform()->position.x = (float)64 * col;
-				m_level[row][col]->getTransform()->position.y = (float)64 * row;
+				m_level[row][col]->getTransform()->position.x = (int)(col* Config::TILE_SIZE);
+				m_level[row][col]->getTransform()->position.y = (int)(row* Config::TILE_SIZE);
 			}
 		}
 	}
@@ -123,8 +135,8 @@ void LevelManager::clearLevel()
 
 bool LevelManager::checkCollision(GameObject* obj, const int dX, const int dY)
 {
-	int row = (obj->getTransform()->position.y - m_sumDY) / 64;
-	int col = (obj->getTransform()->position.x - m_sumDX) / 64;
+	int row = (obj->getTransform()->position.y - m_sumDY) / Config::TILE_SIZE;
+	int col = (obj->getTransform()->position.x - m_sumDX) / Config::TILE_SIZE;
 
 	
 	//std::cout <<" x: "<<col << " y: " << row << "\n";

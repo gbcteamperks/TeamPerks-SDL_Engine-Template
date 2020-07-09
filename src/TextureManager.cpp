@@ -161,8 +161,8 @@ void TextureManager::draw(const std::string& id, int x, int y, double angle, int
 
 	SDL_QueryTexture(m_textureMap[id].get(), nullptr, nullptr, &textureWidth, &textureHeight);
 
-	srcRect.w =  textureWidth;
-	srcRect.h =  textureHeight;
+	srcRect.w = textureWidth;
+	srcRect.h = textureHeight;
 	destRect.w = dstx;
 	destRect.h = dsty;
 
@@ -181,20 +181,22 @@ void TextureManager::draw(const std::string& id, int x, int y, double angle, int
 	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[id].get(), &srcRect, &destRect, angle, nullptr, flip);
 }
 
-void TextureManager::drawTile(const std::string& id, const int x, const int y, const int indexX,const int indexY, const double angle, const int alpha, const bool centered, const SDL_RendererFlip flip)
+void TextureManager::drawTile(const std::string& id, int x, int y, int indexX,int indexY, const double angle, const int alpha, const bool centered, const SDL_RendererFlip flip)
 {
 	SDL_Rect srcRect;
 	SDL_Rect destRect;
 
-	srcRect.x = indexX*64;
-	srcRect.y = indexY*64;
-
+	srcRect.x = indexX*Config::TILE_SIZE;
+	srcRect.y = indexY* Config::TILE_SIZE;
+	//std::cout << "x "<< indexX << " y "<< indexY << "\n";
 	int textureWidth, textureHeight;
 
 	SDL_QueryTexture(m_textureMap[id].get(), nullptr, nullptr, &textureWidth, &textureHeight);
 
-	srcRect.w = destRect.w = textureWidth;
-	srcRect.h = destRect.h = textureHeight;
+	srcRect.w = Config::TILE_SIZE;
+	srcRect.h = Config::TILE_SIZE;
+	destRect.w = Config::TILE_SIZE;
+	destRect.h = Config::TILE_SIZE;
 
 	if (centered) {
 		const int xOffset = textureWidth * 0.5;

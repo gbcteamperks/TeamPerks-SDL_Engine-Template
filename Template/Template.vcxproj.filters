@@ -39,6 +39,9 @@
     <Filter Include="Abilities">
       <UniqueIdentifier>{baa00658-b553-41df-8df5-4934c3742fba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LevelData">
+      <UniqueIdentifier>{56ab8949-ba5a-442c-9c90-941480440da3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -432,6 +435,15 @@
     </Text>
     <Text Include="..\Assets\sprites\BlueGem.txt">
       <Filter>Sprites</Filter>
+    </Text>
+    <Text Include="..\Assets\data\Level.txt">
+      <Filter>LevelData</Filter>
+    </Text>
+    <Text Include="..\Assets\data\Level1.txt">
+      <Filter>LevelData</Filter>
+    </Text>
+    <Text Include="..\Assets\sprites\TileData.txt">
+      <Filter>LevelData</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
