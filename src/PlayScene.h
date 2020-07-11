@@ -33,15 +33,16 @@ public:
 	virtual void start() override;
 
 	void collisions();
-
+	bool tileCollision(GameObject* obj);
 	bool m_bgScrollX = false, m_bgScrollY = false;
 	float playerSpeed = 2.0f;
-
+	std::vector<DisplayObject*>& getObstacles() { return obstacle_List; }
 
 	
 private:
 	glm::vec2 m_mousePosition;
 	std::vector<VictorVanHelsing*> listPlayers;
+	std::vector<DisplayObject*> obstacle_List;
 	StaticSprite* m_pBkg{};
 	int m_currentTime = 0;
 	int m_prevTime = 0;

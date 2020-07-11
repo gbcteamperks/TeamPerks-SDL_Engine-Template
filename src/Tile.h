@@ -25,6 +25,8 @@ public:
 	bool& isObstacle();
 	bool isHazard();
 	void setXY(int x, int y);
+	int getX() { return m_iX; }
+	int getY() { return m_iY; }
 	Tile* Clone();
 	PathNode* Node();
 	virtual void Print();

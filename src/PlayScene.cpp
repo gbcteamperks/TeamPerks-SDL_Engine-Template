@@ -155,7 +155,7 @@ void PlayScene::handleEvents()
 			
 			listPlayers[0]->setAnimationState(VICTOR_WALK_LEFT);
 
-			if (listPlayers[0]->getTransform()->position.x < Config::SCREEN_WIDTH * 0.3f && !listPlayers[0]->right) // left
+			if (listPlayers[0]->getTransform()->position.x < Config::SCREEN_WIDTH * 0.01f && !listPlayers[0]->right) // left
 			{
 					LVLMAN::Instance()->update(playerSpeed, true);
 				if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.x < 0)
@@ -174,7 +174,7 @@ void PlayScene::handleEvents()
 		{
 			
 			listPlayers[0]->setAnimationState(VICTOR_WALK_RIGHT);
-			if (listPlayers[0]->getTransform()->position.x > Config::SCREEN_WIDTH * 0.7f && listPlayers[0]->right) //right
+			if (listPlayers[0]->getTransform()->position.x > Config::SCREEN_WIDTH * 0.99f && listPlayers[0]->right) //right
 			{
 					LVLMAN::Instance()->update(-playerSpeed, true);
 				if (LVLMAN::Instance()->getLevel()[0][Config::COL_NUM - 1]->getTransform()->position.x > Config::SCREEN_WIDTH - 32)
@@ -196,7 +196,7 @@ void PlayScene::handleEvents()
 		{
 			
 			listPlayers[0]->setAnimationState(VICTOR_WALK_UP);
-			if (listPlayers[0]->getTransform()->position.y < Config::SCREEN_HEIGHT * 0.3f && !listPlayers[0]->down) // up
+			if (listPlayers[0]->getTransform()->position.y < Config::SCREEN_HEIGHT * 0.01f && !listPlayers[0]->down) // up
 			{
 					LVLMAN::Instance()->update(playerSpeed, false);
 				if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.y < 0)
@@ -215,7 +215,7 @@ void PlayScene::handleEvents()
 		if (!LVLMAN::Instance()->checkCollision(listPlayers[0], 0, playerSpeed)) 
 		{
 			listPlayers[0]->setAnimationState(VICTOR_WALK_DOWN);
-			if (listPlayers[0]->getTransform()->position.y > Config::SCREEN_HEIGHT * 0.7f && listPlayers[0]->down) //down
+			if (listPlayers[0]->getTransform()->position.y > Config::SCREEN_HEIGHT * 0.99f && listPlayers[0]->down) //down
 			{
 					LVLMAN::Instance()->update(-playerSpeed, false);
 				if (LVLMAN::Instance()->getLevel()[Config::ROW_NUM - 1][0]->getTransform()->position.y > Config::SCREEN_HEIGHT - 32)
@@ -250,11 +250,21 @@ void PlayScene::handleEvents()
 	if (EventManager::Instance().KeyReleased(SDL_SCANCODE_Q)) 
 	{
 		listPlayers[0]->useCurrentAbility(1);
+		
 	}
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_2))
 	{
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
+	
+	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_T))
+	{
+
+		std::cout << "x: " << LevelManager::Instance()->getLevel()[5][10]->m_node->x << " y:" << LevelManager::Instance()->getLevel()[5][10]->m_node->y << "\n";
+		listPlayers[0]->getTransform()->position.x = LevelManager::Instance()->getLevel()[5][10]->m_node->x;
+		listPlayers[0]->getTransform()->position.y = LevelManager::Instance()->getLevel()[5][10]->m_node->y;
+	}
+
 	
 
 	collisions();
@@ -262,8 +272,8 @@ void PlayScene::handleEvents()
 
 void PlayScene::start()
 {
-	LVLMAN::Instance()->loadTiles("../Assets/sprites/Tiles32.png", "tiles", "../Assets/sprites/TileData.txt");
-	LVLMAN::Instance()->loadLevel("../Assets/data/Level.txt");
+	LVLMAN::Instance()->loadTiles("../Assets/sprites/Level1_Tiles.png", "tiles", "../Assets/sprites/TileData.txt");
+	LVLMAN::Instance()->loadLevel("../Assets/data/Level32.txt",getDisplayList());
 	
 	std::cout << "start";
 
@@ -332,6 +342,23 @@ void PlayScene::collisions()
 						}
 					}
 				}
+				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == TILE) 
+				{
+					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+
+						std::cout << "x: " << getDisplayList()[k]->getTransform()->position.x << " y: " << getDisplayList()[k]->getTransform()->position.y << "\n";
+						std::cout << "Hit Tile\n";
+						getDisplayList()[i]->getTransform()->position += glm::vec2(0, 0);
+					}
+				}
+				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == DOOR)
+				{
+					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+						
+						std::cout << " x: " << getDisplayList()[k]->getTransform()->position.x << " y: " << getDisplayList()[k]->getTransform()->position.y << "\n";
+						std::cout << "Hit Door\n";
+					}
+				}
 				
 			}
 			
@@ -343,6 +370,11 @@ void PlayScene::collisions()
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
 
+}
+
+bool PlayScene::tileCollision(GameObject* obj)
+{
+	return false;
 }
 
 

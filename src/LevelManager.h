@@ -19,7 +19,7 @@ private:
 	~LevelManager();
 	
 	std::map<char, Tile*> m_tiles;
-	std::array < std::array<Tile*, Config::ROW_NUM>, Config::COL_NUM> m_level;
+	std::array < std::array<Tile*, Config::COL_NUM>, Config::ROW_NUM> m_level;
 
 
 public:
@@ -38,13 +38,13 @@ public:
 	void render();
 
 	void loadTiles(std::string spritePath, std::string texture_Name, std::string tileDataPath);
-	void loadLevel(std::string levelDataPath);
+	void loadLevel(std::string levelDataPath, std::vector<DisplayObject*>& m_displayList);
 
 	void clearTiles();
 	void clearLevel();
 
 	std::map<char, Tile*>& const getTiles() { return m_tiles; }
-	std::array<std::array<Tile*, Config::ROW_NUM>, Config::COL_NUM>& const getLevel() { return m_level; }
+	std::array<std::array<Tile*, Config::COL_NUM>, Config::ROW_NUM>& const getLevel() { return m_level; }
 
 	bool checkCollision(GameObject* obj, const int dX, const int dY);
 

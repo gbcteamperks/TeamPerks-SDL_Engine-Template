@@ -2,9 +2,9 @@
 //#include "MathManager.h"
 //#include <iostream>
 //
-////PathManager* PathManager::s_pInstance = nullptr;
-////PathManager::PathManager() = default;
-////PathManager::~PathManager() = default;
+//PathManager* PathManager::s_pInstance = nullptr;
+//PathManager::PathManager() = default;
+//PathManager::~PathManager() = default;
 //
 //void PathManager::getShortestPath(PathNode* start, PathNode* goal)
 //{
