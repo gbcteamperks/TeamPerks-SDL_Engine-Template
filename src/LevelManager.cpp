@@ -168,3 +168,18 @@ bool LevelManager::checkCollision(GameObject* obj, const int dX, const int dY) /
 	//}
 	return false;
 }
+
+void LevelManager::printNodes()
+{
+	for (int row = 0; row < Config::ROW_NUM; row++)
+	{
+		for (int col = 0; col < Config::COL_NUM; col++)
+		{
+			if (m_level[row][col]->m_node != nullptr) 
+			{
+				std::cout << "Node at x: " << m_level[row][col]->m_node->x << " y: " << m_level[row][col]->m_node->y <<"\n";
+			}
+			
+		}
+	}
+}

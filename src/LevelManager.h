@@ -47,7 +47,7 @@ public:
 	std::array<std::array<Tile*, Config::COL_NUM>, Config::ROW_NUM>& const getLevel() { return m_level; }
 
 	bool checkCollision(GameObject* obj, const int dX, const int dY);
-
+	void printNodes();
 };
 typedef LevelManager LVLMAN;
 #endif

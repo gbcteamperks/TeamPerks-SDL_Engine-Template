@@ -9,8 +9,7 @@ Tile::Tile(std::string name, int x, int y, const bool o,const bool h)
     m_iY = y;
     m_bObstacle = o;
     m_bHazard = h;
- 
-    
+    m_node = nullptr;
     setWidth(32);
     setHeight(32);
     setType(TILE);

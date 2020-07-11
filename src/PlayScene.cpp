@@ -260,9 +260,11 @@ void PlayScene::handleEvents()
 	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_T))
 	{
 
-		std::cout << "x: " << LevelManager::Instance()->getLevel()[5][10]->m_node->x << " y:" << LevelManager::Instance()->getLevel()[5][10]->m_node->y << "\n";
-		listPlayers[0]->getTransform()->position.x = LevelManager::Instance()->getLevel()[5][10]->m_node->x;
-		listPlayers[0]->getTransform()->position.y = LevelManager::Instance()->getLevel()[5][10]->m_node->y;
+		LVLMAN::Instance()->printNodes();
+
+		/*std::cout << "x: " << LevelManager::Instance()->getLevel()[5][10]->m_node->x << " y:" << LevelManager::Instance()->getLevel()[5][10]->m_node->y << "\n";
+		listPlayers[0]->getTransform()->position.x = LVLMAN::Instance()->getLevel()[5][10]->m_node->x;
+		listPlayers[0]->getTransform()->position.y = LVLMAN::Instance()->getLevel()[5][10]->m_node->y;*/
 	}
 
 	
