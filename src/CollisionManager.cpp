@@ -1,4 +1,5 @@
 #include "CollisionManager.h"
+#include "MathManager.h"
 #include "Util.h"
 #include <algorithm>
 
@@ -70,16 +71,6 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 
 			object2->getRigidBody()->isColliding = true;
 			object1->getRigidBody()->isColliding = true;
-		
-			/*switch (object2->getType()) {
-			case TARGET:
-				std::cout << "Collision with Target!" << std::endl;
-				SoundManager::Instance().playSound("yay", 0);
-				break;
-			default:
-				
-				break;
-			}*/
 
 			return true;
 		}
@@ -88,6 +79,69 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 	else
 	{
 		object2->getRigidBody()->isColliding = false;
+		object1->getRigidBody()->isColliding = false;
+		return false;
+	}
+
+	return false;
+}
+
+bool CollisionManager::AABBCheckUpdatingPosition(GameObject* object1, GameObject* object2)
+{
+	// prepare relevant variables
+	const auto p1 = object1->getTransform()->position;
+	const auto p2 = object2->getTransform()->position;
+	const float p1Width = object1->getWidth();
+	const float p1Height = object1->getHeight();
+	const float p2Width = object2->getWidth();
+	const float p2Height = object2->getHeight();
+	glm::vec2 p1Center = { p1.x + p1Width * 0.5 , p1.y + p1Height * 0.5 };
+	glm::vec2 p2Center = { p2.x + p2Width * 0.5 , p2.y + p2Height * 0.5 };
+	int angle;
+
+	if (
+		p1.x < p2.x + p2Width &&
+		p1.x + p1Width > p2.x &&
+		p1.y < p2.y + p2Height &&
+		p1.y + p1Height > p2.y
+		)
+	{
+		angle = MAMA::AngleBetweenPoints(p1Center, p2Center);
+		if (angle > 45 && angle <= 135) //p2 is under p1
+		{
+			object1->getTransform()->position.y -= object1->getRigidBody()->velocity.y;
+			object1->m_boundHit = BOTTOMBOUNDARY; //BOTTOMBOUNDARY
+		}
+		if (angle > -135 && angle <= -45) //p2 is on top of p1
+		{
+			object1->getTransform()->position.y += object1->getRigidBody()->velocity.y;
+			object1->m_boundHit = TOPBOUNDARY; //TOPBOUNDARY
+		}
+		if (angle > -45 && angle <= 45) //p2 at the right of p1
+		{
+			object1->getTransform()->position.x -= object1->getRigidBody()->velocity.x;
+			object1->m_boundHit = RIGHTBOUNDARY; //RIGHTBOUNDARY
+		}
+		if (angle > 135 || angle <= -135) //p2 at the left of p1
+		{
+			object1->getTransform()->position.x += object1->getRigidBody()->velocity.x;
+			object1->m_boundHit = LEFTBOUNDARY; //LEFTBOUNDARY
+		}		
+
+
+		if (!object2->getRigidBody()->isColliding && !object1->getRigidBody()->isColliding) {
+			
+			object2->getRigidBody()->isColliding = true;
+			object1->getRigidBody()->isColliding = true;
+
+			return true;
+		}
+		return false;
+	}
+	else
+	{
+		object2->getRigidBody()->isColliding = false;
+		object1->getRigidBody()->isColliding = false;
 		return false;
 	}
 

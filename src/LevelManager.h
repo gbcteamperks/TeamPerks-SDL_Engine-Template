@@ -10,16 +10,6 @@
 class LevelManager 
 {
 
-private:
-
-	static LevelManager* s_pInstance;
-	int m_sumDX = 0;
-	int m_sumDY = 0;
-	LevelManager();
-	~LevelManager();
-	
-	std::map<char, Tile*> m_tiles;
-	std::array < std::array<Tile*, Config::COL_NUM>, Config::ROW_NUM> m_level;
 
 
 public:
@@ -38,16 +28,28 @@ public:
 	void render();
 
 	void loadTiles(std::string spritePath, std::string texture_Name, std::string tileDataPath);
-	void loadLevel(std::string levelDataPath, std::vector<DisplayObject*>& m_displayList);
+	void loadLevel(std::string levelDataPath);
 
 	void clearTiles();
 	void clearLevel();
 
 	std::map<char, Tile*>& const getTiles() { return m_tiles; }
 	std::array<std::array<Tile*, Config::COL_NUM>, Config::ROW_NUM>& const getLevel() { return m_level; }
-
+	std::vector<GameObject*>& const getObstacles() { return m_obstacles; }
 	bool checkCollision(GameObject* obj, const int dX, const int dY);
 	void printNodes();
+
+private:
+
+	static LevelManager* s_pInstance;
+	int m_sumDX = 0;
+	int m_sumDY = 0;
+	LevelManager();
+	~LevelManager();
+
+	std::map<char, Tile*> m_tiles;
+	std::vector<GameObject*> m_obstacles;
+	std::array < std::array<Tile*, Config::COL_NUM>, Config::ROW_NUM> m_level;
 };
 typedef LevelManager LVLMAN;
 #endif

@@ -6,18 +6,18 @@
 #include "RigidBody.h"
 //#include "CollisionManager.h"
 #include <string>
-
+#include <vector>
 // enums
 #include "GameObjectType.h"
 
 //--
 // enum for which boundary the object collided
-enum {
+enum BoundaryCollided{
 	NOCOLLISION = 0,
 	RIGHTBOUNDARY,
 	LEFTBOUNDARY,
-	BELOWBOUNDARY,
-	ABOVEBOUNDARY
+	TOPBOUNDARY,
+	BOTTOMBOUNDARY
 };
 
 class GameObject {
@@ -54,9 +54,10 @@ public:
 	void setParentType(GameObjectType new_type);
 	void m_BoundsRestrict();
 	bool m_CheckBounds();
+	bool checkCollisionWithLevel(std::vector<GameObject*> listObstacles);
 
 	//--GameObject* getCurrentObject();
-
+	BoundaryCollided m_boundHit = NOCOLLISION;		//refer above enum
 	virtual int& getLife();
 private:
 	// transform component
@@ -70,7 +71,7 @@ private:
 	int m_height;
 	GameObjectType m_type;
 	GameObjectType m_parent;
-	int m_boundHit = 0;		//refer above enum
+	
 	//-- self reference
 
 	int m_angle;

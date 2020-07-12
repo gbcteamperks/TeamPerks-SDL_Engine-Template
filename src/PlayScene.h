@@ -35,7 +35,6 @@ public:
 	void collisions();
 	bool tileCollision(GameObject* obj);
 	bool m_bgScrollX = false, m_bgScrollY = false;
-	float playerSpeed = 2.0f;
 	std::vector<DisplayObject*>& getObstacles() { return obstacle_List; }
 
 	

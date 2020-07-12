@@ -51,9 +51,7 @@ void LevelManager::render()
 	{
 		for (int col = 0; col < Config::COL_NUM; col++)
 		{
-			
 			m_level[row][col]->draw();
-		
 		}
 	}
 }
@@ -81,7 +79,7 @@ void LevelManager::loadTiles(std::string spritePath, std::string texture_Name, s
 	inFile.close();
 }
 
-void LevelManager::loadLevel(std::string levelDataPath, std::vector<DisplayObject*> &m_displayList) //Passes the scene display list to add obstacles and hazard tiles
+void LevelManager::loadLevel(std::string levelDataPath) //Passes the scene display list to add obstacles and hazard tiles
 {
 	std::ifstream inFile(levelDataPath);
 	if (inFile.is_open())
@@ -105,15 +103,16 @@ void LevelManager::loadLevel(std::string levelDataPath, std::vector<DisplayObjec
 					m_level[row][col]->m_node = new PathNode((int)(m_level[row][col]->getTransform()->position.x + 16), (int)(m_level[row][col]->getTransform()->position.y + 16 ));
 				}
 
-				if (m_level[row][col]->isObstacle() || m_level[row][col]->isHazard()) //If tile is a hazard or obstacle add it to the scenes display list
+				if (m_level[row][col]->isObstacle()) //If tile is an obstacle add it to the obstacle list
 				{
-					m_displayList.push_back(m_level[row][col]); 
+					m_obstacles.push_back(m_level[row][col]);
 				}
 			}
 		}
 	}
 	inFile.close();
-}			 
+}
+
 
 void LevelManager::clearTiles()
 {

@@ -93,13 +93,13 @@ void GameObject::m_BoundsRestrict()
 	{
 		getTransform()->position = glm::vec2(getTransform()->position.x, Config::SCREEN_HEIGHT - getHeight() / 2);
 		//std::cout << "\n y axis above";
-		m_boundHit = BELOWBOUNDARY;
+		m_boundHit = BOTTOMBOUNDARY;
 	}
 
 	if (getTransform()->position.y - (getHeight() / 2) < 0)
 	{
 		getTransform()->position = glm::vec2(getTransform()->position.x, 0.00f + (getHeight() / 2));
-		m_boundHit = ABOVEBOUNDARY;
+		m_boundHit = TOPBOUNDARY;
 		//std::cout << "\n y axis below";
 	}
 }
@@ -125,6 +125,17 @@ bool GameObject::m_CheckBounds()
 	{
 		return true;
 	}
+	return false;
+}
+
+bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
+{
+	for (auto o : listObstacles)
+	{
+		CollisionManager::AABBCheckUpdatingPosition(this, o);
+	}
+
+
 	return false;
 }
 

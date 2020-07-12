@@ -6,6 +6,7 @@
 #include "Sword.h"
 #include "LifeBar.h"
 #include "Needle.h"
+#include "LevelManager.h"
 
 VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICTOR_WALK_UP)
 {
@@ -23,7 +24,7 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 	setHeight(60);
 
 	getTransform()->position = pos;
-	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
+	getRigidBody()->velocity = glm::vec2(2.0f, 2.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	addAbility(new Sword());
@@ -78,7 +79,9 @@ void VictorVanHelsing::draw()
 
 void VictorVanHelsing::update()
 {
-	GameObject::m_BoundsRestrict();
+	m_BoundsRestrict();
+	checkCollisionWithLevel(LVLMAN::Instance()->getObstacles());
+
 	for (auto s : UIList)
 	{
 		s->update(this);
