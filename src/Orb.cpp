@@ -12,9 +12,9 @@ Orb::Orb()
 	getRigidBody()->isColliding = false;
 	//getTransform()->position = glm::vec2(100.0f, 100.0f);
 
-	setType(PROJECTILE);
+	setType(ENEMYABILITY);
 }
-Orb::Orb(glm::vec2 position, bool running, int angle, bool pickeable)
+Orb::Orb(glm::vec2 position, bool running, int angle, bool pickeable, bool enemyAbility)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/orbProjectile.txt",
@@ -57,8 +57,13 @@ Orb::Orb(glm::vec2 position, bool running, int angle, bool pickeable)
 		setType(PICKABLE);
 	}
 	else {
-		setType(PROJECTILE);
 		getTransform()->position += (70.0f * direction);
+		if (enemyAbility) {
+			setType(ENEMYABILITY);
+		}
+		else {
+			setType(PLAYERABILITY);
+		}
 	}
 	start();
 }
@@ -95,10 +100,10 @@ void Orb::start()
 
 }
 
-void Orb::execute(glm::vec2 position, int angle)
+void Orb::execute(glm::vec2 position, int angle, bool enemyAbility)
 {
 	//getTransform()->position = position;
-	Game::Instance()->getCurrentScene()->addChild(new Orb(position, true, angle, false));
+	Game::Instance()->getCurrentScene()->addChild(new Orb(position, true, angle, false,enemyAbility));
 	SoundManager::Instance().playSound("Orb");
 
 }
@@ -184,5 +189,5 @@ void Orb::AnimateDeath()
 }
 void Orb::pickable(glm::vec2 position)
 {
-	Game::Instance()->getCurrentScene()->addChild(new Orb(position, true, 0, true));
+	Game::Instance()->getCurrentScene()->addChild(new Orb(position, true, 0, true, false));
 }

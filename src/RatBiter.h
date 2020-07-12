@@ -8,14 +8,14 @@ public:
 	RatBiter();
 	~RatBiter();
 
-	RatBiter(glm::vec2 position, bool running, int angle, bool pickeable);
+	RatBiter(glm::vec2 position, bool running, int angle, bool pickeable, bool enemyAbility);
 
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void clean() override;
 
 	void start();
-	void execute(glm::vec2 position, int angle = 0);
+	void execute(glm::vec2 position, int angle, bool enemyAbility);
 	void stop();
 	void sound();
 	void animation();

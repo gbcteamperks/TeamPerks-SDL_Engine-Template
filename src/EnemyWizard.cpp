@@ -1,7 +1,7 @@
 #include "EnemyWizard.h"
 #include "Fireball.h"
 
-EnemyWizard::EnemyWizard() : m_currentAnimationState(BOSSONE_WALK_RIGHT)
+EnemyWizard::EnemyWizard(glm::vec2 position) : m_currentAnimationState(BOSSONE_WALK_RIGHT)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/magicenemy.txt",
@@ -16,12 +16,12 @@ EnemyWizard::EnemyWizard() : m_currentAnimationState(BOSSONE_WALK_RIGHT)
 	// set frame height
 	setHeight(60);
 
-	getTransform()->position = glm::vec2(90.0f, 90.0f);
+	getTransform()->position = position;
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	addAbility(new Fireball());
-	setType(BOSS);
+	setType(ENEMY);
 
 	m_buildAnimations();
 }

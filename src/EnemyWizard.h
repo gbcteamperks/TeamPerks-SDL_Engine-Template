@@ -3,7 +3,7 @@
 
 class EnemyWizard : public Enemy {
 public:
-	EnemyWizard();
+	EnemyWizard(glm::vec2 position);
 	~EnemyWizard();
 
 	// Life Cycle Methods

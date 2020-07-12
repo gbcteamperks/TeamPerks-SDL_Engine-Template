@@ -64,7 +64,7 @@ void RatKing::useCurrentAbility()
 		switch (m_currentAnimationState)
 		{
 		case PLAYER_RUN_RIGHT:
-			m_pListAbilities.front()->execute(getTransform()->position, 180); // to the left
+			m_pListAbilities.front()->execute(getTransform()->position, 180, true); // to the left
 			changeAbility();
 			break;
 		default:

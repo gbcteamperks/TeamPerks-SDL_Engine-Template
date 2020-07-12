@@ -6,7 +6,7 @@
 #include "LevelManager.h"
 #include "MathManager.h"
 
-MotherSpider::MotherSpider()
+MotherSpider::MotherSpider(glm::vec2 position)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/spider.txt",
@@ -21,11 +21,11 @@ MotherSpider::MotherSpider()
 	// set frame height
 	setHeight(64);
 
-	getTransform()->position = glm::vec2(600.0f, 400.0f);
+	getTransform()->position = position;
 	getRigidBody()->velocity = glm::vec2(2.0f, 2.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
-	setType(BOSS);
+	setType(ENEMY);
 	addAbility(new ExplosiveSpider());
 	addAbility(new Orb());
 
@@ -114,7 +114,7 @@ void MotherSpider::useCurrentAbility()
 	}
 	if (m_pListAbilities.size() > 0) {
 
-		m_pListAbilities.front()->execute(getTransform()->position, angle); // to the left
+		m_pListAbilities.front()->execute(getTransform()->position, angle, true); // to the left
 		changeAbility();
 	}
 }

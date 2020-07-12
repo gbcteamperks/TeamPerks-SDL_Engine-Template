@@ -179,6 +179,9 @@
     <ClCompile Include="..\src\RatBiter.cpp">
       <Filter>Abilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\SpawnEnemiesManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -354,6 +357,9 @@
     </ClInclude>
     <ClInclude Include="..\src\RatBiter.h">
       <Filter>Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SpawnEnemiesManager.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

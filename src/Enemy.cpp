@@ -29,7 +29,7 @@ void Enemy::deleteAbility()
 void Enemy::useCurrentAbility()
 {
 	if (m_pListAbilities.size() > 0 && m_abilityReady) {
-		m_pListAbilities.front()->execute(getTransform()->position, 90);
+		m_pListAbilities.front()->execute(getTransform()->position, 90, true);
 	}
 }
 

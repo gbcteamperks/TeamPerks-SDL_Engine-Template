@@ -13,10 +13,10 @@ ExplosiveSpider::ExplosiveSpider()
 	getRigidBody()->isColliding = false;
 	//getTransform()->position = glm::vec2(100.0f, 100.0f);
 
-	setType(PROJECTILE);
+	setType(ENEMYABILITY);
 	
 }
-ExplosiveSpider::ExplosiveSpider(glm::vec2 position, bool running, int angle, bool pickeable)
+ExplosiveSpider::ExplosiveSpider(glm::vec2 position, bool running, int angle, bool pickeable, bool enemyAbility)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/spider.txt",
@@ -38,14 +38,14 @@ ExplosiveSpider::ExplosiveSpider(glm::vec2 position, bool running, int angle, bo
 	m_damage = 0;
 
 	//animation
-	m_currentAnimationState = PLAYER_RUN_LEFT;
+
 	m_buildAnimations();
 
 	getTransform()->position = position;
 	getRigidBody()->velocity =  glm::vec2(2.0f, 2.0f);
 	glm::vec2 direction = { cos(m_angle * M_PI / 180),  sin(m_angle * M_PI / 180) };
 	getRigidBody()->velocity = { this->getRigidBody()->velocity.x * cos(m_angle * M_PI / 180), this->getRigidBody()->velocity.y * sin(m_angle * M_PI / 180) };
-	getTransform()->position += (70.0f * direction); 
+	
 
 	setWidth(30);//for collision
 	setHeight(30);
@@ -54,7 +54,13 @@ ExplosiveSpider::ExplosiveSpider(glm::vec2 position, bool running, int angle, bo
 		setType(PICKABLE);
 	}
 	else {
-		setType(PROJECTILE);
+		getTransform()->position += (70.0f * direction);
+		if (enemyAbility) {
+			setType(ENEMYABILITY);
+		}
+		else {
+			setType(PLAYERABILITY);
+		}
 	}
 	start();
 }
@@ -65,22 +71,28 @@ ExplosiveSpider::~ExplosiveSpider()
 
 void ExplosiveSpider::update()
 {
-	
+	if (getRigidBody()->isColliding || checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))
+	{
+		m_running = false;
+	}
 	if (m_running && !m_pickable)
 	{
-		if (walkTimer < 120) {
+		if (walkTimer < 90) {
 			getTransform()->position += getRigidBody()->velocity;
 		}
 		walkTimer++;
 	}
-	checkCollisionWithLevel(LVLMAN::Instance()->getObstacles());
 }
 
 void ExplosiveSpider::draw()
 {
+	if (!m_running)
+	{
+		AnimateDeath();
+	}
 	if (m_running && !m_pickable)
 	{
-		if (explosionTimer < 240) {
+		if (explosionTimer < 150) {
 			animation();
 		}
 		else {
@@ -109,10 +121,10 @@ void ExplosiveSpider::start()
 
 }
 
-void ExplosiveSpider::execute(glm::vec2 position, int angle)
+void ExplosiveSpider::execute(glm::vec2 position, int angle, bool enemyAbility)
 {
 	//getTransform()->position = position;
-	Game::Instance()->getCurrentScene()->addChild(new ExplosiveSpider(position, true, angle, false));
+	Game::Instance()->getCurrentScene()->addChild(new ExplosiveSpider(position, true, angle, false, enemyAbility));
 
 }
 
@@ -319,6 +331,6 @@ void ExplosiveSpider::AnimateDeath()
 }
 void ExplosiveSpider::pickable(glm::vec2 position)
 {
-	Game::Instance()->getCurrentScene()->addChild(new ExplosiveSpider(position, true, 0, true));
+	Game::Instance()->getCurrentScene()->addChild(new ExplosiveSpider(position, true, 0, true, false));
 }
 

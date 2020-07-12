@@ -14,11 +14,11 @@ Sword::Sword()
 	getRigidBody()->isColliding = false;
 
 
-	setType(SWORD);
+	setType(PLAYERABILITY);
 	
 }
 
-Sword::Sword(glm::vec2 position, bool running, int angle, bool pickeable)
+Sword::Sword(glm::vec2 position, bool running, int angle, bool pickeable, bool enemyAbility)
 {
 	m_angle = angle;
 	m_running = running;
@@ -41,8 +41,13 @@ Sword::Sword(glm::vec2 position, bool running, int angle, bool pickeable)
 		setType(PICKABLE);
 	}
 	else {
-		setType(SWORD);
 		getTransform()->position += (70.0f * direction);
+		if (enemyAbility) {
+			setType(ENEMYABILITY);
+		}
+		else {
+			setType(PLAYERABILITY);
+		}
 	}
 	start();
 }
@@ -81,9 +86,9 @@ void Sword::start()
 	}
 }
 
-void Sword::execute(glm::vec2 position, int angle)
+void Sword::execute(glm::vec2 position, int angle, bool enemyAbility)
 {
-	Game::Instance()->getCurrentScene()->addChild(new Sword(position, true, angle, false)); 
+	Game::Instance()->getCurrentScene()->addChild(new Sword(position, true, angle, false, enemyAbility)); 
 	SoundManager::Instance().playSound("Sword");
 }
 

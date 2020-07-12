@@ -8,7 +8,7 @@
 
 class MotherSpider : public Enemy {
 public:
-	MotherSpider();
+	MotherSpider(glm::vec2 position);
 	~MotherSpider();
 
 	virtual void draw() override;

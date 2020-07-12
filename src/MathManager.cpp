@@ -91,3 +91,10 @@ SDL_Rect MathManager::RectConverter(GameObject* obj)
 	//std::cout << "Tile Temp " << " x " << temp.x << " y " << temp.y << " w " << temp.w << " h " << temp.h <<"\n";
 	return temp;
 }
+
+double MathManager::Magnitude(glm::vec2 vec)
+{
+	int magnitud = 0;
+	magnitud = sqrt(vec.x * vec.x + vec.y * vec.y);
+	return magnitud;
+}

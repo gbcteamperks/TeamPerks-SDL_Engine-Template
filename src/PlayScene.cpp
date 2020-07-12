@@ -7,6 +7,7 @@
 #include <fstream>
 #include <string>
 #include "RatKing.h"
+#include "SpawnEnemiesManager.h"
 
 std::vector<VictorVanHelsing*> PlayScene::listPlayers;
 
@@ -26,11 +27,11 @@ void PlayScene::draw()
 void PlayScene::update()
 {
 	updateDisplayList();
-	
+	SpawnEnemiesManager::level1();
 	//delete projectiles
 	if (getDisplayList().size() > 0) {
 		for (auto it = getDisplayList().begin(); it != getDisplayList().end();it++) {
-			if ((*it)->getType() == PROJECTILE && (*it)->m_CheckBounds()) 
+			if (((*it)->getType() == ENEMYABILITY || (*it)->getType() == PLAYERABILITY) && (*it)->m_CheckBounds())
 			{
 				(*it)->clean();
 				delete (*it);
@@ -55,6 +56,7 @@ void PlayScene::update()
 
 void PlayScene::clean()
 {
+	VictorVanHelsing::numberOfPlayers = 0;
 	LVLMAN::Instance()->clean();
 	SoundManager::Instance().stopMusic();
 
@@ -190,18 +192,18 @@ void PlayScene::start()
 	
 	std::cout << "start";
 
-	////Boss
+	//Boss
 	//addChild(new EnemyWizard());
 
 	//Victor
 	listPlayers.push_back(new VictorVanHelsing(glm::vec2(390.0f, 400.0f)));
 	addChild(listPlayers[0]);
 
-	////BigSpider
-	addChild(new MotherSpider());
+	//BigSpider
+	//addChild(new MotherSpider());
 
 
-	////KingRat
+	//KingRat
 	//addChild(new RatKing());
 
 	//Music
@@ -224,7 +226,8 @@ void PlayScene::collisions()
 		for (int k = 0; k < getDisplayList().size();k++) 
 		{
 			if (getDisplayList()[i] != nullptr && getDisplayList()[k] != nullptr) {
-				if (getDisplayList()[i]->getType() == SWORD && getDisplayList()[k]->getType() == BOSS)
+				//PLAYER ABILITIES AND ENEMIES
+				if (getDisplayList()[i]->getType() == PLAYERABILITY && getDisplayList()[k]->getType() == ENEMY)
 				{
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
 						dynamic_cast<Enemy*>(getDisplayList()[k])->dropAbility();
@@ -234,6 +237,7 @@ void PlayScene::collisions()
 					}
 				
 				}
+				//VICTOR AND PICKEABLE OBJECTS
 				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == PICKABLE)
 				{
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
@@ -243,27 +247,20 @@ void PlayScene::collisions()
 						getDisplayList()[k] = nullptr;
 					}
 				}
-				else if (getDisplayList()[i]->getType() == PROJECTILE && getDisplayList()[k]->getType() == VICTOR)
+				//VICTOR AND ENEMYABILITIES
+				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == ENEMYABILITY)
 				{
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
 						
-						listPlayers[0]->getLife() -= 5;
+						getDisplayList()[i]->getLife() -= 5;
 						SoundManager::Instance().playSound("Grunt");
-						if (listPlayers[0]->getLife() == 0)
+						if (getDisplayList()[i]->getLife() == 0)
 						{
 							changeState = true;
 						}
 					}
 				}
-				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == TILE) 
-				{
-					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
-
-						std::cout << "x: " << getDisplayList()[k]->getTransform()->position.x << " y: " << getDisplayList()[k]->getTransform()->position.y << "\n";
-						std::cout << "Hit Tile\n";
-						getDisplayList()[i]->getTransform()->position += glm::vec2(0, 0);
-					}
-				}
+				//VICTOR WITH DOOR
 				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == DOOR)
 				{
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {

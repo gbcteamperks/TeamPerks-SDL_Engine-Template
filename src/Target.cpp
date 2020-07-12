@@ -11,7 +11,7 @@ Target::Target()
 	//setHeight(size.y);
 	//getTransform()->position = glm::vec2(100.0f, 100.0f);
 
-	setType(PROJECTILE);
+	//setType(PROJECTILE);
 }
 
 Target::~Target()

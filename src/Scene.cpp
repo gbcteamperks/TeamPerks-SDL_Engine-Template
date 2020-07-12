@@ -79,3 +79,16 @@ std::vector<DisplayObject*> & Scene::getDisplayList()
 {
 	return m_displayList;
 }
+
+std::vector<DisplayObject*> Scene::getEnemies()
+{
+	std::vector<DisplayObject*> listEnemies;
+	for (auto o : m_displayList)
+	{
+		if (o->getType() == ENEMY) 
+		{
+			listEnemies.push_back(o);
+		}
+	}
+	return listEnemies;
+}

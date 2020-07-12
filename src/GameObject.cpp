@@ -131,21 +131,28 @@ bool GameObject::m_CheckBounds()
 
 bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 {
+	bool collision = false;
 	for (auto o : listObstacles)
 	{
-		CollisionManager::AABBCheckUpdatingPosition(this, o);
+		if (CollisionManager::AABBCheckUpdatingPosition(this, o))
+		{
+			collision = true;
+		}
 	}
-	return false;
+	return collision;
 }
 
 void GameObject::fleeBehaviour(GameObject* obj)
 {
-	int angle = MAMA::AngleBetweenPoints(obj->getTransform()->position, this->getTransform()->position);
-	m_angle = angle;
-	angle = angle * 3.1416 / 180;
-	this->getTransform()->position.x += this->getRigidBody()->velocity.x * cos(angle);
-	this->getTransform()->position.y += this->getRigidBody()->velocity.y* sin(angle);
-	
+	int distance = MAMA::Magnitude(MAMA::Distance(obj->getTransform()->position, this->getTransform()->position));
+	if (distance < 300)
+	{
+		int angle = MAMA::AngleBetweenPoints(obj->getTransform()->position, this->getTransform()->position);
+		m_angle = angle;
+		angle = angle * 3.1416 / 180;
+		this->getTransform()->position.x += this->getRigidBody()->velocity.x * cos(angle);
+		this->getTransform()->position.y += this->getRigidBody()->velocity.y* sin(angle);
+	}
 }
 
 int& GameObject::getLife()

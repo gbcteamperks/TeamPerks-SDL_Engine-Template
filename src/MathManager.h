@@ -25,6 +25,7 @@ public: // Public methods.
 	static double Distance(const int& x1, const int& x2, const int& y1, const int& y2);
 	static double Distance(const double &x1, const double& x2, const double& y1, const double& y2);
 	static SDL_Rect RectConverter(GameObject* obj);
+	static double Magnitude(glm::vec2 vec);
 private: // Private properties.
 	MathManager() {}
 };

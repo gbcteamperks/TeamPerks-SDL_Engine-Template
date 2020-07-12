@@ -8,7 +8,7 @@
 #include "Needle.h"
 #include "LevelManager.h"
 #include "ExplosiveSpider.h"
-
+int VictorVanHelsing::numberOfPlayers = 0;
 VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICTOR_WALK_UP)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
@@ -18,6 +18,9 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("victorvanhelsing");
 
+	
+	m_playerNumber = numberOfPlayers; // assign an id to this player
+	numberOfPlayers++; //add a player every time a victor is created
 	// set frame width
 	setWidth(40);
 
@@ -122,7 +125,7 @@ void VictorVanHelsing::useCurrentAbility(int player)
 		setAngle(MAMA::AngleBetweenPoints(getTransform()->position, EventManager::Instance().getMousePosition()));
 		if (m_pListAbilities.size() > 0) 
 		{
-			m_pListAbilities.front()->execute(getTransform()->position, getAngle());
+			m_pListAbilities.front()->execute(getTransform()->position, getAngle(), false);
 		}
 	}
 	if (player == 2)
@@ -130,7 +133,7 @@ void VictorVanHelsing::useCurrentAbility(int player)
 		if (m_pListAbilities.size() > 0)
 		{
 			setAngle(MAMA::AngleBetweenPoints(getTransform()->position, EventManager::Instance().getGameController(0)->getLeftJoystickPosition()));
-			m_pListAbilities.front()->execute(getTransform()->position, getAngle());
+			m_pListAbilities.front()->execute(getTransform()->position, getAngle(), false);
 		}
 	}
 
