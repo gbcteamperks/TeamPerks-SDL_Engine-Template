@@ -22,6 +22,7 @@ private:
 	void m_buildAnimations();
 	void Animate();
 
+	int m_randomAction = rand() % 2;
 	SpriteSheet* m_pSpriteSheet;
 	PlayerAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;

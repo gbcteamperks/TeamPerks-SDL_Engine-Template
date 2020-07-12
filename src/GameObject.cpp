@@ -2,6 +2,7 @@
 #include "Config.h"
 #include <iostream>
 #include "CollisionManager.h"
+#include "MathManager.h"
 
 GameObject::GameObject():
 	m_width(0), m_height(0), m_type(NONE)
@@ -134,9 +135,17 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 	{
 		CollisionManager::AABBCheckUpdatingPosition(this, o);
 	}
-
-
 	return false;
+}
+
+void GameObject::fleeBehaviour(GameObject* obj)
+{
+	int angle = MAMA::AngleBetweenPoints(obj->getTransform()->position, this->getTransform()->position);
+	m_angle = angle;
+	angle = angle * 3.1416 / 180;
+	this->getTransform()->position.x += this->getRigidBody()->velocity.x * cos(angle);
+	this->getTransform()->position.y += this->getRigidBody()->velocity.y* sin(angle);
+	
 }
 
 int& GameObject::getLife()

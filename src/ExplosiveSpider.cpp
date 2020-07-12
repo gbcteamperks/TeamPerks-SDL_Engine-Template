@@ -1,4 +1,5 @@
 #include "ExplosiveSpider.h"
+#include "LevelManager.h"
 
 ExplosiveSpider::ExplosiveSpider()
 {
@@ -41,9 +42,9 @@ ExplosiveSpider::ExplosiveSpider(glm::vec2 position, bool running, int angle, bo
 	m_buildAnimations();
 
 	getTransform()->position = position;
-	getRigidBody()->velocity += 2.0;
-	glm::vec2 direction = { cos(m_angle * M_PI / 180.0) , sin(m_angle * M_PI / 180.0) };
-	getRigidBody()->velocity *= direction;
+	getRigidBody()->velocity =  glm::vec2(2.0f, 2.0f);
+	glm::vec2 direction = { cos(m_angle * M_PI / 180),  sin(m_angle * M_PI / 180) };
+	getRigidBody()->velocity = { this->getRigidBody()->velocity.x * cos(m_angle * M_PI / 180), this->getRigidBody()->velocity.y * sin(m_angle * M_PI / 180) };
 	getTransform()->position += (70.0f * direction); 
 
 	setWidth(30);//for collision
@@ -64,6 +65,7 @@ ExplosiveSpider::~ExplosiveSpider()
 
 void ExplosiveSpider::update()
 {
+	
 	if (m_running && !m_pickable)
 	{
 		if (walkTimer < 120) {
@@ -71,6 +73,7 @@ void ExplosiveSpider::update()
 		}
 		walkTimer++;
 	}
+	checkCollisionWithLevel(LVLMAN::Instance()->getObstacles());
 }
 
 void ExplosiveSpider::draw()

@@ -37,10 +37,10 @@ public:
 	bool m_bgScrollX = false, m_bgScrollY = false;
 	std::vector<DisplayObject*>& getObstacles() { return obstacle_List; }
 
+	static std::vector<VictorVanHelsing*> listPlayers;
 	
 private:
 	glm::vec2 m_mousePosition;
-	std::vector<VictorVanHelsing*> listPlayers;
 	std::vector<DisplayObject*> obstacle_List;
 	StaticSprite* m_pBkg{};
 	int m_currentTime = 0;

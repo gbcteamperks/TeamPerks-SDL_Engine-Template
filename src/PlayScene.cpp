@@ -8,6 +8,8 @@
 #include <string>
 #include "RatKing.h"
 
+std::vector<VictorVanHelsing*> PlayScene::listPlayers;
+
 PlayScene::PlayScene()
 {
 	PlayScene::start();
@@ -196,7 +198,7 @@ void PlayScene::start()
 	addChild(listPlayers[0]);
 
 	////BigSpider
-	//addChild(new MotherSpider());
+	addChild(new MotherSpider());
 
 
 	////KingRat
@@ -287,5 +289,6 @@ bool PlayScene::tileCollision(GameObject* obj)
 {
 	return false;
 }
+
 
 

@@ -55,11 +55,12 @@ public:
 	void m_BoundsRestrict();
 	bool m_CheckBounds();
 	bool checkCollisionWithLevel(std::vector<GameObject*> listObstacles);
+	void fleeBehaviour(GameObject* obj);
 
 	//--GameObject* getCurrentObject();
 	BoundaryCollided m_boundHit = NOCOLLISION;		//refer above enum
 	virtual int& getLife();
-private:
+protected:
 	// transform component
 	Transform m_transform;
 	

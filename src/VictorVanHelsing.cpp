@@ -7,6 +7,7 @@
 #include "LifeBar.h"
 #include "Needle.h"
 #include "LevelManager.h"
+#include "ExplosiveSpider.h"
 
 VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICTOR_WALK_UP)
 {
@@ -28,6 +29,7 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	addAbility(new Sword());
+	addAbility(new ExplosiveSpider());
 	setType(VICTOR);
 
 	m_buildAnimations();

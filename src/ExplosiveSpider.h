@@ -36,7 +36,6 @@ private:
 
 	int walkTimer = 0, explosionTimer = 0;
 	int m_damage;
-	int m_angle;
 
 	StaticSprite* m_pPortrait;
 
