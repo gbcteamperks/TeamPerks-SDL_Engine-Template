@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "UIElement.h"
 
 class EnemyWizard : public Enemy {
 public:
@@ -19,6 +20,7 @@ public:
 	void setAnimation(const Animation& animation);
 	void m_buildAnimations() override;
 	void runHereThere();
+	int& getLife() override { return m_Life; }
 
 private:
 
@@ -34,4 +36,5 @@ private:
 	float m_prevTime = 0.00f;
 	int m_bulletXPosition = 0;
 	float m_currentTime = 0.00f;
+	std::vector<UIElement*> UI;
 };

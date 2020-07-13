@@ -1,4 +1,5 @@
 #include "EnemyWizard.h"
+#include "EnemyLifeBar.h"
 #include "Fireball.h"
 
 EnemyWizard::EnemyWizard(glm::vec2 position) : m_currentAnimationState(BOSSONE_WALK_RIGHT)
@@ -24,6 +25,10 @@ EnemyWizard::EnemyWizard(glm::vec2 position) : m_currentAnimationState(BOSSONE_W
 	setType(ENEMY);
 
 	m_buildAnimations();
+
+	// Life
+	m_Life = 100;
+	UI.push_back(new EnemyLifeBar);
 }
 
 EnemyWizard::~EnemyWizard()
@@ -57,6 +62,10 @@ void EnemyWizard::draw()
 	default:
 		break;
 	}
+	for (auto s : UI)
+	{
+		s->draw();
+	}
 
 }
 
@@ -64,7 +73,10 @@ void EnemyWizard::update()
 {
 	runHereThere();
 	bossAttack();
-
+	for (auto s : UI)
+	{
+		s->update(this);
+	}
 
 }
 

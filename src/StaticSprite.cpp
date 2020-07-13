@@ -1,4 +1,5 @@
 #include "StaticSprite.h"
+#include "Config.h"
 
 StaticSprite::StaticSprite(std::string spritePath, std::string name, float posX, float posY)
 {
@@ -25,7 +26,7 @@ void StaticSprite::draw()
 	const auto y = getTransform()->position.y;
 
 	// draw the ship
-	TheTextureManager::Instance()->draw(name, x, y, 0, 255, true);
+	TheTextureManager::Instance()->draw(name, x, y, 0, 255, SDL_FLIP_NONE, Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT);
 }
 
 void StaticSprite::update()
