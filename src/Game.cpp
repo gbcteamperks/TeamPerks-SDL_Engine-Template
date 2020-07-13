@@ -123,49 +123,60 @@ void Game::changeSceneState(const SceneState new_state)
 {
 	if (new_state != m_currentSceneState) {
 
-		// scene clean up
-		if (m_currentSceneState != NO_SCENE) 
+		if (new_state == TRANSITION_SCENE)
 		{
-			m_currentScene->clean();
-			std::cout << "cleaning previous scene" << std::endl;
-			FontManager::Instance()->clean();
-			std::cout << "cleaning FontManager" << std::endl;
-			TextureManager::Instance()->clean();
-			std::cout << "cleaning TextureManager" << std::endl;
+			m_pTransitionScene = new TransitionScene();
+			transition = true;
+			//std::cout << "in changescenestate transition..";
 		}
-
-		m_currentScene = nullptr;
-
-		m_currentSceneState = new_state;
-
-		EventManager::Instance().reset();
-
-		switch (m_currentSceneState)
+		else
 		{
-		case START_SCENE:
-			m_currentScene = new StartScene();
-			std::cout << "start scene activated" << std::endl;
-			break;
-		case PLAY_SCENE:
-			m_currentScene = new PlayScene();
-			std::cout << "play scene activated" << std::endl;
-			break;
-		case END_SCENE:
-			m_currentScene = new EndScene();
-			std::cout << "end scene activated" << std::endl;
-			break;
-		default:
-			std::cout << "default case activated" << std::endl;
-			break;
+			// scene clean up
+			if (m_currentSceneState != NO_SCENE)
+			{
+				m_currentScene->clean();
+				std::cout << "cleaning previous scene" << std::endl;
+				FontManager::Instance()->clean();
+				std::cout << "cleaning FontManager" << std::endl;
+				TextureManager::Instance()->clean();
+				std::cout << "cleaning TextureManager" << std::endl;
+			}
+
+			m_currentScene = nullptr;
+
+			m_currentSceneState = new_state;
+
+			EventManager::Instance().reset();
+
+			switch (m_currentSceneState)
+			{
+			case START_SCENE:
+				m_currentScene = new StartScene();
+				std::cout << "start scene activated" << std::endl;
+				break;
+			case PLAY_SCENE:
+				m_currentScene = new PlayScene();
+				std::cout << "play scene activated" << std::endl;
+				break;
+			case END_SCENE:
+				m_currentScene = new EndScene();
+				std::cout << "end scene activated" << std::endl;
+				break;
+			default:
+				std::cout << "default case activated" << std::endl;
+				break;
+			}
 		}
-	}
 	
+	}
 }
 
 Scene* Game::getCurrentScene()
 {
 	return m_currentScene;
 }
+
+
 
 void Game::quit()
 {
@@ -176,14 +187,35 @@ void Game::render() const
 {
 	SDL_RenderClear(Renderer::Instance()->getRenderer()); // clear the renderer to the draw colour
 
-	m_currentScene->draw();
+	if (transition)
+	{
+		m_currentScene->draw();
+		m_pTransitionScene->draw();
+
+	}
+	else
+	{
+		m_currentScene->draw();
+	}
+	
+	
+	
 
 	SDL_RenderPresent(Renderer::Instance()->getRenderer()); // draw to the screen
 }
 
 void Game::update() const
 {
-	m_currentScene->update();
+	
+	if (transition)
+	{
+		m_pTransitionScene->update();
+	}
+	else
+	{
+		m_currentScene->update();
+	}
+	
 }
 
 void Game::clean() const
@@ -191,7 +223,6 @@ void Game::clean() const
 	std::cout << "cleaning game" << std::endl;
 
 	TTF_Quit();
-
 	SDL_Quit();
 }
 

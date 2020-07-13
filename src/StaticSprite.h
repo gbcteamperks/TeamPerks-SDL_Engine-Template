@@ -13,6 +13,7 @@ public:
 
 	// Life Cycle Functions
 	virtual void draw() override;
+	void draw(int);
 	virtual void update() override;
 	virtual void clean() override;
 

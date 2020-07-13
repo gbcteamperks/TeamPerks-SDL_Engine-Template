@@ -45,7 +45,6 @@ void Scene::removeChildByType(GameObjectType type)
 		}
 		else {
 			it++;
-
 		}
 	}
 }
@@ -72,7 +71,6 @@ void Scene::drawDisplayList()
 			}
 		}
 	}
-
 }
 
 std::vector<DisplayObject*> & Scene::getDisplayList()

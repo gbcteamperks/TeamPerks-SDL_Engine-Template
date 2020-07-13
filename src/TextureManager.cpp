@@ -176,7 +176,8 @@ void TextureManager::draw(const std::string& id, int x, int y, double angle, int
 		destRect.x = x;
 		destRect.y = y;
 	}
-
+	
+	SDL_SetTextureBlendMode(m_textureMap[id].get(), SDL_BLENDMODE_BLEND);
 	SDL_SetTextureAlphaMod(m_textureMap[id].get(), alpha);
 	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[id].get(), &srcRect, &destRect, angle, nullptr, flip);
 }

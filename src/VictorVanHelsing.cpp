@@ -32,7 +32,7 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	addAbility(new Sword());
-	addAbility(new ExplosiveSpider());
+	//addAbility(new ExplosiveSpider());			??
 	setType(VICTOR);
 
 	m_buildAnimations();
