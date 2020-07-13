@@ -182,6 +182,9 @@
     <ClCompile Include="..\src\SpawnEnemiesManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\EnemyLifeBar.cpp">
+      <Filter>UI Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -360,6 +363,9 @@
     </ClInclude>
     <ClInclude Include="..\src\SpawnEnemiesManager.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\EnemyLifeBar.h">
+      <Filter>UI Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

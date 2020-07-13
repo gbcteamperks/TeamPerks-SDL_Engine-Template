@@ -22,7 +22,6 @@ public:
 
 
 private:
-	//Needle* m_pSprite;
-	//LifeBar* 
+	 
 };
 #endif

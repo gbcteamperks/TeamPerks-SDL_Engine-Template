@@ -230,10 +230,12 @@ void PlayScene::collisions()
 				if (getDisplayList()[i]->getType() == PLAYERABILITY && getDisplayList()[k]->getType() == ENEMY)
 				{
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+						//if((getDisplayList()[k]).m_life==0) Add the ability damage on the enemy
 						dynamic_cast<Enemy*>(getDisplayList()[k])->dropAbility();
 						getDisplayList()[k]->clean();
 						delete getDisplayList()[k];
 						getDisplayList()[k] = nullptr;
+
 					}
 				
 				}

@@ -11,7 +11,7 @@ LifeBar::~LifeBar()
 
 void LifeBar::draw()
 {
-	TextureManager::Instance()->draw("LifeBar", 30, 420, 0.0, 255, false, SDL_FLIP_NONE, 160, 150);
+	TextureManager::Instance()->draw("LifeBar", 30, 600, 0.0, 255, SDL_FLIP_NONE, 160, 150);
 }
 
 void LifeBar::update(GameObject* player)

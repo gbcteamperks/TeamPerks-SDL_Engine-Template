@@ -163,6 +163,7 @@
     <ClCompile Include="..\src\DebugManager.cpp" />
     <ClCompile Include="..\src\DisplayObject.cpp" />
     <ClCompile Include="..\src\EndScene.cpp" />
+    <ClCompile Include="..\src\EnemyLifeBar.cpp" />
     <ClCompile Include="..\src\EnemyWizard.cpp" />
     <ClCompile Include="..\src\ExplosiveSpider.cpp" />
     <ClCompile Include="..\src\Fireball.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="..\src\DebugManager.h" />
     <ClInclude Include="..\src\DisplayObject.h" />
     <ClInclude Include="..\src\EndScene.h" />
+    <ClInclude Include="..\src\EnemyLifeBar.h" />
     <ClInclude Include="..\src\EnemyWizard.h" />
     <ClInclude Include="..\src\Event.h" />
     <ClInclude Include="..\src\EventManager.h" />
