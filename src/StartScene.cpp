@@ -55,12 +55,12 @@ void StartScene::handleEvents()
 void StartScene::start()
 {
 
-	m_pTitleSprite = new StaticSprite("../Assets/textures/MonsterSlayerTitle.png", "titleSprite", 400.0f, 300.0f);
+	m_pTitleSprite = new StaticSprite("../Assets/textures/MonsterSlayerTitle.png", "titleSprite", 0.0f,0.0f);
 	addChild(m_pTitleSprite);
 
 	//Play Button
 	m_pPlayButton = new Button("../Assets/textures/buttonRed.png", "PlayButton", PLAY_BUTTON);
-	m_pPlayButton->getTransform()->position = glm::vec2(400.0f, 500.0f);
+	m_pPlayButton->getTransform()->position = glm::vec2(490.0f, 600.0f);
 	m_pPlayButton->addEventListener(CLICK, [&](Button* button)-> void
 	{
 		button->setActive(false);
@@ -80,7 +80,7 @@ void StartScene::start()
 	addChild(m_pPlayButton);
 
 	const SDL_Color white = { 255, 255, 255, 255 };
-	m_pLabelPlay = new Label("Play", "Dock51", 40, white, glm::vec2(400.0f, 500.0f));
+	m_pLabelPlay = new Label("Play", "Dock51", 40, white, glm::vec2(490.0f, 600.0f));
 	m_pLabelPlay->setParent(this);
 	addChild(m_pLabelPlay);
 

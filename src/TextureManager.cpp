@@ -148,7 +148,7 @@ void TextureManager::draw(const std::string& id, const int x, const int y, const
 	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[id].get(), &srcRect, &destRect, angle, nullptr, flip);
 }
 
-void TextureManager::draw(const std::string& id, int x, int y, double angle, int alpha, bool centered, SDL_RendererFlip flip, int dstx, int dsty)
+void TextureManager::draw(const std::string& id, int x, int y, double angle, int alpha, SDL_RendererFlip flip, int dstx, int dsty)
 {
 
 	SDL_Rect srcRect;
@@ -166,18 +166,10 @@ void TextureManager::draw(const std::string& id, int x, int y, double angle, int
 	destRect.w = dstx;
 	destRect.h = dsty;
 
-	if (centered) {
-		const int xOffset = textureWidth * 0.5;
-		const int yOffset = textureHeight * 0.5;
-		destRect.x = x - xOffset;
-		destRect.y = y - yOffset;
-	}
-	else {
-		destRect.x = x;
-		destRect.y = y;
-	}
+	destRect.x = x;
+	destRect.y = y;
 	
-	SDL_SetTextureBlendMode(m_textureMap[id].get(), SDL_BLENDMODE_BLEND);
+
 	SDL_SetTextureAlphaMod(m_textureMap[id].get(), alpha);
 	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[id].get(), &srcRect, &destRect, angle, nullptr, flip);
 }
@@ -216,7 +208,7 @@ void TextureManager::drawTile(const std::string& id, int x, int y, int indexX,in
 
 void TextureManager::drawFrame(const std::string& id, const int x, const int y, const int frame_width, 
 							   const int frame_height, int &current_row,
-                               int &current_frame, int frame_number, int row_number, 
+							   int &current_frame, int frame_number, int row_number, 
 							   float speed_factor, const double angle, 
 							   const int alpha, const bool centered, const SDL_RendererFlip flip)
 {
