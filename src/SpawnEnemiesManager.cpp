@@ -5,6 +5,7 @@
 #include "MotherSpider.h"
 #include "EnemyWizard.h"
 #include "RatKing.h"
+#include "SkeletonEnemy.h"
 #include "Config.h"
 #include "Game.h"
 int SpawnEnemiesManager::randomNum = rand() % 120 + 300;
@@ -24,14 +25,19 @@ void SpawnEnemiesManager::level1()
 				if (!level[row][col]->isObstacle()) 
 				{
 					int randomEnemy = rand() % 100;
-					if (randomEnemy < 40)
+					if (randomEnemy <= 40)
 					{
 						Game::Instance()->getCurrentScene()->addChild(new EnemyWizard(level[row][col]->getTransform()->position));
 					}
 					else if(randomEnemy >= 40)
 					{
-						Game::Instance()->getCurrentScene()->addChild(new MotherSpider(level[row][col]->getTransform()->position));
+						Game::Instance()->getCurrentScene()->addChild(new SkeletonEnemy(level[row][col]->getTransform()->position));
 					}
+				if(randomEnemy < 40)
+				{
+					Game::Instance()->getCurrentScene()->addChild(new MotherSpider(level[row][col]->getTransform()->position));
+				}
+					
 					timer = 0;
 					randomNum = rand() % 120 + 300;
 					col = Config::COL_NUM;

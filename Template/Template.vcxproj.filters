@@ -182,6 +182,9 @@
     <ClCompile Include="..\src\SpawnEnemiesManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\SkeletonEnemy.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -361,6 +364,9 @@
     <ClInclude Include="..\src\SpawnEnemiesManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\SkeletonEnemy.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf">
@@ -423,6 +429,9 @@
       <Filter>Sprites</Filter>
     </Image>
     <Image Include="..\Assets\sprites\TileTest.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\skeleton.png">
       <Filter>Sprites</Filter>
     </Image>
   </ItemGroup>

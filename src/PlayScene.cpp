@@ -8,6 +8,7 @@
 #include <string>
 #include "RatKing.h"
 #include "SpawnEnemiesManager.h"
+#include "SkeletonEnemy.h"
 
 std::vector<VictorVanHelsing*> PlayScene::listPlayers;
 
