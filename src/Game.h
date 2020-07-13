@@ -17,7 +17,6 @@
 #include "StartScene.h"
 #include "PlayScene.h"
 #include "EndScene.h"
-#include "TransitionScene.h"
 
 #include "Config.h"
 
@@ -65,14 +64,11 @@ private:
 
 	// scene variables
 	Scene* m_currentScene;
-	Scene* m_pTransitionScene;
 	SceneState m_currentSceneState;
-	bool transition = false;
 
 	// storage structures
 	std::shared_ptr<SDL_Window> m_pWindow;
 	static Game* s_pInstance;
-	static std::vector<Scene*>& GetStates();
 };
 
 typedef Game TheGame;

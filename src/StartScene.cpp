@@ -50,6 +50,8 @@ void StartScene::handleEvents()
 	{
 		TheGame::Instance()->changeSceneState(PLAY_SCENE);
 	}
+
+	
 }
 
 void StartScene::start()

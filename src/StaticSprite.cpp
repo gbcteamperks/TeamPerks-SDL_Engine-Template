@@ -12,6 +12,7 @@ StaticSprite::StaticSprite(std::string spritePath, std::string name, float posX,
 
 	getTransform()->position = glm::vec2(posX, posY);
 	setType(STATICSPRITE);
+
 }
 
 StaticSprite::~StaticSprite()
@@ -26,15 +27,6 @@ void StaticSprite::draw()
 
 	// draw the ship
 	TheTextureManager::Instance()->draw(name, x, y, 0, 255, SDL_FLIP_NONE, Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT);
-}
-
-void StaticSprite::draw(int alpha)
-{
-	// alias for x and y
-	const auto x = getTransform()->position.x;
-	const auto y = getTransform()->position.y;
-
-	TheTextureManager::Instance()->draw(name, x, y, 0, alpha, true);
 }
 
 void StaticSprite::update()
