@@ -33,7 +33,7 @@ void PlayScene::draw()
 }
 void PlayScene::update()
 {
-	if (enemyKillCount > 0)
+	if (enemyKillCount > 4)
 	{
 		successful = true;
 	}

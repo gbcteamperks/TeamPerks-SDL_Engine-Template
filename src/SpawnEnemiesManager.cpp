@@ -31,6 +31,7 @@ void SpawnEnemiesManager::level1()
 					}
 					else if(randomEnemy >= 40)
 					{
+						//possible bug!!!!
 						Game::Instance()->getCurrentScene()->addChild(new SkeletonEnemy(level[row][col]->getTransform()->position));
 					}
 				if(randomEnemy < 40)
