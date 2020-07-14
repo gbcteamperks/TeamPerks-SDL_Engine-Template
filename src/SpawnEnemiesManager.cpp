@@ -31,13 +31,17 @@ void SpawnEnemiesManager::level1()
 					}
 					else if(randomEnemy >= 40)
 					{
-						//possible bug!!!!
-						Game::Instance()->getCurrentScene()->addChild(new SkeletonEnemy(level[row][col]->getTransform()->position));
+						////possible bug!!!!
+						//Game::Instance()->getCurrentScene()->addChild(new SkeletonEnemy(level[row][col]->getTransform()->position));
+
+						//			|
+						//Temp Fix \|/
+						Game::Instance()->getCurrentScene()->addChild(new MotherSpider(level[row][col]->getTransform()->position));
 					}
-				if(randomEnemy < 40)
+				/*if(randomEnemy < 40)
 				{
 					Game::Instance()->getCurrentScene()->addChild(new MotherSpider(level[row][col]->getTransform()->position));
-				}
+				}*/
 					
 					timer = 0;
 					randomNum = rand() % 120 + 300;
