@@ -175,6 +175,7 @@
     <ClCompile Include="..\src\LevelManager.cpp" />
     <ClCompile Include="..\src\LifeBar.cpp" />
     <ClCompile Include="..\src\Needle.cpp" />
+    <ClCompile Include="..\src\SkeletonEnemy.cpp" />
     <ClCompile Include="..\src\SpawnEnemiesManager.cpp" />
     <ClCompile Include="..\src\TransitionScene.cpp" />
     <ClCompile Include="..\src\UIElement.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="..\src\LevelManager.h" />
     <ClInclude Include="..\src\LifeBar.h" />
     <ClInclude Include="..\src\Needle.h" />
+    <ClInclude Include="..\src\SkeletonEnemy.h" />
     <ClInclude Include="..\src\SpawnEnemiesManager.h" />
     <ClInclude Include="..\src\TransitionScene.h" />
     <ClInclude Include="..\src\UIElement.h" />
@@ -286,6 +288,7 @@
     <Image Include="..\Assets\sprites\magicenemy.png" />
     <Image Include="..\Assets\sprites\megaman-idle.png" />
     <Image Include="..\Assets\sprites\megaman-run.png" />
+    <Image Include="..\Assets\sprites\skeleton.png" />
     <Image Include="..\Assets\sprites\spiderBig.png" />
     <Image Include="..\Assets\sprites\spiderExplode.png" />
     <Image Include="..\Assets\sprites\TileTest.png" />

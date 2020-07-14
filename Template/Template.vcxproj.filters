@@ -182,8 +182,8 @@
     <ClCompile Include="..\src\SpawnEnemiesManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\EnemyLifeBar.cpp">
-      <Filter>UI Objects</Filter>
+    <ClCompile Include="..\src\SkeletonEnemy.cpp">
+      <Filter>Game Objects</Filter>
     </ClCompile>
     <ClCompile Include="..\src\TransitionScene.cpp">
       <Filter>Scenes</Filter>
@@ -367,8 +367,8 @@
     <ClInclude Include="..\src\SpawnEnemiesManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\EnemyLifeBar.h">
-      <Filter>UI Objects</Filter>
+    <ClInclude Include="..\src\SkeletonEnemy.h">
+      <Filter>Game Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\src\TransitionScene.h">
       <Filter>Scenes</Filter>
@@ -435,6 +435,9 @@
       <Filter>Sprites</Filter>
     </Image>
     <Image Include="..\Assets\sprites\TileTest.png">
+      <Filter>Sprites</Filter>
+    </Image>
+    <Image Include="..\Assets\sprites\skeleton.png">
       <Filter>Sprites</Filter>
     </Image>
   </ItemGroup>
