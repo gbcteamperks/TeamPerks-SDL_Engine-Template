@@ -23,6 +23,7 @@ class PlayScene : public Scene
 {
 public:
 	PlayScene();
+	PlayScene(int);
 	~PlayScene();
 
 	// Scene LifeCycle Functions
@@ -38,6 +39,8 @@ public:
 	std::vector<DisplayObject*>& getObstacles() { return obstacle_List; }
 
 	static std::vector<VictorVanHelsing*> listPlayers;
+	int getLevelNumber();
+	void invokeTransition();
 	
 private:
 	glm::vec2 m_mousePosition;
@@ -45,6 +48,12 @@ private:
 	StaticSprite* m_pBkg{};
 	int m_currentTime = 0;
 	int m_prevTime = 0;
+
+	int enemyKillCount = 0;
+	//transition to next scene
+	bool successful = false;
+	int levelNumber;
+	std::string levelNumberConcatenate;
 
 	
 
