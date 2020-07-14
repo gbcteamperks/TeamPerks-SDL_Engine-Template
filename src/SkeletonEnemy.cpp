@@ -8,8 +8,8 @@
 SkeletonEnemy::SkeletonEnemy(glm::vec2 position)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
-		".../Assets/sprites/skeleton.txt",
-		".../Assets/sprites/skeleton.png",
+		"../Assets/sprites/skeleton.txt",
+		"../Assets/sprites/skeleton.png",
 		"skeleton");
 
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("skeleton");
