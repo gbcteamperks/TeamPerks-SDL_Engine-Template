@@ -25,23 +25,19 @@ void SpawnEnemiesManager::level1()
 				if (!level[row][col]->isObstacle()) 
 				{
 					int randomEnemy = rand() % 100;
-					if (randomEnemy <= 40)
+					if (randomEnemy <= 30)
 					{
 						Game::Instance()->getCurrentScene()->addChild(new EnemyWizard(level[row][col]->getTransform()->position));
 					}
-					else if(randomEnemy >= 40)
+					else if(randomEnemy >= 31 && randomEnemy <= 64)
 					{
-						////possible bug!!!!
-						//Game::Instance()->getCurrentScene()->addChild(new SkeletonEnemy(level[row][col]->getTransform()->position));
-
-						//			|
-						//Temp Fix \|/
+						//possible bug!!!!
+						Game::Instance()->getCurrentScene()->addChild(new SkeletonEnemy(level[row][col]->getTransform()->position));
+					}
+					else if(randomEnemy >= 65)
+					{
 						Game::Instance()->getCurrentScene()->addChild(new MotherSpider(level[row][col]->getTransform()->position));
 					}
-				/*if(randomEnemy < 40)
-				{
-					Game::Instance()->getCurrentScene()->addChild(new MotherSpider(level[row][col]->getTransform()->position));
-				}*/
 					
 					timer = 0;
 					randomNum = rand() % 120 + 300;
