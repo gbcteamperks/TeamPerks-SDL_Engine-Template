@@ -297,7 +297,7 @@
   <ItemGroup>
     <Text Include="..\Assets\data\Level.txt" />
     <Text Include="..\Assets\data\Level1.txt" />
-    <Text Include="..\Assets\data\Level32.txt" />
+    <Text Include="..\Assets\data\Level2.txt" />
     <Text Include="..\Assets\sprites\atlas.txt" />
     <Text Include="..\Assets\sprites\BlueGem.txt" />
     <Text Include="..\Assets\sprites\Endsheet.txt" />

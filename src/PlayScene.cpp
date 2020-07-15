@@ -33,7 +33,7 @@ void PlayScene::draw()
 }
 void PlayScene::update()
 {
-	if (enemyKillCount > 4)
+	if (enemyKillCount > 0)
 	{
 		successful = true;
 	}
@@ -292,7 +292,7 @@ void PlayScene::collisions()
 				
 				}
 				//PlAYER ABILITY AND BOSS
-				if (getDisplayList()[i]->getType() == PLAYERABILITY && getDisplayList()[k]->getType() == BOSS)
+				else if (getDisplayList()[i]->getType() == PLAYERABILITY && getDisplayList()[k]->getType() == BOSS)
 				{
 					if (CollisionManager::AABBCheckBoss(getDisplayList()[i], getDisplayList()[k])) {
 						if ((getDisplayList()[k])->getLife() > 0) {

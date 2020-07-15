@@ -188,6 +188,9 @@
     <ClCompile Include="..\src\TransitionScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\EnemyLifeBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -373,6 +376,9 @@
     <ClInclude Include="..\src\TransitionScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\EnemyLifeBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf">
@@ -466,7 +472,7 @@
     <Text Include="..\Assets\sprites\TileData.txt">
       <Filter>LevelData</Filter>
     </Text>
-    <Text Include="..\Assets\data\Level32.txt">
+    <Text Include="..\Assets\data\Level2.txt">
       <Filter>LevelData</Filter>
     </Text>
   </ItemGroup>

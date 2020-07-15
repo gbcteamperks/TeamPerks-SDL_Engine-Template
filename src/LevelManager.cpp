@@ -121,6 +121,7 @@ void LevelManager::clearTiles()
 		delete m_tiles[t];
 		m_tiles[t] = nullptr;
 	}
+	m_tiles.clear();
 }
 
 void LevelManager::clearLevel()
@@ -133,6 +134,7 @@ void LevelManager::clearLevel()
 			m_level[row][col] = nullptr;
 		}
 	}
+	m_obstacles.clear();
 }
 
 bool LevelManager::checkCollision(GameObject* obj, const int dX, const int dY) //kinda took this out
