@@ -22,7 +22,7 @@ EnemyWizard::EnemyWizard(glm::vec2 position) : m_currentAnimationState(BOSSONE_W
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	addAbility(new Fireball());
-	setType(ENEMY);
+	setType(BOSS);
 
 	m_buildAnimations();
 

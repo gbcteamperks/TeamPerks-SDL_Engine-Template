@@ -12,16 +12,16 @@ EnemyLifeBar::~EnemyLifeBar()
 
 void EnemyLifeBar::draw()
 {
-	TextureManager::Instance()->draw("EnemyLifeBarRed", dstx, dsty, 0.0, 255, SDL_FLIP_NONE, 50, 5);
-	TextureManager::Instance()->draw("EnemyLifeBarGreen", dstx, dsty, 0.0, 255, SDL_FLIP_NONE, greenx, 5);
+	TextureManager::Instance()->draw("EnemyLifeBarRed", dstx, dsty, 0.0, 255, SDL_FLIP_NONE, 50, 2);
+	TextureManager::Instance()->draw("EnemyLifeBarGreen", dstx, dsty, 0.0, 255, SDL_FLIP_NONE, greenx, 2);
 }
 
-void EnemyLifeBar::update(GameObject * player)
+void EnemyLifeBar::update(GameObject * enemy)
 {
-	dstx = player->getTransform()->position.x - 25;
-	dsty = player->getTransform()->position.y - 20;
+	dstx = enemy->getTransform()->position.x - 25;
+	dsty = enemy->getTransform()->position.y - 20;
 
-	greenx = player->getLife() * .50; 
+	greenx = enemy->getLife() * .50;
 
 }
 

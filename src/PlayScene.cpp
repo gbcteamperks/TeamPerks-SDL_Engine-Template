@@ -278,15 +278,37 @@ void PlayScene::collisions()
 				if (getDisplayList()[i]->getType() == PLAYERABILITY && getDisplayList()[k]->getType() == ENEMY)
 				{
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
-						//if((getDisplayList()[k]).m_life==0) Add the ability damage on the enemy
-						dynamic_cast<Enemy*>(getDisplayList()[k])->dropAbility();
-						getDisplayList()[k]->clean();
-						delete getDisplayList()[k];
-						getDisplayList()[k] = nullptr;
-						enemyKillCount++;
+						if ((getDisplayList()[k])->getLife() > 0) {
+
+							getDisplayList()[k]->getLife() -= getDisplayList()[i]->getDamage();
+						}
+						else {
+							getDisplayList()[k]->clean();
+							delete getDisplayList()[k];
+							getDisplayList()[k] = nullptr;
+							enemyKillCount++;
+						}
 					}
 				
 				}
+				//PlAYER ABILITY AND BOSS
+				if (getDisplayList()[i]->getType() == PLAYERABILITY && getDisplayList()[k]->getType() == BOSS)
+				{
+					if (CollisionManager::AABBCheckBoss(getDisplayList()[i], getDisplayList()[k])) {
+						if ((getDisplayList()[k])->getLife() > 0) {
+
+							getDisplayList()[k]->getLife() -= getDisplayList()[i]->getDamage();
+						}
+						else {
+							getDisplayList()[k]->clean();
+							delete getDisplayList()[k];
+							getDisplayList()[k] = nullptr;
+							enemyKillCount++;
+						}
+					}
+
+				}
+
 				//VICTOR AND PICKEABLE OBJECTS
 				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == PICKABLE)
 				{

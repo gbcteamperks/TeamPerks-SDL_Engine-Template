@@ -60,6 +60,7 @@ public:
 	//--GameObject* getCurrentObject();
 	BoundaryCollided m_boundHit = NOCOLLISION;		//refer above enum
 	virtual int& getLife();
+	virtual int& getDamage();
 protected:
 	// transform component
 	Transform m_transform;
@@ -78,6 +79,7 @@ protected:
 	int m_angle;
 	GameObject* m_currentObject;
 	int* m_pLife;
+	int* m_pDamage;
 
 };
 

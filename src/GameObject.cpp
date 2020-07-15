@@ -157,7 +157,11 @@ void GameObject::fleeBehaviour(GameObject* obj)
 
 int& GameObject::getLife()
 {
-	
 	*GameObject::m_pLife = 100;
 	return* m_pLife;
+}
+int& GameObject::getDamage()
+{
+	*GameObject::m_pDamage = 25;
+	return*m_pLife;
 }

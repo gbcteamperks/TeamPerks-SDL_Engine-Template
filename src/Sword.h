@@ -22,7 +22,7 @@ public:
 	void pickable(glm::vec2 position);
 
 	Sword* getAbility() override { return new Sword(); }
-
+	int& getDamage() { return m_damage; }
 private:
 
 	bool m_running = false;
