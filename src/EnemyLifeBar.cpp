@@ -10,16 +10,19 @@ EnemyLifeBar::EnemyLifeBar()
 EnemyLifeBar::~EnemyLifeBar()
 = default;
 
-void EnemyLifeBar::draw()
+void EnemyLifeBar::draw(const int a)
 {
-	TextureManager::Instance()->draw("EnemyLifeBarRed", dstx, dsty, 0.0, 255, SDL_FLIP_NONE, 50, 2);
+	TextureManager::Instance()->draw("EnemyLifeBarRed", dstx, dsty, 0.0, 255, SDL_FLIP_NONE, a * 0.5, 2);
 	TextureManager::Instance()->draw("EnemyLifeBarGreen", dstx, dsty, 0.0, 255, SDL_FLIP_NONE, greenx, 2);
+}
+void EnemyLifeBar::draw() {
+
 }
 
 void EnemyLifeBar::update(GameObject * enemy)
 {
-	dstx = enemy->getTransform()->position.x - 25;
-	dsty = enemy->getTransform()->position.y - 20;
+	dstx = enemy->getTransform()->position.x - enemy->getHeight()*.5;
+	dsty = enemy->getTransform()->position.y - enemy->getHeight() *.5;
 
 	greenx = enemy->getLife() * .50;
 

@@ -36,6 +36,8 @@ private:
 	float m_prevTime = 0.00f;
 	int m_bulletXPosition = 0;
 	float m_currentTime = 0.00f;
+	//UI
 	int m_life;
+	int m_lifeRedCounter;
 	std::vector<UIElement*> UI;
 };

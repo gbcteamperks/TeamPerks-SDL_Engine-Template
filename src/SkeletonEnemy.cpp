@@ -4,6 +4,7 @@
 #include "LevelManager.h"
 #include "MathManager.h"
 #include "SpriteSheet.h"
+#include "EnemyLifeBar.h"
 
 SkeletonEnemy::SkeletonEnemy(glm::vec2 position)
 {
@@ -27,6 +28,10 @@ SkeletonEnemy::SkeletonEnemy(glm::vec2 position)
 	setType(ENEMY);
 
 	m_buildAnimations();
+	// Life
+	m_Life = 200;
+	m_lifeRedCounter = m_Life;
+	UI.push_back(new EnemyLifeBar);
 }
 
 SkeletonEnemy::~SkeletonEnemy()
@@ -37,6 +42,11 @@ SkeletonEnemy::~SkeletonEnemy()
 void SkeletonEnemy::draw()
 {
 	Animate();
+	for (auto s : UI)
+	{
+		s->draw(this->m_lifeRedCounter);
+	}
+
 }
 
 void SkeletonEnemy::update()
@@ -82,6 +92,11 @@ void SkeletonEnemy::update()
 
 	}
 	tempcounter++;
+	for (auto s : UI)
+	{
+		s->update(this);
+	}
+
 }
 
 void SkeletonEnemy::clean()

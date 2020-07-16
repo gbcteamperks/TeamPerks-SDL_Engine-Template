@@ -4,7 +4,7 @@ Orb::Orb()
 {
 	//m_velocity = 6;
 	m_running = false;
-	m_damage = 0;
+	m_damage = 15;
 
 	//getTransform()->position = glm::vec2(0.0f,0.0f);
 	TheTextureManager::Instance()->load("../Assets/Sprites/spiderExplode.png", "spiderExplode");

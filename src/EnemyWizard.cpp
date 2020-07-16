@@ -28,6 +28,7 @@ EnemyWizard::EnemyWizard(glm::vec2 position) : m_currentAnimationState(BOSSONE_W
 
 	// Life
 	m_Life = 100;
+	m_lifeRedCounter = m_Life;
 	UI.push_back(new EnemyLifeBar);
 }
 
@@ -64,7 +65,7 @@ void EnemyWizard::draw()
 	}
 	for (auto s : UI)
 	{
-		s->draw();
+		s->draw(this->m_lifeRedCounter);
 	}
 
 }

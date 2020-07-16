@@ -10,6 +10,10 @@ void UIElement::draw()
 {
 	
 }
+void UIElement::draw(const int a)
+{
+
+}
 
 void UIElement::update(GameObject* player)
 {

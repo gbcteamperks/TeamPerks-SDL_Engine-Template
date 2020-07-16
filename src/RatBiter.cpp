@@ -4,7 +4,7 @@ RatBiter::RatBiter()
 {
 	//m_velocity = 6;
 	m_running = false;
-	m_damage = 0;
+	m_damage = 40;
 
 	TextureManager::Instance()->load("../Assets/sprites/rat_small.png", "ratsmall");
 

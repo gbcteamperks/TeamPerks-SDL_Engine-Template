@@ -20,6 +20,7 @@ public:
 	void sound();
 	void animation();
 	void pickable(glm::vec2 position) ;
+	int& getDamage() { return m_damage; }
 
 	Fireball* getAbility() override { return new Fireball(); }
 private:

@@ -17,6 +17,7 @@ public:
 	void sound();
 	void animation();
 	void pickable(glm::vec2 position);
+	int& getDamage() { return m_damage; }
 
 	Orb* getAbility() override { return new Orb(); }
 

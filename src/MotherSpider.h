@@ -4,6 +4,7 @@
 #include "PlayerAnimationState.h"
 #include "SpriteSheet.h"
 #include "Ability.h"
+#include"UIElement.h"
 #include <map>
 
 class MotherSpider : public Enemy {
@@ -16,6 +17,7 @@ public:
 	virtual void clean() override;
 
 	void useCurrentAbility();
+	int& getLife() override { return m_Life; }
 
 private:
 	//animation variables
@@ -26,5 +28,9 @@ private:
 	SpriteSheet* m_pSpriteSheet;
 	PlayerAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
+	//UI
+	std::vector<UIElement*> UI;
+	int m_lifeRedCounter;
+	int m_life;
 
 };

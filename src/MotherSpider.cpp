@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "LevelManager.h"
 #include "MathManager.h"
+#include "EnemyLifeBar.h"
 
 MotherSpider::MotherSpider(glm::vec2 position)
 {
@@ -30,6 +31,9 @@ MotherSpider::MotherSpider(glm::vec2 position)
 	addAbility(new Orb());
 
 	m_buildAnimations();
+	m_Life = 150;
+	m_lifeRedCounter = m_Life;
+	UI.push_back(new EnemyLifeBar);
 }
 
 MotherSpider::~MotherSpider()
@@ -39,6 +43,11 @@ MotherSpider::~MotherSpider()
 void MotherSpider::draw()
 {
 	Animate();
+	for (auto s : UI)
+	{
+		s->draw(this->m_lifeRedCounter);
+	}
+
 }
 
 void MotherSpider::update()
@@ -86,6 +95,11 @@ void MotherSpider::update()
 		}
 	}
 	tempCounter++;
+	for (auto s : UI)
+	{
+		s->update(this);
+	}
+
 }
 
 void MotherSpider::clean()
