@@ -58,6 +58,8 @@ Sword::~Sword()
 
 void Sword::update()
 {
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
 	
 	if (abilityTimer > 15) {
 		m_abilityDone = true;

@@ -3,6 +3,7 @@
 #include <iostream>
 #include "CollisionManager.h"
 #include "MathManager.h"
+#include "EventManager.h"
 
 GameObject::GameObject():
 	m_width(0), m_height(0), m_type(NONE)
@@ -34,6 +35,16 @@ int GameObject::getHeight() const
 	return m_height;
 }
 
+int GameObject::getPosX() const
+{
+	return m_posX;
+}
+
+int GameObject::getPosY() const
+{
+	return m_posY;
+}
+
 int GameObject::getAngle() const
 {
 	return m_angle;
@@ -59,6 +70,16 @@ void GameObject::setHeight(const int new_height)
 	m_height = new_height;
 }
 
+void GameObject::setPosX(int new_posX)
+{
+	m_posX = new_posX;
+}
+
+void GameObject::setPosY(int new_posY)
+{
+	m_posY = new_posY;
+}
+
 void GameObject::setAngle(int new_angle)
 {
 	m_angle = new_angle;
@@ -73,6 +94,7 @@ void GameObject::setParentType(const GameObjectType new_type)
 {
 	m_parent = new_type;
 }
+
 
 //boundry restrict
 void GameObject::m_BoundsRestrict()
@@ -154,6 +176,7 @@ void GameObject::fleeBehaviour(GameObject* obj)
 		this->getTransform()->position.y += this->getRigidBody()->velocity.y* sin(angle);
 	}
 }
+
 
 int& GameObject::getLife()
 {

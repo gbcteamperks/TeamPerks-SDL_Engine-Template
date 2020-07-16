@@ -10,6 +10,7 @@ StaticSprite::StaticSprite(std::string spritePath, std::string name, float posX,
 	setWidth(size.x);
 	setHeight(size.y);
 
+
 	getTransform()->position = glm::vec2(posX, posY);
 	setType(STATICSPRITE);
 

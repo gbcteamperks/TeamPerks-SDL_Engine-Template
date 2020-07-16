@@ -7,6 +7,7 @@
 #include "MathManager.h"
 #include "EnemyLifeBar.h"
 
+
 MotherSpider::MotherSpider(glm::vec2 position)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
@@ -16,11 +17,14 @@ MotherSpider::MotherSpider(glm::vec2 position)
 
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("spiderBig");
 	m_pSpriteSheet->setWidthAndHeight(128, 128);
-	// set frame width
+	
+	// set frame width for the collision
 	setWidth(64);
 
-	// set frame height
+	// set frame height for the collision
 	setHeight(64);
+	setPosX(position.x);
+	setPosY(position.y);
 
 	getTransform()->position = position;
 	getRigidBody()->velocity = glm::vec2(2.0f, 2.0f);
@@ -43,6 +47,7 @@ MotherSpider::~MotherSpider()
 void MotherSpider::draw()
 {
 	Animate();
+
 	for (auto s : UI)
 	{
 		s->draw(this->m_lifeRedCounter);
@@ -52,7 +57,8 @@ void MotherSpider::draw()
 
 void MotherSpider::update()
 {
-	
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
 
 	checkCollisionWithLevel(LevelManager::Instance()->getObstacles());
 

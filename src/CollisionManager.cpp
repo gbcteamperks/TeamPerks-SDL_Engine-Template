@@ -2,7 +2,8 @@
 #include "MathManager.h"
 #include "Util.h"
 #include <algorithm>
-
+#include "Renderer.h"
+#include "Util.h"
 
 
 int CollisionManager::squaredDistance(const glm::vec2 p1, const glm::vec2 p2)
@@ -48,8 +49,8 @@ bool CollisionManager::squaredRadiusCheck(GameObject* object1, GameObject* objec
 bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 {
 	// prepare relevant variables
-	const auto p1 = object1->getTransform()->position;
-	const auto p2 = object2->getTransform()->position;
+	glm::vec2 p1 = { object1->getPosX() - object1->getWidth() * 0.5, object1->getPosY() - object1->getHeight() * 0.5 }; //collision box to the top corner
+	glm::vec2 p2 = { object2->getPosX() - object2->getWidth() * 0.5, object2->getPosY() - object2->getHeight() * 0.5 }; //collision box to the top corner
 	const float p1Width = object1->getWidth();
 	const float p1Height = object1->getHeight();
 	const float p2Width = object2->getWidth();
@@ -83,8 +84,8 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 bool CollisionManager::AABBCheckBoss(GameObject* object1, GameObject* object2)
 {
 	// prepare relevant variables
-	const auto p1 = object1->getTransform()->position;
-	const auto p2 = object2->getTransform()->position;
+	glm::vec2 p1 = { object1->getPosX() - object1->getWidth() * 0.5, object1->getPosY() - object1->getHeight() * 0.5 }; //collision box to the top corner
+	glm::vec2 p2 = { object2->getPosX() - object2->getWidth() * 0.5, object2->getPosY() - object2->getHeight() * 0.5 }; //collision box to the top corner
 	const float p1Width = object1->getWidth();
 	const float p1Height = object1->getHeight();
 	const float p2Width = object2->getWidth();
@@ -119,14 +120,18 @@ bool CollisionManager::AABBCheckBoss(GameObject* object1, GameObject* object2)
 bool CollisionManager::AABBCheckUpdatingPosition(GameObject* object1, GameObject* object2)
 {
 	// prepare relevant variables
-	const auto p1 = object1->getTransform()->position;
+	glm::vec2 p1 = {object1->getPosX() - object1->getWidth()*0.5, object1->getPosY() - object1->getHeight()*0.5}; //collision box to the top corner
 	const auto p2 = object2->getTransform()->position;
 	const float p1Width = object1->getWidth();
 	const float p1Height = object1->getHeight();
 	const float p2Width = object2->getWidth();
 	const float p2Height = object2->getHeight();
-	glm::vec2 p1Center = { p1.x + p1Width * 0.5 , p1.y + p1Height * 0.5 };
-	glm::vec2 p2Center = { p2.x + p2Width * 0.5 , p2.y + p2Height * 0.5 };
+	
+	
+	
+	//p2 = {p2.x + p2Width * 0.4,p2.y +  p2Height * 0.3};
+	//glm::vec2 p1Center = { p1.x + p1Width * 0.5 , p1.y + p1Height * 0.5 };
+	//glm::vec2 p2Center = { p2.x + p2Width * 0.5 , p2.y + p2Height * 0.5 };
 	int angle;
 
 	if (
@@ -136,7 +141,7 @@ bool CollisionManager::AABBCheckUpdatingPosition(GameObject* object1, GameObject
 		p1.y + p1Height > p2.y
 		)
 	{
-		angle = MAMA::AngleBetweenPoints(p1Center, p2Center);
+		angle = MAMA::AngleBetweenPoints(p1, p2);
 		if (angle > 45 && angle <= 135) //p2 is under p1
 		{
 			object1->getTransform()->position.y -= object1->getRigidBody()->velocity.y;

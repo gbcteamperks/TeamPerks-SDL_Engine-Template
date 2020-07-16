@@ -8,7 +8,7 @@
 
 class RatKing : public Enemy{
 public:
-	RatKing();
+	RatKing(glm::vec2 position);
 	~RatKing();
 
 	virtual void draw() override;

@@ -74,6 +74,8 @@ Orb::~Orb()
 
 void Orb::update()
 {
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
 	if (m_running && !m_pickable)
 	{
 		getTransform()->position += getRigidBody()->velocity;

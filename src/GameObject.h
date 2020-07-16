@@ -7,6 +7,7 @@
 //#include "CollisionManager.h"
 #include <string>
 #include <vector>
+
 // enums
 #include "GameObjectType.h"
 
@@ -43,10 +44,14 @@ public:
 	// getters and setters for game object properties
 	int getWidth() const;
 	int getHeight() const;
+	int getPosX() const;
+	int getPosY() const;
 	int getAngle() const;
 
 	void setWidth(int new_width);
 	void setHeight(int new_height);
+	void setPosX(int new_posX);
+	void setPosY(int new_posY);
 	void setAngle(int new_angle);
 	GameObjectType getType() const;
 	GameObjectType getParentType() const;
@@ -68,9 +73,11 @@ protected:
 	// rigid body component
 	RigidBody m_rigidBody;
 
-	// size variables
+	// size variables for collision
 	int m_width;
 	int m_height;
+	int m_posX;
+	int m_posY;
 	GameObjectType m_type;
 	GameObjectType m_parent;
 	
@@ -80,6 +87,8 @@ protected:
 	GameObject* m_currentObject;
 	int* m_pLife;
 	int* m_pDamage;
+
+	//debug
 
 };
 

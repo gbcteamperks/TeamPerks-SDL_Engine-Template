@@ -259,3 +259,12 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+Template/Intermediate/Debug/Template.tlog/CL.command.1.tlog
+Template/Intermediate/Debug/Template.tlog/CL.read.1.tlog
+Template/Intermediate/Debug/Template.tlog/CL.write.1.tlog
+Template/Intermediate/Debug/Template.tlog/link.command.1.tlog
+Template/Intermediate/Debug/Template.tlog/link.read.1.tlog
+Template/Intermediate/Debug/Template.tlog/link.write.1.tlog
+Template/Intermediate/Debug/Template.tlog/Template.lastbuildstate
+Template/Intermediate/Debug/vc142.idb
+*.tlog

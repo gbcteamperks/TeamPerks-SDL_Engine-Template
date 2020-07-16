@@ -49,6 +49,8 @@ ExplosiveSpider::ExplosiveSpider(glm::vec2 position, bool running, int angle, bo
 
 	setWidth(30);//for collision
 	setHeight(30);
+	setPosX(position.x);
+	setPosY(position.y);
 	getRigidBody()->isColliding = false;
 	if (m_pickable) {
 		setType(PICKABLE);
@@ -71,6 +73,8 @@ ExplosiveSpider::~ExplosiveSpider()
 
 void ExplosiveSpider::update()
 {
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
 	if (getRigidBody()->isColliding || checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))
 	{
 		m_running = false;

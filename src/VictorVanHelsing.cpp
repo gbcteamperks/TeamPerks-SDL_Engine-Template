@@ -8,6 +8,7 @@
 #include "Needle.h"
 #include "LevelManager.h"
 #include "ExplosiveSpider.h"
+#include "Util.h"
 int VictorVanHelsing::numberOfPlayers = 0;
 VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICTOR_WALK_UP)
 {
@@ -21,11 +22,11 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 	
 	m_playerNumber = numberOfPlayers; // assign an id to this player
 	numberOfPlayers++; //add a player every time a victor is created
-	// set frame width
-	setWidth(40);
-
-	// set frame height
-	setHeight(60);
+	// set collision Box.
+	setWidth(35);
+	setHeight(48);
+	setPosX(pos.x);
+	setPosY(pos.y+ 8);
 
 	getTransform()->position = pos;
 	getRigidBody()->velocity = glm::vec2(2.0f, 2.0f);
@@ -50,6 +51,7 @@ void VictorVanHelsing::draw()
 	// alias for x and y
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
+	
 
 	switch (m_currentAnimationState)
 	{
@@ -84,6 +86,8 @@ void VictorVanHelsing::draw()
 
 void VictorVanHelsing::update()
 {
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y + 8);
 	m_BoundsRestrict();
 	checkCollisionWithLevel(LVLMAN::Instance()->getObstacles());
 

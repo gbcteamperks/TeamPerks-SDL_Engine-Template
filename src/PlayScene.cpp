@@ -9,6 +9,7 @@
 #include "RatKing.h"
 #include "SpawnEnemiesManager.h"
 #include "SkeletonEnemy.h"
+#include "Util.h"
 
 std::vector<VictorVanHelsing*> PlayScene::listPlayers;
 
@@ -30,6 +31,13 @@ void PlayScene::draw()
 {
 	LVLMAN::Instance()->render();
 	drawDisplayList();
+	if (m_debugView)
+	{
+		for (auto o : getDisplayList())
+		{
+			Util::DrawRect({ o->getPosX() - o->getWidth() * 0.5, o->getPosY() - o->getHeight() * 0.5 }, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+		}
+	}
 }
 void PlayScene::update()
 {
@@ -192,7 +200,10 @@ void PlayScene::handleEvents()
 		{
 			TheGame::Instance()->changeSceneState(END_SCENE);
 		}
-
+		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_H)) // debug view
+		{
+			m_debugView = !m_debugView;
+		}
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_T))
 		{
 

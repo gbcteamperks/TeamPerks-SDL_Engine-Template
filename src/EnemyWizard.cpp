@@ -2,6 +2,7 @@
 #include "EnemyLifeBar.h"
 #include "Fireball.h"
 
+
 EnemyWizard::EnemyWizard(glm::vec2 position) : m_currentAnimationState(BOSSONE_WALK_RIGHT)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
@@ -16,6 +17,8 @@ EnemyWizard::EnemyWizard(glm::vec2 position) : m_currentAnimationState(BOSSONE_W
 
 	// set frame height
 	setHeight(60);
+	setPosX(position.x);
+	setPosY(position.y);
 
 	getTransform()->position = position;
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
@@ -41,6 +44,7 @@ void EnemyWizard::draw()
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
 
+	
 	// draw the player according to animation state
 	switch (m_currentAnimationState)
 	{
@@ -72,6 +76,8 @@ void EnemyWizard::draw()
 
 void EnemyWizard::update()
 {
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
 	runHereThere();
 	bossAttack();
 	for (auto s : UI)

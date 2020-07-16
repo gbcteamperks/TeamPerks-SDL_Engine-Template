@@ -5,6 +5,7 @@
 #include "MathManager.h"
 #include "SpriteSheet.h"
 #include "EnemyLifeBar.h"
+#include "Util.h"
 
 SkeletonEnemy::SkeletonEnemy(glm::vec2 position)
 {
@@ -20,6 +21,8 @@ SkeletonEnemy::SkeletonEnemy(glm::vec2 position)
 
 	// set frame height
 	setHeight(64);
+	setPosX(position.x);
+	setPosY(position.y);
 
 	getTransform()->position = position;
 	getRigidBody()->velocity = glm::vec2(2.0f, 2.0f);
@@ -53,6 +56,9 @@ void SkeletonEnemy::update()
 {
 	checkCollisionWithLevel(LevelManager::Instance()->getObstacles());
 	
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
+
 	static int tempcounter = 0;
 	if (tempcounter > 60) //change state every 60 seconds
 	{

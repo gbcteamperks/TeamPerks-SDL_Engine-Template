@@ -1,8 +1,9 @@
 #include "RatKing.h"
 #include "RatBiter.h"
 #include "TextureManager.h"
+#include "Util.h"
 
-RatKing::RatKing()
+RatKing::RatKing(glm::vec2 position)
 {
 	TextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/rat_king.txt",
@@ -17,6 +18,8 @@ RatKing::RatKing()
 	//frame width and height
 	setWidth(96);
 	setHeight(96);
+	setPosX(position.x);
+	setPosY(position.y);
 	
 	getTransform()->position = glm::vec2(400.0f, 150.0f);;
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
@@ -37,6 +40,9 @@ void RatKing::draw()
 
 void RatKing::update()
 {
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
+
 	//update the functionality
 	static int tempCounter = 0;
 	

@@ -48,6 +48,7 @@ private:
 	StaticSprite* m_pBkg{};
 	int m_currentTime = 0;
 	int m_prevTime = 0;
+	bool m_debugView = false;
 
 	int enemyKillCount = 0;
 	//transition to next scene
