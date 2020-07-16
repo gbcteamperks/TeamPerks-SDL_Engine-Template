@@ -4,7 +4,7 @@ Fireball::Fireball()
 {
 	//m_velocity = 6;
 	m_running = false;
-	m_damage = 0;
+	m_damage = 10;
 
 	//getTransform()->position = glm::vec2(0.0f,0.0f);
 	TheTextureManager::Instance()->load("../Assets/Sprites/magicenemy-projectile.png", "circle");

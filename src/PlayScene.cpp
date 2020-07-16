@@ -33,7 +33,7 @@ void PlayScene::draw()
 }
 void PlayScene::update()
 {
-	if (enemyKillCount > 0)
+	if (enemyKillCount > 5)
 	{
 		successful = true;
 	}
@@ -277,17 +277,18 @@ void PlayScene::collisions()
 				//PLAYER ABILITIES AND ENEMIES
 				if (getDisplayList()[i]->getType() == PLAYERABILITY && getDisplayList()[k]->getType() == ENEMY)
 				{
-					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+					// **** Its the same code as the ability and boss check ****
+					if (CollisionManager::AABBCheckBoss(getDisplayList()[i], getDisplayList()[k])) {
 						if ((getDisplayList()[k])->getLife() > 0) {
 
 							getDisplayList()[k]->getLife() -= getDisplayList()[i]->getDamage();
 						}
-						else {
-							getDisplayList()[k]->clean();
-							delete getDisplayList()[k];
-							getDisplayList()[k] = nullptr;
-							enemyKillCount++;
-						}
+					}
+					if ((getDisplayList()[k])->getLife() <= 0){
+						getDisplayList()[k]->clean();
+						delete getDisplayList()[k];
+						getDisplayList()[k] = nullptr;
+						enemyKillCount++;
 					}
 				
 				}
@@ -299,7 +300,7 @@ void PlayScene::collisions()
 
 							getDisplayList()[k]->getLife() -= getDisplayList()[i]->getDamage();
 						}
-						else {
+						if ((getDisplayList()[k])->getLife() <= 0) {
 							getDisplayList()[k]->clean();
 							delete getDisplayList()[k];
 							getDisplayList()[k] = nullptr;

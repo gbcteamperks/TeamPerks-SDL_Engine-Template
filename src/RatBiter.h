@@ -19,6 +19,7 @@ public:
 	void stop();
 	void sound();
 	void animation();
+	int& getDamage() { return m_damage; }
 	void pickable(glm::vec2 position);
 
 	RatBiter* getAbility() override 

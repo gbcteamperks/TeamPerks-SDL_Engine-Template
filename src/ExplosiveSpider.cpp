@@ -5,7 +5,7 @@ ExplosiveSpider::ExplosiveSpider()
 {
 	//m_velocity = 6;
 	m_running = false;
-	m_damage = 0;
+	m_damage = 30;
 
 	//getTransform()->position = glm::vec2(0.0f,0.0f);
 	TheTextureManager::Instance()->load("../Assets/Sprites/spiderExplode.png", "spiderExplode");
@@ -35,7 +35,7 @@ ExplosiveSpider::ExplosiveSpider(glm::vec2 position, bool running, int angle, bo
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_damage = 0;
+	m_damage = 30;
 
 	//animation
 
