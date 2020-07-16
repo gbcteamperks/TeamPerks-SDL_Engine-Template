@@ -75,7 +75,8 @@ void ExplosiveSpider::update()
 {
 	setPosX(getTransform()->position.x);
 	setPosY(getTransform()->position.y);
-	if (getRigidBody()->isColliding || checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))
+
+	if (checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))
 	{
 		m_running = false;
 	}
@@ -325,6 +326,7 @@ void ExplosiveSpider::AnimateDeath()
 	// alias for x and y
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
+
 	float animationVelocity = 0.50f;
 	if (TheTextureManager::Instance()->playAnimation("explosionSpider", m_pAnimations["Explosion"],
 		x, y, animationVelocity, 0, 255, true))

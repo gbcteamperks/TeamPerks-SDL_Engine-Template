@@ -96,7 +96,7 @@ void Sword::execute(glm::vec2 position, int angle, bool enemyAbility)
 
 void Sword::stop()
 {
-	m_running = false;
+	//m_running = false;
 }
 
 void Sword::sound()

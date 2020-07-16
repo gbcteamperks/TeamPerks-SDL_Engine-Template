@@ -29,6 +29,8 @@ public:
 	static bool circleAABBCheck(GameObject* object1, GameObject* object2);
 
 	static bool pointRectCheck(glm::vec2 point, glm::vec2 rect_start, float rect_width, float rect_height);
+
+	static bool checkCollisionWithEnemy(GameObject* object1);
 	
 private:
 	CollisionManager();

@@ -294,23 +294,26 @@ void PlayScene::collisions()
 				{
 					// **** Its the same code as the ability and boss check ****
 					if (CollisionManager::AABBCheckBoss(getDisplayList()[i], getDisplayList()[k])) {
+						dynamic_cast<Ability*>(getDisplayList()[i])->stop();
 						if ((getDisplayList()[k])->getLife() > 0) {
 
 							getDisplayList()[k]->getLife() -= getDisplayList()[i]->getDamage();
 						}
+						if ((getDisplayList()[k])->getLife() <= 0) {
+							getDisplayList()[k]->clean();
+							delete getDisplayList()[k];
+							getDisplayList()[k] = nullptr;
+							enemyKillCount++;
+						}
 					}
-					if ((getDisplayList()[k])->getLife() <= 0){
-						getDisplayList()[k]->clean();
-						delete getDisplayList()[k];
-						getDisplayList()[k] = nullptr;
-						enemyKillCount++;
-					}
+					
 				
 				}
 				//PlAYER ABILITY AND BOSS
 				else if (getDisplayList()[i]->getType() == PLAYERABILITY && getDisplayList()[k]->getType() == BOSS)
 				{
 					if (CollisionManager::AABBCheckBoss(getDisplayList()[i], getDisplayList()[k])) {
+						dynamic_cast<Ability*>(getDisplayList()[i])->stop();
 						if ((getDisplayList()[k])->getLife() > 0) {
 
 							getDisplayList()[k]->getLife() -= getDisplayList()[i]->getDamage();
@@ -330,16 +333,14 @@ void PlayScene::collisions()
 				{
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
 						dynamic_cast<VictorVanHelsing*>(getDisplayList()[i])->addAbility(dynamic_cast<Ability*>(getDisplayList()[k])->getAbility());
-						getDisplayList()[k]->clean();
-						delete getDisplayList()[k];
-						getDisplayList()[k] = nullptr;
+						dynamic_cast<Ability*>(getDisplayList()[k])->stop();
 					}
 				}
 				//VICTOR AND ENEMYABILITIES
 				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == ENEMYABILITY)
 				{
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
-						
+						dynamic_cast<Ability*>(getDisplayList()[k])->stop();
 						getDisplayList()[i]->getLife() -= 5;
 						SoundManager::Instance().playSound("Grunt");
 						if (getDisplayList()[i]->getLife() == 0)

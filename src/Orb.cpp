@@ -113,6 +113,7 @@ void Orb::execute(glm::vec2 position, int angle, bool enemyAbility)
 void Orb::stop()
 {
 	m_running = false;
+	m_abilityDone = true;
 }
 
 void Orb::sound()

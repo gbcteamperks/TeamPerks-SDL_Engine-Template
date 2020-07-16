@@ -104,6 +104,7 @@ void Fireball::execute(glm::vec2 position, int angle, bool enemyAbility)
 void Fireball::stop()
 {
 	m_running = false;
+	m_abilityDone = true;
 }
 
 void Fireball::sound()

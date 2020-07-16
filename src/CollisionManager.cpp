@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "Renderer.h"
 #include "Util.h"
+#include "Game.h"
 
 
 int CollisionManager::squaredDistance(const glm::vec2 p1, const glm::vec2 p2)
@@ -391,6 +392,22 @@ bool CollisionManager::pointRectCheck(const glm::vec2 point, const glm::vec2 rec
 		point.y < topLeftY + height)
 	{
 		return true;
+	}
+	return false;
+}
+
+bool CollisionManager::checkCollisionWithEnemy(GameObject* object1)
+{
+	std::vector<DisplayObject*>* list = &Game::Instance()->getCurrentScene()->getDisplayList();
+	for (int i = 0; i < list->size(); i++)
+	{
+		if (list->at(i)->getType() == ENEMY)
+		{
+			if (CollisionManager::AABBCheckBoss(object1, list->at(i)))
+			{
+				return true;
+			}
+		}
 	}
 	return false;
 }

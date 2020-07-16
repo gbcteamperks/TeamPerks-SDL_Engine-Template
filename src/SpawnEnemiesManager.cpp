@@ -16,8 +16,8 @@ void SpawnEnemiesManager::level1()
 	auto level = LVLMAN::Instance()->getLevel();
 	if (timer > randomNum && countEnemies < 4)
 	{
-		int randomCol = rand() % Config::COL_NUM;
-		int randomRow = rand() % Config::ROW_NUM;
+		int randomCol = rand() % (Config::COL_NUM - 1) + 1 ;
+		int randomRow = rand() % (Config::ROW_NUM- 1) + 1;
 		for (int col = randomCol; col < Config::COL_NUM; col++)
 		{
 			for (int row = randomRow; row < Config::ROW_NUM; row++)
