@@ -55,6 +55,7 @@ private:
 	bool successful = false;
 	int levelNumber;
 	std::string levelNumberConcatenate;
+	std::string tileNumberConcatenate;
 
 	
 
