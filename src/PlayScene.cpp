@@ -216,7 +216,7 @@ void PlayScene::handleEvents()
 
 void PlayScene::start()
 {
-	LVLMAN::Instance()->loadTiles("../Assets/sprites/Level1_Tiles.png", "tiles", "../Assets/sprites/TileData.txt");
+	//LVLMAN::Instance()->loadTiles("../Assets/sprites/Level1_Tiles.png", "tiles", "../Assets/sprites/TileData.txt");
 	
 	
 	
@@ -224,19 +224,23 @@ void PlayScene::start()
 	{
 	case 1:
 		levelNumberConcatenate = "../Assets/data/Level" + std::to_string((levelNumber)) + ".txt";
+		tileNumberConcatenate = "../Assets/sprites/Level" + std::to_string((levelNumber)) + "_Tiles.png";
 		break;
 
 	case 2:
 		levelNumberConcatenate = "../Assets/data/Level" + std::to_string((levelNumber)) + ".txt";
+		tileNumberConcatenate = "../Assets/sprites/Level" + std::to_string((levelNumber)) + "_Tiles.png";
 		break;
 
 	case 3:
 		levelNumberConcatenate = "../Assets/data/Level" + std::to_string((levelNumber)) + ".txt";
+		tileNumberConcatenate = "../Assets/sprites/Level" + std::to_string((levelNumber)) + "_Tiles.png";
 		break;
 
 	default:
 		break;
 	}
+	LVLMAN::Instance()->loadTiles(tileNumberConcatenate, "tiles", "../Assets/sprites/TileData.txt");
 	LVLMAN::Instance()->loadLevel(levelNumberConcatenate);
 	std::cout << "start";
 
