@@ -3,6 +3,7 @@
 #include "Animation.h"
 #include "PlayerAnimationState.h"
 #include "SpriteSheet.h"
+#include"UIElement.h"
 #include "Ability.h"
 #include <map>
 
@@ -23,6 +24,10 @@ private:
 	void Animate();
 
 	glm::vec2 playerPos;
+	std::vector<UIElement*> UI;
+	int m_lifeRedCounter;
+	int m_life;
+
 	
 	SpriteSheet* m_pSpriteSheet;
 	PlayerAnimationState m_currentAnimationState;

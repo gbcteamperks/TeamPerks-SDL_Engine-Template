@@ -2,6 +2,7 @@
 #include "RatBiter.h"
 #include "TextureManager.h"
 #include "Util.h"
+#include "EnemyLifeBar.h"
 
 RatKing::RatKing(glm::vec2 position)
 {
@@ -21,14 +22,16 @@ RatKing::RatKing(glm::vec2 position)
 	setPosX(position.x);
 	setPosY(position.y);
 	
-	getTransform()->position = glm::vec2(400.0f, 150.0f);;
+	getTransform()->position = glm::vec2(position);;
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	setType(BOSS);
 	addAbility(new RatBiter());
 	
-
+	m_Life = 400;
+	m_lifeRedCounter = m_Life;
+	UI.push_back(new EnemyLifeBar);
 	m_buildAnimations();
 }
 
@@ -36,6 +39,10 @@ RatKing::RatKing(glm::vec2 position)
 void RatKing::draw()
 {
 	Animate();
+	for (auto s : UI)
+	{
+		s->draw(this->m_lifeRedCounter);
+	}
 }
 
 void RatKing::update()
@@ -62,6 +69,11 @@ void RatKing::update()
 		tempCounter = 0;
 	}
 	tempCounter++;
+
+	for (auto ui : UI)
+	{
+		ui->update(this);
+	}
 }
 
 void RatKing::useCurrentAbility()

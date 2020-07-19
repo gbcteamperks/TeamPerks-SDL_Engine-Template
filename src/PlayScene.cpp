@@ -41,12 +41,13 @@ void PlayScene::draw()
 }
 void PlayScene::update()
 {
-	if (enemyKillCount > 5)
+	if (enemyKillCount > 1)
 	{
-		successful = true;
+		//successful = true;
+		summonBoss = true;
 	}
 
-	if(!successful)
+	if(!summonBoss)
 	{
 		updateDisplayList();
 		SpawnEnemiesManager::level1();
@@ -77,11 +78,40 @@ void PlayScene::update()
 	else
 	{
 		//update to the transition scene
-		std::cout << "Update transiton" << std::endl;
-		invokeTransition();
+		/*std::cout << "Update transiton" << std::endl;
+		invokeTransition();*/
+		updateDisplayList();
+		//SpawnEnemiesManager::level1();
+		//delete projectiles
+		if (getDisplayList().size() > 0) {
+			for (auto it = getDisplayList().begin(); it != getDisplayList().end(); it++) {
+				if (((*it)->getType() == ENEMYABILITY || (*it)->getType() == PLAYERABILITY) && (*it)->m_CheckBounds())
+				{
+					(*it)->clean();
+					delete (*it);
+					(*it) = nullptr;
+				}
+				else if ((*it)->getParentType() == ABILITY)
+				{
+					if (dynamic_cast<Ability*>(*it)->getAbilityDone())
+					{
+						(*it)->clean();
+						delete (*it);
+						(*it) = nullptr;
+					}
+				}
+
+			}
+		}
+		getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr), getDisplayList().end());
+		
+		SpawnEnemiesManager::level1Boss();
 	}
 		
-	
+	if(successful)
+	{
+		invokeTransition();
+	}
 }
 
 void PlayScene::clean()
@@ -214,8 +244,6 @@ void PlayScene::handleEvents()
 			listPlayers[0]->getTransform()->position.y = LVLMAN::Instance()->getLevel()[5][10]->m_node->y;*/
 		}
 
-
-
 		collisions();
 	}
 	else
@@ -322,7 +350,7 @@ void PlayScene::collisions()
 							getDisplayList()[k]->clean();
 							delete getDisplayList()[k];
 							getDisplayList()[k] = nullptr;
-							enemyKillCount++;
+							successful = true;
 						}
 					}
 
@@ -360,7 +388,6 @@ void PlayScene::collisions()
 				}
 				
 			}
-			
 		}
 	}
 
@@ -386,6 +413,7 @@ void PlayScene::invokeTransition()
 	levelNumber++;
 	//std::cout << "in invoke transition.." << std::endl;
 	TheGame::Instance()->changeSceneState(TRANSITION_SCENE);
+
 }
 
 

@@ -58,7 +58,7 @@ void Scene::updateDisplayList()
 		{
 			m_displayList[count]->update();
 		}
-	}	
+	}
 }
 
 void Scene::drawDisplayList()
