@@ -333,6 +333,7 @@ void PlayScene::collisions()
 							getDisplayList()[k]->getLife() -= getDisplayList()[i]->getDamage();
 						}
 						if ((getDisplayList()[k])->getLife() <= 0) {
+							dynamic_cast<Enemy*>(getDisplayList()[k])->dropAbility();
 							getDisplayList()[k]->clean();
 							delete getDisplayList()[k];
 							getDisplayList()[k] = nullptr;
@@ -352,6 +353,7 @@ void PlayScene::collisions()
 							getDisplayList()[k]->getLife() -= getDisplayList()[i]->getDamage();
 						}
 						if ((getDisplayList()[k])->getLife() <= 0) {
+							dynamic_cast<Enemy*>(getDisplayList()[k])->dropAbility();
 							getDisplayList()[k]->clean();
 							delete getDisplayList()[k];
 							getDisplayList()[k] = nullptr;

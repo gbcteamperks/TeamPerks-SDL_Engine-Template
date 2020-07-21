@@ -24,6 +24,8 @@ public:
 	virtual Ability* getAbility() = 0;
 	
 protected:
+	SpriteSheet* m_pSpriteSheetGem;
+	std::unordered_map<std::string, Animation> m_pAnimations;
 	bool m_abilityDone = false;
 	
 };

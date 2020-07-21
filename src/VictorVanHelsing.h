@@ -46,6 +46,7 @@ private:
 	VictorVanHelsing* m_pObject;
 	//ability list
 	std::vector<Ability*> m_pListAbilities;
+	int m_currentAbility;
 	bool m_abilityReady = true;
 	int m_playerNumber;
 	std::vector<UIElement*> UIList;

@@ -91,7 +91,8 @@ void RatBiter::draw()
 	}
 	else if (m_running && m_pickable)
 	{
-		Animate();
+		TheTextureManager::Instance()->playAnimation("BlueGem", m_pAnimations["BlueGem"],
+			getTransform()->position.x, getTransform()->position.y, 0.50f, 0, 255, true);
 	}
 }
 

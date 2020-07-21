@@ -29,7 +29,7 @@ private:
 	SpriteSheet* m_pSpriteSheet;
 	SpriteSheet* m_pSpriteSheetExplosion;
 	PlayerAnimationState m_currentAnimationState;
-	std::unordered_map<std::string, Animation> m_pAnimations;
+
 
 	bool m_running = false;
 	bool m_pickable = false;
