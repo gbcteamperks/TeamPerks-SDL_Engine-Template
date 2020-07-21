@@ -9,6 +9,7 @@ class PathNode :public SDL_Point
 {
 private:
 	double m_h;
+	bool m_openNode;
 	/*std::vector<PathConnection*>m_connections;*/
 
 public:
@@ -20,6 +21,8 @@ public:
 	SDL_Point getPt() { return { x,y }; }
 	double getH() { return m_h; }
 	void setH(double h) { m_h = h; }
+	void toggleNode() { m_openNode = !m_openNode; }
+	bool isOpen() { return m_openNode; }
 };
 
 

@@ -13,6 +13,16 @@ LevelManager::~LevelManager() = default;
 
 void LevelManager::update(float scroll, bool x)
 {
+
+	for (auto i : m_obstacles)
+	{
+		if (i->getType() == DESTRUCTIBLE)
+		{
+			i->update();
+		
+		}
+		
+	}
 	//for (int row = 0; row < Config::ROW_NUM; row++)
 	//{
 	//	for (int col = 0; col < Config::COL_NUM; col++)
@@ -44,7 +54,7 @@ void LevelManager::clean()
 	clearTiles();
 }
 
-void LevelManager::render()
+void LevelManager::render(bool debug)
 {
 	//Draw out the tiles
 	for (int row = 0; row < Config::ROW_NUM; row++)
@@ -52,8 +62,41 @@ void LevelManager::render()
 		for (int col = 0; col < Config::COL_NUM; col++)
 		{
 			m_level[row][col]->draw();
+
+			if (debug) 
+			{
+				if (m_level[row][col]->m_node->isOpen()) 
+				{
+					Util::DrawRect({ m_level[row][col]->getPosX(), m_level[row][col]->getPosY() }, m_level[row][col]->getWidth(), m_level[row][col]->getHeight(), { 0.0f,0.0f,1.0f,1.0f });
+				}
+				else 
+				{
+					Util::DrawRect({ m_level[row][col]->getPosX(), m_level[row][col]->getPosY() }, m_level[row][col]->getWidth(), m_level[row][col]->getHeight(), { 1.0f,0.0f,0.0f,1.0f });
+				}
+			}
 		}
 	}
+
+	for (auto i : m_obstacles) 
+	{
+		if (i->getType() == DESTRUCTIBLE) 
+		{
+			i->draw();
+			
+		}
+		if (debug)
+		{
+			if (i->getType() == DESTRUCTIBLE) 
+			{
+				Util::DrawRect({ i->getPosX() /*- i->getWidth()*/, i->getPosY() /*- i->getHeight() */ }, i->getWidth() - 10, i->getHeight() - 10, { 1.0f,1.0f,1.0f,1.0f });
+			}
+			else {
+				//Util::DrawRect({ i->getPosX(), i->getPosY() }, i->getWidth(), i->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+			}
+		}
+	}
+
+	
 }
 
 void LevelManager::loadTiles(std::string spritePath, std::string texture_Name, std::string tileDataPath)
@@ -94,23 +137,26 @@ void LevelManager::loadLevel(std::string levelDataPath) //Passes the scene displ
 				m_level[row][col] = m_tiles[key]->Clone();
 				m_level[row][col]->getTransform()->position.x = (int)(col* Config::TILE_SIZE);
 				m_level[row][col]->getTransform()->position.y = (int)(row* Config::TILE_SIZE);
+				
+				m_level[row][col]->m_node = new PathNode((int)(m_level[row][col]->getTransform()->position.x + 16), (int)(m_level[row][col]->getTransform()->position.y + 16));
+
+				m_level[row][col]->setPosX(m_level[row][col]->getTransform()->position.x);
+				m_level[row][col]->setPosY(m_level[row][col]->getTransform()->position.y);
 				if (m_level[row][col]->getX() == 4 && m_level[row][col]->getY() == 1) //if the index nums match up to where the door tile is on the texture make the tile a door game object
 				{
-					m_level[row][col]->setType(DOOR);
-				}
-				if (!m_level[row][col]->isObstacle() && !m_level[row][col]->isHazard()) //If the tile isn't a an obstacle or hazard create a node in the center of the tile
-				{
-					m_level[row][col]->m_node = new PathNode((int)(m_level[row][col]->getTransform()->position.x + 16), (int)(m_level[row][col]->getTransform()->position.y + 16 ));
+					m_level[row][col]->setType(SPIKES);
 				}
 
-				if (m_level[row][col]->isObstacle()) //If tile is an obstacle add it to the obstacle list
+				if (m_level[row][col]->isObstacle() || m_level[row][col]->isHazard()) //If tile is an obstacle add it to the obstacle list
 				{
 					m_obstacles.push_back(m_level[row][col]);
+					m_level[row][col]->m_node->toggleNode();
 				}
 			}
 		}
 	}
 	inFile.close();
+	m_obstacles.push_back(new DestructibleObject(m_level[5][10]->getTransform()->position, 4));
 }
 
 

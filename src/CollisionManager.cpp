@@ -125,10 +125,14 @@ bool CollisionManager::AABBCheckUpdatingPosition(GameObject* object1, GameObject
 	const auto p2 = object2->getTransform()->position;
 	const float p1Width = object1->getWidth();
 	const float p1Height = object1->getHeight();
-	const float p2Width = object2->getWidth();
-	const float p2Height = object2->getHeight();
+	float p2Width = object2->getWidth();
+	float p2Height = object2->getHeight();
 	
-	
+	if (object2->getType() == DESTRUCTIBLE) 
+	{
+		p2Width -=10;
+		p2Height -= 10;
+	}
 	
 	//p2 = {p2.x + p2Width * 0.4,p2.y +  p2Height * 0.3};
 	//glm::vec2 p1Center = { p1.x + p1Width * 0.5 , p1.y + p1Height * 0.5 };

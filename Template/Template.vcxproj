@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\Ability.cpp" />
     <ClCompile Include="..\src\BackgroundEndS.cpp" />
+    <ClCompile Include="..\src\DestructibleObject.cpp" />
     <ClCompile Include="..\src\Enemy.cpp" />
     <ClCompile Include="..\src\Button.cpp" />
     <ClCompile Include="..\src\CollisionManager.cpp" />
@@ -206,6 +207,8 @@
     <ClInclude Include="..\src\Ability.h" />
     <ClInclude Include="..\src\Animation.h" />
     <ClInclude Include="..\src\BackgroundEndS.h" />
+    <ClInclude Include="..\src\DestructibleObject.h" />
+    <ClInclude Include="..\src\DestructibleObjectState.h" />
     <ClInclude Include="..\src\Enemy.h" />
     <ClInclude Include="..\src\BossOneAnimationState.h" />
     <ClInclude Include="..\src\Button.h" />

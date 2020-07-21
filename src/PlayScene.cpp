@@ -29,7 +29,7 @@ PlayScene::~PlayScene()
 
 void PlayScene::draw()
 {
-	LVLMAN::Instance()->render();
+	LVLMAN::Instance()->render(m_debugView);
 	drawDisplayList();
 	if (m_debugView)
 	{
@@ -37,6 +37,8 @@ void PlayScene::draw()
 		{
 			Util::DrawRect({ o->getPosX() - o->getWidth() * 0.5, o->getPosY() - o->getHeight() * 0.5 }, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
 		}
+
+
 	}
 }
 void PlayScene::update()
@@ -112,6 +114,7 @@ void PlayScene::update()
 	{
 		invokeTransition();
 	}
+	LevelManager::Instance()->update(5,true);
 }
 
 void PlayScene::clean()
@@ -290,9 +293,11 @@ void PlayScene::start()
 	listPlayers.push_back(new VictorVanHelsing(glm::vec2(390.0f, 400.0f)));
 	addChild(listPlayers[0]);
 
+	
 	//BigSpider
 	//addChild(new MotherSpider());
 
+	addChild(new DestructibleObject(glm::vec2(200.0f, 200.0f), 4));
 
 	//KingRat
 	//addChild(new RatKing());

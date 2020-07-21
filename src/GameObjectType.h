@@ -21,6 +21,8 @@ enum GameObjectType {
 	NEXT_BUTTON, 
 	TILE,
 	DOOR,
+	SPIKES,
+	DESTRUCTIBLE,
 	NUM_OF_TYPES
 	
 };

@@ -25,7 +25,7 @@ public:
 
 	void update(float scroll, bool x);
 	void clean();
-	void render();
+	void render(bool debug);
 
 	void loadTiles(std::string spritePath, std::string texture_Name, std::string tileDataPath);
 	void loadLevel(std::string levelDataPath);
@@ -50,6 +50,7 @@ private:
 	std::map<char, Tile*> m_tiles;
 	std::vector<GameObject*> m_obstacles;
 	std::array < std::array<Tile*, Config::COL_NUM>, Config::ROW_NUM> m_level;
+	std::vector<PathNode*> m_Nodes;
 };
 typedef LevelManager LVLMAN;
 #endif

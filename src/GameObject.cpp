@@ -156,9 +156,11 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 	bool collision = false;
 	for (auto o : listObstacles)
 	{
-		if (CollisionManager::AABBCheckUpdatingPosition(this, o))
-		{
-			collision = true;
+		if (o->getType() != SPIKES) {
+			if (CollisionManager::AABBCheckUpdatingPosition(this, o))
+			{
+				collision = true;
+			}
 		}
 	}
 	return collision;
@@ -186,5 +188,5 @@ int& GameObject::getLife()
 int& GameObject::getDamage()
 {
 	*GameObject::m_pDamage = 25;
-	return*m_pLife;
+	return*m_pDamage;
 }

@@ -1,0 +1,4 @@
+barrel-frame-0 1 0 49 59
+barrel-frame-1 52 0 49 59
+barrel-frame-2 103 0 49 59
+barrel-frame-3 154 0 49 59
