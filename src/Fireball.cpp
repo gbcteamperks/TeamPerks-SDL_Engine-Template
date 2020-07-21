@@ -4,7 +4,7 @@ Fireball::Fireball()
 {
 	//m_velocity = 6;
 	m_running = false;
-	m_damage = 0;
+	m_damage = 10;
 
 	//getTransform()->position = glm::vec2(0.0f,0.0f);
 	TheTextureManager::Instance()->load("../Assets/Sprites/magicenemy-projectile.png", "circle");
@@ -15,10 +15,10 @@ Fireball::Fireball()
 	getRigidBody()->isColliding = false;
 	//getTransform()->position = glm::vec2(100.0f, 100.0f);
 	
-	setType(PROJECTILE);
+	setType(ENEMYABILITY);
 
 }
-Fireball::Fireball(glm::vec2 position, bool running, int angle, bool pickeable)
+Fireball::Fireball(glm::vec2 position, bool running, int angle, bool pickeable, bool enemyAbility)
 {
 	m_angle = angle;
 	m_running = running;
@@ -40,8 +40,13 @@ Fireball::Fireball(glm::vec2 position, bool running, int angle, bool pickeable)
 		setType(PICKABLE);
 	}
 	else {
-		setType(PROJECTILE);
-		getTransform()->position += (80.0f * direction);
+		getTransform()->position += (70.0f * direction);
+		if (enemyAbility) {
+			setType(ENEMYABILITY);
+		}
+		else {
+			setType(PLAYERABILITY);
+		}
 	}
 	start();
 }
@@ -52,6 +57,8 @@ Fireball::~Fireball()
 
 void Fireball::update()
 {
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
 	if (m_running && !m_pickable) 
 	{
 		getTransform()->position += getRigidBody()->velocity;
@@ -86,10 +93,10 @@ void Fireball::start()
 	
 }
 
-void Fireball::execute(glm::vec2 position, int angle)
+void Fireball::execute(glm::vec2 position, int angle, bool enemyAbility)
 {
 	//getTransform()->position = position;
-	Game::Instance()->getCurrentScene()->addChild(new Fireball(position, true, angle, false));
+	Game::Instance()->getCurrentScene()->addChild(new Fireball(position, true, angle, false, enemyAbility));
 	SoundManager::Instance().playSound("FireBall");
 	
 }
@@ -97,6 +104,7 @@ void Fireball::execute(glm::vec2 position, int angle)
 void Fireball::stop()
 {
 	m_running = false;
+	m_abilityDone = true;
 }
 
 void Fireball::sound()
@@ -115,5 +123,5 @@ void Fireball::animation()
 
 void Fireball::pickable(glm::vec2 position)
 {	
-	Game::Instance()->getCurrentScene()->addChild(new Fireball(position, true, 0, true));
+	Game::Instance()->getCurrentScene()->addChild(new Fireball(position, true, 0, true, false));
 }

@@ -5,19 +5,19 @@
 class ExplosiveSpider : public Ability {
 public:
 	ExplosiveSpider();
-	ExplosiveSpider(glm::vec2 position, bool running, int angle, bool pickeable);
+	ExplosiveSpider(glm::vec2 position, bool running, int angle, bool pickeable, bool enemyAbility);
 	~ExplosiveSpider();
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void clean() override;
 
 	void start();
-	void execute(glm::vec2 position, int angle = 0);
+	void execute(glm::vec2 position, int anglee, bool enemyAbility);
 	void stop();
 	void sound();
 	void animation();
 	void pickable(glm::vec2 position);
-
+	int& getDamage() { return m_damage; }
 	ExplosiveSpider* getAbility() override { return new ExplosiveSpider();}
 
 private:
@@ -36,7 +36,6 @@ private:
 
 	int walkTimer = 0, explosionTimer = 0;
 	int m_damage;
-	int m_angle;
 
 	StaticSprite* m_pPortrait;
 

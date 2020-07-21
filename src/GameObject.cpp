@@ -2,6 +2,8 @@
 #include "Config.h"
 #include <iostream>
 #include "CollisionManager.h"
+#include "MathManager.h"
+#include "EventManager.h"
 
 GameObject::GameObject():
 	m_width(0), m_height(0), m_type(NONE)
@@ -33,6 +35,16 @@ int GameObject::getHeight() const
 	return m_height;
 }
 
+int GameObject::getPosX() const
+{
+	return m_posX;
+}
+
+int GameObject::getPosY() const
+{
+	return m_posY;
+}
+
 int GameObject::getAngle() const
 {
 	return m_angle;
@@ -58,6 +70,16 @@ void GameObject::setHeight(const int new_height)
 	m_height = new_height;
 }
 
+void GameObject::setPosX(int new_posX)
+{
+	m_posX = new_posX;
+}
+
+void GameObject::setPosY(int new_posY)
+{
+	m_posY = new_posY;
+}
+
 void GameObject::setAngle(int new_angle)
 {
 	m_angle = new_angle;
@@ -72,6 +94,7 @@ void GameObject::setParentType(const GameObjectType new_type)
 {
 	m_parent = new_type;
 }
+
 
 //boundry restrict
 void GameObject::m_BoundsRestrict()
@@ -93,13 +116,13 @@ void GameObject::m_BoundsRestrict()
 	{
 		getTransform()->position = glm::vec2(getTransform()->position.x, Config::SCREEN_HEIGHT - getHeight() / 2);
 		//std::cout << "\n y axis above";
-		m_boundHit = BELOWBOUNDARY;
+		m_boundHit = BOTTOMBOUNDARY;
 	}
 
 	if (getTransform()->position.y - (getHeight() / 2) < 0)
 	{
 		getTransform()->position = glm::vec2(getTransform()->position.x, 0.00f + (getHeight() / 2));
-		m_boundHit = ABOVEBOUNDARY;
+		m_boundHit = TOPBOUNDARY;
 		//std::cout << "\n y axis below";
 	}
 }
@@ -128,9 +151,42 @@ bool GameObject::m_CheckBounds()
 	return false;
 }
 
+bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
+{
+	bool collision = false;
+	for (auto o : listObstacles)
+	{
+		if (o->getType() != SPIKES) {
+			if (CollisionManager::AABBCheckUpdatingPosition(this, o))
+			{
+				collision = true;
+			}
+		}
+	}
+	return collision;
+}
+
+void GameObject::fleeBehaviour(GameObject* obj)
+{
+	int distance = MAMA::Magnitude(MAMA::Distance(obj->getTransform()->position, this->getTransform()->position));
+	if (distance < 300)
+	{
+		int angle = MAMA::AngleBetweenPoints(obj->getTransform()->position, this->getTransform()->position);
+		m_angle = angle;
+		angle = angle * 3.1416 / 180;
+		this->getTransform()->position.x += this->getRigidBody()->velocity.x * cos(angle);
+		this->getTransform()->position.y += this->getRigidBody()->velocity.y* sin(angle);
+	}
+}
+
+
 int& GameObject::getLife()
 {
-	
 	*GameObject::m_pLife = 100;
 	return* m_pLife;
+}
+int& GameObject::getDamage()
+{
+	*GameObject::m_pDamage = 25;
+	return*m_pDamage;
 }

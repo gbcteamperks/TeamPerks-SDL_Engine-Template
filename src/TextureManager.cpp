@@ -148,7 +148,7 @@ void TextureManager::draw(const std::string& id, const int x, const int y, const
 	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[id].get(), &srcRect, &destRect, angle, nullptr, flip);
 }
 
-void TextureManager::draw(const std::string& id, int x, int y, double angle, int alpha, bool centered, SDL_RendererFlip flip, int dstx, int dsty)
+void TextureManager::draw(const std::string& id, int x, int y, double angle, int alpha, SDL_RendererFlip flip, int dstx, int dsty)
 {
 
 	SDL_Rect srcRect;
@@ -161,40 +161,35 @@ void TextureManager::draw(const std::string& id, int x, int y, double angle, int
 
 	SDL_QueryTexture(m_textureMap[id].get(), nullptr, nullptr, &textureWidth, &textureHeight);
 
-	srcRect.w =  textureWidth;
-	srcRect.h =  textureHeight;
+	srcRect.w = textureWidth;
+	srcRect.h = textureHeight;
 	destRect.w = dstx;
 	destRect.h = dsty;
 
-	if (centered) {
-		const int xOffset = textureWidth * 0.5;
-		const int yOffset = textureHeight * 0.5;
-		destRect.x = x - xOffset;
-		destRect.y = y - yOffset;
-	}
-	else {
-		destRect.x = x;
-		destRect.y = y;
-	}
+	destRect.x = x;
+	destRect.y = y;
+	
 
 	SDL_SetTextureAlphaMod(m_textureMap[id].get(), alpha);
 	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[id].get(), &srcRect, &destRect, angle, nullptr, flip);
 }
 
-void TextureManager::drawTile(const std::string& id, const int x, const int y, const int indexX,const int indexY, const double angle, const int alpha, const bool centered, const SDL_RendererFlip flip)
+void TextureManager::drawTile(const std::string& id, int x, int y, int indexX,int indexY, const double angle, const int alpha, const bool centered, const SDL_RendererFlip flip)
 {
 	SDL_Rect srcRect;
 	SDL_Rect destRect;
 
-	srcRect.x = indexX*64;
-	srcRect.y = indexY*64;
-
+	srcRect.x = indexX*Config::TILE_SIZE;
+	srcRect.y = indexY* Config::TILE_SIZE;
+	//std::cout << "x "<< indexX << " y "<< indexY << "\n";
 	int textureWidth, textureHeight;
 
 	SDL_QueryTexture(m_textureMap[id].get(), nullptr, nullptr, &textureWidth, &textureHeight);
 
-	srcRect.w = destRect.w = textureWidth;
-	srcRect.h = destRect.h = textureHeight;
+	srcRect.w = Config::TILE_SIZE;
+	srcRect.h = Config::TILE_SIZE;
+	destRect.w = Config::TILE_SIZE;
+	destRect.h = Config::TILE_SIZE;
 
 	if (centered) {
 		const int xOffset = textureWidth * 0.5;
@@ -213,7 +208,7 @@ void TextureManager::drawTile(const std::string& id, const int x, const int y, c
 
 void TextureManager::drawFrame(const std::string& id, const int x, const int y, const int frame_width, 
 							   const int frame_height, int &current_row,
-                               int &current_frame, int frame_number, int row_number, 
+							   int &current_frame, int frame_number, int row_number, 
 							   float speed_factor, const double angle, 
 							   const int alpha, const bool centered, const SDL_RendererFlip flip)
 {
@@ -238,6 +233,48 @@ void TextureManager::drawFrame(const std::string& id, const int x, const int y, 
 
 	destRect.w = textureWidth;
 	destRect.h = textureHeight;
+
+	if (centered) {
+		const int xOffset = textureWidth * 0.5;
+		const int yOffset = textureHeight * 0.5;
+		destRect.x = x - xOffset;
+		destRect.y = y - yOffset;
+	}
+	else {
+		destRect.x = x;
+		destRect.y = y;
+	}
+
+	SDL_SetTextureAlphaMod(m_textureMap[id].get(), alpha);
+	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[id].get(), &srcRect, &destRect, angle, nullptr, flip);
+}
+
+void TextureManager::drawFrame(const std::string& id, const int x, const int y, const int frame_width,
+	const int frame_height, int current_row,
+	int current_frame, int drawSizeX, int drawSizeY, const double angle,
+	const int alpha, const bool centered, const SDL_RendererFlip flip)
+{
+
+
+	SDL_Rect srcRect;
+	SDL_Rect destRect;
+
+	srcRect.x = 0;
+	srcRect.y = 0;
+
+	// frame_height size
+	const auto textureWidth = frame_width;
+	const auto textureHeight = frame_height;
+
+	// starting point of the where we are looking
+	srcRect.x = textureWidth * current_frame;
+	srcRect.y = textureHeight * current_row;
+
+	srcRect.w = textureWidth;
+	srcRect.h = textureHeight;
+
+	destRect.w = drawSizeX;
+	destRect.h = drawSizeY;
 
 	if (centered) {
 		const int xOffset = textureWidth * 0.5;

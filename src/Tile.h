@@ -10,13 +10,13 @@ private:
 	bool m_bObstacle;
 	bool m_bHazard;
 	std::string m_sName;
-	float m_fX;
-	float m_fY;
+	int m_iX;
+	int m_iY;
 public:
 
 	PathNode* m_node;
 	//Label *m_lCost, *m_lX, *m_lY;
-	Tile(std::string name, float posX, float posY, bool o, bool h);
+	Tile(std::string name, int x, int y, bool o, bool h);
 	~Tile();
 
 	virtual void draw() override;
@@ -24,8 +24,12 @@ public:
 	virtual void clean() override;
 	bool& isObstacle();
 	bool isHazard();
+	void setXY(int x, int y);
+	int getX() { return m_iX; }
+	int getY() { return m_iY; }
 	Tile* Clone();
 	PathNode* Node();
+	virtual void Print();
 };
 
 #endif // !_TILE_H

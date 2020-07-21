@@ -1,8 +1,10 @@
 #include "RatKing.h"
 #include "RatBiter.h"
 #include "TextureManager.h"
+#include "Util.h"
+#include "EnemyLifeBar.h"
 
-RatKing::RatKing()
+RatKing::RatKing(glm::vec2 position)
 {
 	TextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/rat_king.txt",
@@ -17,15 +19,19 @@ RatKing::RatKing()
 	//frame width and height
 	setWidth(96);
 	setHeight(96);
+	setPosX(position.x);
+	setPosY(position.y);
 	
-	getTransform()->position = glm::vec2(400.0f, 150.0f);;
+	getTransform()->position = glm::vec2(position);;
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	setType(BOSS);
 	addAbility(new RatBiter());
 	
-
+	m_pLife = new int(400);
+	m_lifeRedCounter = *m_pLife;
+	UI.push_back(new EnemyLifeBar);
 	m_buildAnimations();
 }
 
@@ -33,10 +39,17 @@ RatKing::RatKing()
 void RatKing::draw()
 {
 	Animate();
+	for (auto s : UI)
+	{
+		s->draw(this->m_lifeRedCounter);
+	}
 }
 
 void RatKing::update()
 {
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
+
 	//update the functionality
 	static int tempCounter = 0;
 	
@@ -56,6 +69,11 @@ void RatKing::update()
 		tempCounter = 0;
 	}
 	tempCounter++;
+
+	for (auto ui : UI)
+	{
+		ui->update(this);
+	}
 }
 
 void RatKing::useCurrentAbility()
@@ -64,7 +82,7 @@ void RatKing::useCurrentAbility()
 		switch (m_currentAnimationState)
 		{
 		case PLAYER_RUN_RIGHT:
-			m_pListAbilities.front()->execute(getTransform()->position, 180); // to the left
+			m_pListAbilities.front()->execute(getTransform()->position, 180, true); // to the left
 			changeAbility();
 			break;
 		default:

@@ -17,12 +17,14 @@
 #include "Fireball.h"
 #include "Sword.h"
 #include "Tile.h"
+#include "DestructibleObject.h"
 #include <array>
 #include <map>
 class PlayScene : public Scene
 {
 public:
 	PlayScene();
+	PlayScene(int);
 	~PlayScene();
 
 	// Scene LifeCycle Functions
@@ -33,18 +35,30 @@ public:
 	virtual void start() override;
 
 	void collisions();
-
+	bool tileCollision(GameObject* obj);
 	bool m_bgScrollX = false, m_bgScrollY = false;
-	float playerSpeed = 2.0f;
+	std::vector<DisplayObject*>& getObstacles() { return obstacle_List; }
 
-
-	
+	static std::vector<VictorVanHelsing*> listPlayers;
+	int getLevelNumber();
+	void invokeTransition();
+	//bool getDebug() { return m_debugView };
 private:
 	glm::vec2 m_mousePosition;
-	std::vector<VictorVanHelsing*> listPlayers;
+	std::vector<DisplayObject*> obstacle_List;
 	StaticSprite* m_pBkg{};
 	int m_currentTime = 0;
 	int m_prevTime = 0;
+	bool m_debugView = false;
+
+	int enemyKillCount = 0;
+	//transition to next scene
+	bool successful = false;
+	bool summonBoss = false;
+	int levelNumber;
+	std::string levelNumberConcatenate;
+	std::string tileNumberConcatenate;
+
 
 	
 

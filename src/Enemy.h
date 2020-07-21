@@ -37,12 +37,14 @@ public:
 	virtual void useCurrentAbility();
 	void dropAbility();
 	void changeAbility();
-
+	//getters
+	virtual int& getLife() { return m_Life; }
 protected:
 	//ability list
 	std::vector<Ability*> m_pListAbilities;
 	bool m_abilityReady = true;
-	
+	//Enemy Life
+	int m_Life;
 };
 
 #endif /* defined (__BOSS_ONE__) */

@@ -7,9 +7,20 @@
 #include <fstream>
 #include <string>
 #include "RatKing.h"
+#include "SpawnEnemiesManager.h"
+#include "SkeletonEnemy.h"
+#include "Util.h"
+
+std::vector<VictorVanHelsing*> PlayScene::listPlayers;
 
 PlayScene::PlayScene()
 {
+	PlayScene::start();
+}
+
+PlayScene::PlayScene(int level)
+{
+	this->levelNumber = level;
 	PlayScene::start();
 }
 
@@ -18,42 +29,97 @@ PlayScene::~PlayScene()
 
 void PlayScene::draw()
 {
-	LVLMAN::Instance()->render();
+	LVLMAN::Instance()->render(m_debugView);
 	drawDisplayList();
-}
+	if (m_debugView)
+	{
+		for (auto o : getDisplayList())
+		{
+			Util::DrawRect({ o->getPosX() - o->getWidth() * 0.5, o->getPosY() - o->getHeight() * 0.5 }, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+		}
 
+
+	}
+}
 void PlayScene::update()
 {
-	updateDisplayList();
-	
-	//delete projectiles
-	if (getDisplayList().size() > 0) {
-		for (auto it = getDisplayList().begin(); it != getDisplayList().end();it++) {
-			if ((*it)->getType() == PROJECTILE && (*it)->m_CheckBounds()) 
-			{
-				(*it)->clean();
-				delete (*it);
-				(*it) = nullptr;
-			}
-			else if ((*it)->getParentType() == ABILITY) 
-			{
-				if (dynamic_cast<Ability*>(*it)->getAbilityDone())
+	if (enemyKillCount > 1)
+	{
+		//successful = true;
+		summonBoss = true;
+	}
+
+	if(!summonBoss)
+	{
+		updateDisplayList();
+		SpawnEnemiesManager::level1();
+		//delete projectiles
+		if (getDisplayList().size() > 0) {
+			for (auto it = getDisplayList().begin(); it != getDisplayList().end(); it++) {
+				if (((*it)->getType() == ENEMYABILITY || (*it)->getType() == PLAYERABILITY) && (*it)->m_CheckBounds())
 				{
 					(*it)->clean();
 					delete (*it);
 					(*it) = nullptr;
 				}
-			}
+				else if ((*it)->getParentType() == ABILITY)
+				{
+					if (dynamic_cast<Ability*>(*it)->getAbilityDone())
+					{
+						(*it)->clean();
+						delete (*it);
+						(*it) = nullptr;
+					}
+				}
 
+			}
 		}
+		getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr), getDisplayList().end());
+
 	}
-	getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr), getDisplayList().end());
-	
-	
+	else
+	{
+		//update to the transition scene
+		/*std::cout << "Update transiton" << std::endl;
+		invokeTransition();*/
+		updateDisplayList();
+		//SpawnEnemiesManager::level1();
+		//delete projectiles
+		if (getDisplayList().size() > 0) {
+			for (auto it = getDisplayList().begin(); it != getDisplayList().end(); it++) {
+				if (((*it)->getType() == ENEMYABILITY || (*it)->getType() == PLAYERABILITY) && (*it)->m_CheckBounds())
+				{
+					(*it)->clean();
+					delete (*it);
+					(*it) = nullptr;
+				}
+				else if ((*it)->getParentType() == ABILITY)
+				{
+					if (dynamic_cast<Ability*>(*it)->getAbilityDone())
+					{
+						(*it)->clean();
+						delete (*it);
+						(*it) = nullptr;
+					}
+				}
+
+			}
+		}
+		getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr), getDisplayList().end());
+		
+		SpawnEnemiesManager::level1Boss();
+	}
+		
+	if(successful)
+	{
+		invokeTransition();
+	}
+	LevelManager::Instance()->update(5,true);
 }
 
 void PlayScene::clean()
 {
+	VictorVanHelsing::numberOfPlayers = 0;
 	LVLMAN::Instance()->clean();
 	SoundManager::Instance().stopMusic();
 
@@ -62,224 +128,179 @@ void PlayScene::clean()
 
 void PlayScene::handleEvents()
 {
-	EventManager::Instance().update();
-	
-
-	// handle player movement with GameController
-	if (SDL_NumJoysticks() > 0)
+	if(!successful)
 	{
-		if (EventManager::Instance().getGameController(0) != nullptr)
-		{
-			if (EventManager::Instance().getGameController(0)->START_BUTTON)
-			{
-				if (listPlayers.size() < 2)
-				{
-					listPlayers.push_back(new VictorVanHelsing(glm::vec2(500.0f, 400.0f)));
-					addChild(listPlayers[1]);
-				}
-			}
-			if (listPlayers.size() > 1)
-			{
-				const auto deadZone = 10000;
-				if (EventManager::Instance().getGameController(0)->LEFT_STICK_X[1] > deadZone)
-				{
-					listPlayers[1]->getTransform()->position += glm::vec2(playerSpeed, 0.0f);
-					listPlayers[1]->setAnimationState(VICTOR_WALK_RIGHT);
-					if (listPlayers[1]->getTransform()->position.x > Config::SCREEN_WIDTH * 0.7f) // right side of the screen
-					{
-						if (LVLMAN::Instance()->getLevel()[0][Config::COL_NUM - 1]->getTransform()->position.x > Config::SCREEN_WIDTH - 32)
-						{
-							LVLMAN::Instance()->update(-playerSpeed, true);
-						}
-					}
-				}
-				if (EventManager::Instance().getGameController(0)->LEFT_STICK_X[1] < -deadZone)
-				{
-					listPlayers[1]->getTransform()->position -= glm::vec2(playerSpeed, 0.0f);
-					listPlayers[1]->setAnimationState(VICTOR_WALK_LEFT);
+		EventManager::Instance().update();
 
-					if (listPlayers[1]->getTransform()->position.x < Config::SCREEN_WIDTH * 0.3f) // left side
+		// handle player movement with GameController
+		if (SDL_NumJoysticks() > 0)
+		{
+			if (EventManager::Instance().getGameController(0) != nullptr)
+			{
+				if (EventManager::Instance().getGameController(0)->START_BUTTON)
+				{
+					if (listPlayers.size() < 2)
 					{
-						if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.x < 0)
-						{
-							LVLMAN::Instance()->update(playerSpeed, true);
-						}
+						listPlayers.push_back(new VictorVanHelsing(glm::vec2(500.0f, 400.0f)));
+						addChild(listPlayers[1]);
 					}
 				}
-				if (EventManager::Instance().getGameController(0)->LEFT_STICK_Y[1] < -deadZone)
+				if (listPlayers.size() > 1)
 				{
-					listPlayers[1]->getTransform()->position -= glm::vec2(0.0f, playerSpeed);
-					listPlayers[1]->setAnimationState(VICTOR_WALK_UP);
-					if (listPlayers[1]->getTransform()->position.y < Config::SCREEN_HEIGHT * 0.3f) // up side
+					const auto deadZone = 10000;
+					if (EventManager::Instance().getGameController(0)->LEFT_STICK_X[1] > deadZone)
 					{
-						if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.y < 0)
-						{
-							LVLMAN::Instance()->update(playerSpeed, false);
-						}
+						listPlayers[1]->getTransform()->position.x += listPlayers[1]->getRigidBody()->velocity.x;
+						listPlayers[1]->setAnimationState(VICTOR_WALK_RIGHT);
 					}
-				}
-				if (EventManager::Instance().getGameController(0)->LEFT_STICK_Y[1] > deadZone)
-				{
-					listPlayers[1]->getTransform()->position += glm::vec2(0.0f, playerSpeed);
-					listPlayers[1]->setAnimationState(VICTOR_WALK_DOWN);
-					if (listPlayers[1]->getTransform()->position.y > Config::SCREEN_HEIGHT * 0.7f) // down side
+					if (EventManager::Instance().getGameController(0)->LEFT_STICK_X[1] < -deadZone)
 					{
-						if (LVLMAN::Instance()->getLevel()[Config::ROW_NUM - 1][0]->getTransform()->position.y > Config::SCREEN_HEIGHT - 32)
-						{
-							LVLMAN::Instance()->update(-playerSpeed, false);
-						}
+						listPlayers[1]->getTransform()->position.x -= listPlayers[1]->getRigidBody()->velocity.x;
+						listPlayers[1]->setAnimationState(VICTOR_WALK_LEFT);
 					}
-				}
-				//Change Ability
-				if (EventManager::Instance().getGameController(0)->Arealeased())
-				{
-					listPlayers[1]->changeAbility();
-				}
-				//Use Current Ability
-				if (EventManager::Instance().getGameController(0)->Brealeased())
-				{
-					listPlayers[1]->useCurrentAbility(2);
+					if (EventManager::Instance().getGameController(0)->LEFT_STICK_Y[1] < -deadZone)
+					{
+						listPlayers[1]->getTransform()->position.y -= listPlayers[1]->getRigidBody()->velocity.y;
+						listPlayers[1]->setAnimationState(VICTOR_WALK_UP);
+
+					}
+					if (EventManager::Instance().getGameController(0)->LEFT_STICK_Y[1] > deadZone)
+					{
+						listPlayers[1]->getTransform()->position.y += listPlayers[1]->getRigidBody()->velocity.y;
+						listPlayers[1]->setAnimationState(VICTOR_WALK_DOWN);
+					}
+					//Change Ability
+					if (EventManager::Instance().getGameController(0)->Arealeased())
+					{
+						listPlayers[1]->changeAbility();
+					}
+					//Use Current Ability
+					if (EventManager::Instance().getGameController(0)->Brealeased())
+					{
+						listPlayers[1]->useCurrentAbility(2);
+					}
 				}
 			}
 		}
-	}
 
-	//KeyBoard
-	
-	playerSpeed = 2.0f;
+		//KeyBoard
 
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A)/* && LVLMAN::Instance()->checkCollision(listPlayers[0], -playerSpeed, 0)*/)
-	{
-		if (!LVLMAN::Instance()->checkCollision(listPlayers[0], -playerSpeed, 0)) 
+
+		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A)/* && LVLMAN::Instance()->checkCollision(listPlayers[0], -playerSpeed, 0)*/)
 		{
-			
 			listPlayers[0]->setAnimationState(VICTOR_WALK_LEFT);
-
-			if (listPlayers[0]->getTransform()->position.x < Config::SCREEN_WIDTH * 0.3f && !listPlayers[0]->right) // left
-			{
-					LVLMAN::Instance()->update(playerSpeed, true);
-				if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.x < 0)
-				{
-				}
-			}
-			else
-			{
-				listPlayers[0]->getTransform()->position.x -= playerSpeed;
-			}
+			listPlayers[0]->getTransform()->position.x -= listPlayers[0]->getRigidBody()->velocity.x;
 		}
-	}
-	else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], playerSpeed, 0)*/)
-	{
-		if (!LVLMAN::Instance()->checkCollision(listPlayers[0], playerSpeed, 0)) 
+		else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], playerSpeed, 0)*/)
 		{
-			
 			listPlayers[0]->setAnimationState(VICTOR_WALK_RIGHT);
-			if (listPlayers[0]->getTransform()->position.x > Config::SCREEN_WIDTH * 0.7f && listPlayers[0]->right) //right
-			{
-					LVLMAN::Instance()->update(-playerSpeed, true);
-				if (LVLMAN::Instance()->getLevel()[0][Config::COL_NUM - 1]->getTransform()->position.x > Config::SCREEN_WIDTH - 32)
-				{
-				}
-			}
-			else
-			{
-				listPlayers[0]->getTransform()->position.x += playerSpeed;
-			}
+			listPlayers[0]->getTransform()->position.x += listPlayers[0]->getRigidBody()->velocity.x;
 		}
-		
-	}
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_W) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], 0, -playerSpeed)*/)
-	{
-		//std::cout << listPlayers[0]->getTransform()->position.x << " y " << listPlayers[0]->getTransform()->position.y << "\n";
-		//std::cout << LVLMAN::Instance()->getLevel()[7][3]->getTransform()->position.x << " y " << LVLMAN::Instance()->getLevel()[7][3]->getTransform()->position.y << "\n";
-		if (!LVLMAN::Instance()->checkCollision(listPlayers[0], 0, -playerSpeed)) 
+		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_W) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], 0, -playerSpeed)*/)
 		{
-			
 			listPlayers[0]->setAnimationState(VICTOR_WALK_UP);
-			if (listPlayers[0]->getTransform()->position.y < Config::SCREEN_HEIGHT * 0.3f && !listPlayers[0]->down) // up
-			{
-					LVLMAN::Instance()->update(playerSpeed, false);
-				if (LVLMAN::Instance()->getLevel()[0][0]->getTransform()->position.y < 0)
-				{
-				}
-			}
-			else
-			{
-				listPlayers[0]->getTransform()->position -= glm::vec2(0.0f, playerSpeed);
-			}
+			listPlayers[0]->getTransform()->position.y -= listPlayers[0]->getRigidBody()->velocity.y;
 		}
-			
-	}
-	else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_S) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], 0, playerSpeed)*/)
-	{
-		if (!LVLMAN::Instance()->checkCollision(listPlayers[0], 0, playerSpeed)) 
+		else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_S) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], 0, playerSpeed)*/)
 		{
 			listPlayers[0]->setAnimationState(VICTOR_WALK_DOWN);
-			if (listPlayers[0]->getTransform()->position.y > Config::SCREEN_HEIGHT * 0.7f && listPlayers[0]->down) //down
-			{
-					LVLMAN::Instance()->update(-playerSpeed, false);
-				if (LVLMAN::Instance()->getLevel()[Config::ROW_NUM - 1][0]->getTransform()->position.y > Config::SCREEN_HEIGHT - 32)
-				{
-				}
-			}
-			else
-			{
-				listPlayers[0]->getTransform()->position += glm::vec2(0.0f, playerSpeed);
-			}
-		
+			listPlayers[0]->getTransform()->position.y += listPlayers[0]->getRigidBody()->velocity.y;
 		}
+
+
+
+		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_ESCAPE))
+		{
+			TheGame::Instance()->quit();
+		}
+
+		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_1))
+		{
+			TheGame::Instance()->changeSceneState(START_SCENE);
+		}
+		//Change Ability
+		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_E))
+		{
+			listPlayers[0]->changeAbility();
+		}
+		//Use Current Ability
+		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_Q))
+		{
+			listPlayers[0]->useCurrentAbility(1);
+
+		}
+		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_2))
+		{
+			TheGame::Instance()->changeSceneState(END_SCENE);
+		}
+		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_H)) // debug view
+		{
+			m_debugView = !m_debugView;
+		}
+		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_T))
+		{
+
+			LVLMAN::Instance()->printNodes();
+
+			/*std::cout << "x: " << LevelManager::Instance()->getLevel()[5][10]->m_node->x << " y:" << LevelManager::Instance()->getLevel()[5][10]->m_node->y << "\n";
+			listPlayers[0]->getTransform()->position.x = LVLMAN::Instance()->getLevel()[5][10]->m_node->x;
+			listPlayers[0]->getTransform()->position.y = LVLMAN::Instance()->getLevel()[5][10]->m_node->y;*/
+		}
+
+		collisions();
+	}
+	else
+	{
+		//invoking transition.
 	}
 	
-
-
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_ESCAPE))
-	{
-		TheGame::Instance()->quit();
-	}
-
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_1))
-	{
-		TheGame::Instance()->changeSceneState(START_SCENE);
-	}
-	//Change Ability
-	if (EventManager::Instance().KeyReleased(SDL_SCANCODE_E))
-	{
-		listPlayers[0]->changeAbility();
-	}
-	//Use Current Ability
-	if (EventManager::Instance().KeyReleased(SDL_SCANCODE_Q)) 
-	{
-		listPlayers[0]->useCurrentAbility(1);
-	}
-	if (EventManager::Instance().isKeyDown(SDL_SCANCODE_2))
-	{
-		TheGame::Instance()->changeSceneState(END_SCENE);
-	}
-	
-
-	collisions();
 }
 
 void PlayScene::start()
 {
-	LVLMAN::Instance()->loadTiles("../Assets/sprites/TileTest.png", "tiles", "../Assets/sprites/TileData.txt");
-	LVLMAN::Instance()->loadLevel("../Assets/data/Level.txt");
+	//LVLMAN::Instance()->loadTiles("../Assets/sprites/Level1_Tiles.png", "tiles", "../Assets/sprites/TileData.txt");
 	
+	
+	
+	switch(levelNumber)
+	{
+	case 1:
+		levelNumberConcatenate = "../Assets/data/Level" + std::to_string((levelNumber)) + ".txt";
+		tileNumberConcatenate = "../Assets/sprites/Level" + std::to_string((levelNumber)) + "_Tiles.png";
+		break;
+
+	case 2:
+		levelNumberConcatenate = "../Assets/data/Level" + std::to_string((levelNumber)) + ".txt";
+		tileNumberConcatenate = "../Assets/sprites/Level" + std::to_string((levelNumber)) + "_Tiles.png";
+		break;
+
+	case 3:
+		levelNumberConcatenate = "../Assets/data/Level" + std::to_string((levelNumber)) + ".txt";
+		tileNumberConcatenate = "../Assets/sprites/Level" + std::to_string((levelNumber)) + "_Tiles.png";
+		break;
+
+	default:
+		break;
+	}
+	LVLMAN::Instance()->loadTiles(tileNumberConcatenate, "tiles", "../Assets/sprites/TileData.txt");
+	LVLMAN::Instance()->loadLevel(levelNumberConcatenate);
 	std::cout << "start";
 
 	//Boss
-	addChild(new EnemyWizard());
+	//addChild(new EnemyWizard());
 
 	//Victor
 	listPlayers.push_back(new VictorVanHelsing(glm::vec2(390.0f, 400.0f)));
 	addChild(listPlayers[0]);
 
+	
 	//BigSpider
-	addChild(new MotherSpider());
+	//addChild(new MotherSpider());
 
+	addChild(new DestructibleObject(glm::vec2(200.0f, 200.0f), 4));
 
 	//KingRat
-	addChild(new RatKing());
+	//addChild(new RatKing());
 
 	//Music
 	SoundManager::Instance().load("../Assets/audio/PlaySceneMusic.mp3", "PlaySceneMusic", SOUND_MUSIC);
@@ -301,40 +322,77 @@ void PlayScene::collisions()
 		for (int k = 0; k < getDisplayList().size();k++) 
 		{
 			if (getDisplayList()[i] != nullptr && getDisplayList()[k] != nullptr) {
-				if (getDisplayList()[i]->getType() == SWORD && getDisplayList()[k]->getType() == BOSS)
+				//PLAYER ABILITIES AND ENEMIES
+				if (getDisplayList()[i]->getType() == PLAYERABILITY && getDisplayList()[k]->getType() == ENEMY)
 				{
-					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
-						dynamic_cast<Enemy*>(getDisplayList()[k])->dropAbility();
-						getDisplayList()[k]->clean();
-						delete getDisplayList()[k];
-						getDisplayList()[k] = nullptr;
+					// **** Its the same code as the ability and boss check ****
+					if (CollisionManager::AABBCheckBoss(getDisplayList()[i], getDisplayList()[k])) {
+						dynamic_cast<Ability*>(getDisplayList()[i])->stop();
+						if ((getDisplayList()[k])->getLife() > 0) {
+
+							getDisplayList()[k]->getLife() -= getDisplayList()[i]->getDamage();
+						}
+						if ((getDisplayList()[k])->getLife() <= 0) {
+							getDisplayList()[k]->clean();
+							delete getDisplayList()[k];
+							getDisplayList()[k] = nullptr;
+							enemyKillCount++;
+						}
 					}
+					
 				
 				}
+				//PlAYER ABILITY AND BOSS
+				else if (getDisplayList()[i]->getType() == PLAYERABILITY && getDisplayList()[k]->getType() == BOSS)
+				{
+					if (CollisionManager::AABBCheckBoss(getDisplayList()[i], getDisplayList()[k])) {
+						dynamic_cast<Ability*>(getDisplayList()[i])->stop();
+						if ((getDisplayList()[k])->getLife() > 0) {
+
+							getDisplayList()[k]->getLife() -= getDisplayList()[i]->getDamage();
+						}
+						if ((getDisplayList()[k])->getLife() <= 0) {
+							getDisplayList()[k]->clean();
+							delete getDisplayList()[k];
+							getDisplayList()[k] = nullptr;
+							successful = true;
+						}
+					}
+
+				}
+
+				//VICTOR AND PICKEABLE OBJECTS
 				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == PICKABLE)
 				{
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
 						dynamic_cast<VictorVanHelsing*>(getDisplayList()[i])->addAbility(dynamic_cast<Ability*>(getDisplayList()[k])->getAbility());
-						getDisplayList()[k]->clean();
-						delete getDisplayList()[k];
-						getDisplayList()[k] = nullptr;
+						dynamic_cast<Ability*>(getDisplayList()[k])->stop();
 					}
 				}
-				else if (getDisplayList()[i]->getType() == PROJECTILE && getDisplayList()[k]->getType() == VICTOR)
+				//VICTOR AND ENEMYABILITIES
+				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == ENEMYABILITY)
 				{
 					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
-						
-						listPlayers[0]->getLife() -= 5;
+						dynamic_cast<Ability*>(getDisplayList()[k])->stop();
+						getDisplayList()[i]->getLife() -= 5;
 						SoundManager::Instance().playSound("Grunt");
-						if (listPlayers[0]->getLife() == 0)
+						if (getDisplayList()[i]->getLife() == 0)
 						{
 							changeState = true;
 						}
 					}
 				}
+				//VICTOR WITH DOOR
+				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == DOOR)
+				{
+					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+						
+						std::cout << " x: " << getDisplayList()[k]->getTransform()->position.x << " y: " << getDisplayList()[k]->getTransform()->position.y << "\n";
+						std::cout << "Hit Door\n";
+					}
+				}
 				
 			}
-			
 		}
 	}
 
@@ -342,6 +400,24 @@ void PlayScene::collisions()
 	if (changeState) {
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
+
+}
+
+bool PlayScene::tileCollision(GameObject* obj)
+{
+	return false;
+}
+
+int PlayScene::getLevelNumber()
+{
+	return levelNumber;
+}
+
+void PlayScene::invokeTransition()
+{
+	levelNumber++;
+	//std::cout << "in invoke transition.." << std::endl;
+	TheGame::Instance()->changeSceneState(TRANSITION_SCENE);
 
 }
 

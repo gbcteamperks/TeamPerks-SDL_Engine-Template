@@ -21,7 +21,7 @@ PlaneSprite::PlaneSprite()
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
-	setType(PLANE);
+	//setType(PLANE);
 
 	m_buildAnimations();
 	m_pObject = this;

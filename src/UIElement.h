@@ -1,6 +1,4 @@
 #pragma once
-
-#pragma once
 #ifndef __UI_ELEMENT__
 #define __UI_ELEMENT__
 
@@ -17,12 +15,12 @@ public:
 
 	// Inherited via GameObject
 	virtual void draw();
+	virtual void draw(const int a);
 	virtual void update(GameObject* player);
 	virtual void clean();
 
 
 private:
-	//Needle* m_pSprite;
-	//LifeBar* 
+	 
 };
 #endif

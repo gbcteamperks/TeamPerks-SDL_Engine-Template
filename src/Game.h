@@ -17,6 +17,7 @@
 #include "StartScene.h"
 #include "PlayScene.h"
 #include "EndScene.h"
+#include "TransitionScene.h"
 
 #include "Config.h"
 
@@ -61,14 +62,20 @@ private:
 	bool m_bRunning;
 	Uint32 m_frames;
 	glm::vec2 m_mousePosition;
+	mutable int level;
 
 	// scene variables
 	Scene* m_currentScene;
 	SceneState m_currentSceneState;
+	Scene* m_pTransitionScene;
+
+	bool transition = false;
 
 	// storage structures
 	std::shared_ptr<SDL_Window> m_pWindow;
 	static Game* s_pInstance;
+
+	static std::vector<Scene*>& GetStates();
 };
 
 typedef Game TheGame;

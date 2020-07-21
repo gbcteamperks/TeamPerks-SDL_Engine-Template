@@ -3,12 +3,13 @@
 #include "Animation.h"
 #include "PlayerAnimationState.h"
 #include "SpriteSheet.h"
+#include"UIElement.h"
 #include "Ability.h"
 #include <map>
 
 class RatKing : public Enemy{
 public:
-	RatKing();
+	RatKing(glm::vec2 position);
 	~RatKing();
 
 	virtual void draw() override;
@@ -23,6 +24,10 @@ private:
 	void Animate();
 
 	glm::vec2 playerPos;
+	std::vector<UIElement*> UI;
+	int m_lifeRedCounter;
+
+
 	
 	SpriteSheet* m_pSpriteSheet;
 	PlayerAnimationState m_currentAnimationState;

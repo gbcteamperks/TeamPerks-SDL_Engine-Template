@@ -31,7 +31,8 @@ bool FontManager::textToTexture(const std::string& text, const std::string& font
 {
 	//Render text surface
 
-	const auto textSurface(Config::make_resource(TTF_RenderText_Solid(m_fontMap[font_id].get(), text.c_str(), colour)));
+	//blended update-
+	const auto textSurface(Config::make_resource(TTF_RenderText_Blended(m_fontMap[font_id].get(), text.c_str(), colour)));
 	
 	if (textSurface == nullptr)
 	{

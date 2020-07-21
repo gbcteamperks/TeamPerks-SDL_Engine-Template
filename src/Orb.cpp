@@ -4,7 +4,7 @@ Orb::Orb()
 {
 	//m_velocity = 6;
 	m_running = false;
-	m_damage = 0;
+	m_damage = 15;
 
 	//getTransform()->position = glm::vec2(0.0f,0.0f);
 	TheTextureManager::Instance()->load("../Assets/Sprites/spiderExplode.png", "spiderExplode");
@@ -12,9 +12,9 @@ Orb::Orb()
 	getRigidBody()->isColliding = false;
 	//getTransform()->position = glm::vec2(100.0f, 100.0f);
 
-	setType(PROJECTILE);
+	setType(ENEMYABILITY);
 }
-Orb::Orb(glm::vec2 position, bool running, int angle, bool pickeable)
+Orb::Orb(glm::vec2 position, bool running, int angle, bool pickeable, bool enemyAbility)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/orbProjectile.txt",
@@ -57,8 +57,13 @@ Orb::Orb(glm::vec2 position, bool running, int angle, bool pickeable)
 		setType(PICKABLE);
 	}
 	else {
-		setType(PROJECTILE);
 		getTransform()->position += (70.0f * direction);
+		if (enemyAbility) {
+			setType(ENEMYABILITY);
+		}
+		else {
+			setType(PLAYERABILITY);
+		}
 	}
 	start();
 }
@@ -69,6 +74,8 @@ Orb::~Orb()
 
 void Orb::update()
 {
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
 	if (m_running && !m_pickable)
 	{
 		getTransform()->position += getRigidBody()->velocity;
@@ -95,10 +102,10 @@ void Orb::start()
 
 }
 
-void Orb::execute(glm::vec2 position, int angle)
+void Orb::execute(glm::vec2 position, int angle, bool enemyAbility)
 {
 	//getTransform()->position = position;
-	Game::Instance()->getCurrentScene()->addChild(new Orb(position, true, angle, false));
+	Game::Instance()->getCurrentScene()->addChild(new Orb(position, true, angle, false,enemyAbility));
 	SoundManager::Instance().playSound("Orb");
 
 }
@@ -106,6 +113,7 @@ void Orb::execute(glm::vec2 position, int angle)
 void Orb::stop()
 {
 	m_running = false;
+	m_abilityDone = true;
 }
 
 void Orb::sound()
@@ -184,5 +192,5 @@ void Orb::AnimateDeath()
 }
 void Orb::pickable(glm::vec2 position)
 {
-	Game::Instance()->getCurrentScene()->addChild(new Orb(position, true, 0, true));
+	Game::Instance()->getCurrentScene()->addChild(new Orb(position, true, 0, true, false));
 }

@@ -3,7 +3,7 @@
 Sword::Sword()
 {
 	m_running = false;
-	m_damage = 0;
+	m_damage = 25;
 
 
 	TheTextureManager::Instance()->load("../Assets/textures/swordSilver.png", "sword");
@@ -14,16 +14,16 @@ Sword::Sword()
 	getRigidBody()->isColliding = false;
 
 
-	setType(SWORD);
+	setType(PLAYERABILITY);
 	
 }
 
-Sword::Sword(glm::vec2 position, bool running, int angle, bool pickeable)
+Sword::Sword(glm::vec2 position, bool running, int angle, bool pickeable, bool enemyAbility)
 {
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_damage = 0;
+	m_damage = 25;
 
 	TheTextureManager::Instance()->load("../Assets/textures/swordSilver.png", "sword");
 
@@ -41,8 +41,13 @@ Sword::Sword(glm::vec2 position, bool running, int angle, bool pickeable)
 		setType(PICKABLE);
 	}
 	else {
-		setType(SWORD);
 		getTransform()->position += (70.0f * direction);
+		if (enemyAbility) {
+			setType(ENEMYABILITY);
+		}
+		else {
+			setType(PLAYERABILITY);
+		}
 	}
 	start();
 }
@@ -53,6 +58,8 @@ Sword::~Sword()
 
 void Sword::update()
 {
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
 	
 	if (abilityTimer > 15) {
 		m_abilityDone = true;
@@ -81,15 +88,15 @@ void Sword::start()
 	}
 }
 
-void Sword::execute(glm::vec2 position, int angle)
+void Sword::execute(glm::vec2 position, int angle, bool enemyAbility)
 {
-	Game::Instance()->getCurrentScene()->addChild(new Sword(position, true, angle, false)); 
+	Game::Instance()->getCurrentScene()->addChild(new Sword(position, true, angle, false, enemyAbility)); 
 	SoundManager::Instance().playSound("Sword");
 }
 
 void Sword::stop()
 {
-	m_running = false;
+	//m_running = false;
 }
 
 void Sword::sound()

@@ -2,9 +2,13 @@
 #include "TextureManager.h"
 #include "ExplosiveSpider.h"
 #include "Orb.h"
+#include "Game.h"
+#include "LevelManager.h"
+#include "MathManager.h"
+#include "EnemyLifeBar.h"
 
 
-MotherSpider::MotherSpider()
+MotherSpider::MotherSpider(glm::vec2 position)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/spider.txt",
@@ -13,21 +17,27 @@ MotherSpider::MotherSpider()
 
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("spiderBig");
 	m_pSpriteSheet->setWidthAndHeight(128, 128);
-	// set frame width
+	
+	// set frame width for the collision
 	setWidth(64);
 
-	// set frame height
+	// set frame height for the collision
 	setHeight(64);
+	setPosX(position.x);
+	setPosY(position.y);
 
-	getTransform()->position = glm::vec2(600.0f, 300.0f);
-	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
+	getTransform()->position = position;
+	getRigidBody()->velocity = glm::vec2(2.0f, 2.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
-	setType(BOSS);
+	setType(ENEMY);
 	addAbility(new ExplosiveSpider());
 	addAbility(new Orb());
 
 	m_buildAnimations();
+	m_pLife = new int(150);
+	m_lifeRedCounter = *m_pLife;
+	UI.push_back(new EnemyLifeBar);
 }
 
 MotherSpider::~MotherSpider()
@@ -37,27 +47,65 @@ MotherSpider::~MotherSpider()
 void MotherSpider::draw()
 {
 	Animate();
+
+	for (auto s : UI)
+	{
+		s->draw(this->m_lifeRedCounter);
+	}
+
 }
 
 void MotherSpider::update()
 {
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
+
+	checkCollisionWithLevel(LevelManager::Instance()->getObstacles());
+
 	static int tempCounter = 0;
-	if (tempCounter > 120) {
-		int randomNum = rand() % 2;
-		if (randomNum == 0)
-		{
-			m_currentAnimationState = PLAYER_RUN_LEFT;
-		}
-		else if (randomNum == 1)
-		{
-			m_currentAnimationState = ABILITY_LEFT;
-			useCurrentAbility();
-		}
-		//m_currentAnimationState = static_cast<PlayerAnimationState>(rand() % 8); //num of animation states
+	if (tempCounter > 60) { //change state every # seconds
 		
-		tempCounter = 0;
+		if (m_randomAction == 0)
+		{
+			if (m_angle >= -45 && m_angle < 45)
+			{
+				m_currentAnimationState = PLAYER_RUN_RIGHT;
+			}
+			else if (m_angle >= 45 && m_angle < 135)
+			{
+				m_currentAnimationState = PLAYER_RUN_DOWN;
+			}
+			else if (m_angle >= 135 || m_angle < -135)
+			{
+				m_currentAnimationState = PLAYER_RUN_LEFT;
+			}
+			else if (m_angle >= -135 && m_angle < -45)
+			{
+				m_currentAnimationState = PLAYER_RUN_UP;
+			}
+			fleeBehaviour(PlayScene::listPlayers[0]);
+			if (PlayScene::listPlayers.size() > 1)
+			{
+				fleeBehaviour(PlayScene::listPlayers[1]);
+			}
+			if (tempCounter > 120) {
+				tempCounter = 0;
+				m_randomAction = rand() % 2;
+			}
+		}
+		else if (m_randomAction == 1)
+		{
+			useCurrentAbility();
+			tempCounter = 0;
+			m_randomAction = rand() % 2;
+		}
 	}
 	tempCounter++;
+	for (auto s : UI)
+	{
+		s->update(this);
+	}
+
 }
 
 void MotherSpider::clean()
@@ -67,22 +115,34 @@ void MotherSpider::clean()
 
 void MotherSpider::useCurrentAbility()
 {
+	int angle = MAMA::AngleBetweenPoints(this->getTransform()->position, PlayScene::listPlayers[0]->getTransform()->position);
+	if (angle >= -45 && angle < 45)
+	{
+		m_currentAnimationState = ABILITY_RIGHT;
+	}
+	else if (angle >= 45 && angle < 135)
+	{
+		m_currentAnimationState = ABILITY_DOWN;
+	}
+	else if (angle >= 135 || angle < -135)
+	{
+		m_currentAnimationState = ABILITY_LEFT;
+	}
+	else if (angle >= -135 && angle < -45)
+	{
+		m_currentAnimationState = ABILITY_UP;
+	}
 	if (m_pListAbilities.size() > 0) {
-		switch (m_currentAnimationState)
-		{
-		case ABILITY_LEFT:
-			m_pListAbilities.front()->execute(getTransform()->position, 180); // to the left
-			changeAbility();
-			break;
-		default:
-			break;
-		}
-		
+
+		m_pListAbilities.front()->execute(getTransform()->position, angle, true); // to the left
+		changeAbility();
 	}
 }
 
 void MotherSpider::m_buildAnimations()
 {
+	
+
 	Animation runupAnimation = Animation();
 
 	runupAnimation.name = "run_up";
@@ -132,7 +192,7 @@ void MotherSpider::m_buildAnimations()
 	runrightAnimation.frames.push_back(m_pSpriteSheet->getFrame("spider_right8"));
 	runrightAnimation.frames.push_back(m_pSpriteSheet->getFrame("spider_right9"));
 	runrightAnimation.frames.push_back(m_pSpriteSheet->getFrame("spider_right10"));
-	runrightAnimation.setWidthAndHeight(64, 64);
+	//runrightAnimation.setWidthAndHeight(64, 64);
 
 	m_pAnimations["run_right"] = runrightAnimation;
 

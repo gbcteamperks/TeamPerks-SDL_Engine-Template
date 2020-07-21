@@ -1,17 +1,17 @@
 #include "Tile.h"
 #include "TextureManager.h"
 
-Tile::Tile(std::string name, float posX, float posY, const bool o,const bool h)
+Tile::Tile(std::string name, int x, int y, const bool o,const bool h)
 {
     //m_sPath = spritePath;
     m_sName = name;
+    m_iX = x;
+    m_iY = y;
     m_bObstacle = o;
     m_bHazard = h;
-    m_fX = posX;
-    m_fY = posY;
-    
-    setWidth(64);
-    setHeight(64);
+    m_node = nullptr;
+    setWidth(32);
+    setHeight(32);
     setType(TILE);
     
 }
@@ -22,10 +22,8 @@ Tile::~Tile()
 
 void Tile::draw()
 {
-    const auto x = getTransform()->position.x;
-    const auto y = getTransform()->position.y;
 
-    TheTextureManager::Instance()->drawTile(m_sName, x, y,m_fX,m_fY, 0, 255, false);
+    TheTextureManager::Instance()->drawTile("tiles", getTransform()->position.x, getTransform()->position.y,m_iX,m_iY, 0, 255, false);
 }
 
 void Tile::update()
@@ -46,9 +44,18 @@ bool Tile::isHazard()
     return m_bHazard;
 }
 
-Tile* Tile::Clone()
+void Tile::setXY(int x, int y)
 {
-    return new Tile(m_sName, m_fX, m_fY, m_bObstacle, m_bHazard);
+    m_iX = x;
+    m_iY = y;
 }
 
+Tile* Tile::Clone()
+{
+    return new Tile(m_sName, m_iX, m_iY, m_bObstacle, m_bHazard);
+}
 
+void Tile::Print() 
+{
+    std::cout << "TX: " << m_iX << "TY: " << m_iY << "\n";
+}

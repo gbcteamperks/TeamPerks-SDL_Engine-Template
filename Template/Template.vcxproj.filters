@@ -39,6 +39,9 @@
     <Filter Include="Abilities">
       <UniqueIdentifier>{baa00658-b553-41df-8df5-4934c3742fba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LevelData">
+      <UniqueIdentifier>{56ab8949-ba5a-442c-9c90-941480440da3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -80,9 +83,6 @@
     <ClCompile Include="..\src\SpriteSheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\PlaneSprite.cpp">
-      <Filter>Game Objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\PlayScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -91,12 +91,6 @@
     </ClCompile>
     <ClCompile Include="..\src\Label.cpp">
       <Filter>UI Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ship.cpp">
-      <Filter>Game Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Target.cpp">
-      <Filter>Game Objects</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Renderer.cpp">
       <Filter>Singletons</Filter>
@@ -176,6 +170,21 @@
     <ClCompile Include="..\src\RatBiter.cpp">
       <Filter>Abilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\SpawnEnemiesManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SkeletonEnemy.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\TransitionScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\EnemyLifeBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\DestructibleObject.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -229,9 +238,6 @@
     <ClInclude Include="..\src\SpriteSheet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\PlaneSprite.h">
-      <Filter>Game Objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -252,12 +258,6 @@
     </ClInclude>
     <ClInclude Include="..\src\Label.h">
       <Filter>UI Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ship.h">
-      <Filter>Game Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Target.h">
-      <Filter>Game Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Transform.h">
       <Filter>Components</Filter>
@@ -352,6 +352,24 @@
     <ClInclude Include="..\src\RatBiter.h">
       <Filter>Abilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\SpawnEnemiesManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SkeletonEnemy.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\TransitionScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\EnemyLifeBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\DestructibleObject.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\DestructibleObjectState.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf">
@@ -416,6 +434,9 @@
     <Image Include="..\Assets\sprites\TileTest.png">
       <Filter>Sprites</Filter>
     </Image>
+    <Image Include="..\Assets\sprites\skeleton.png">
+      <Filter>Sprites</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Assets\sprites\atlas.txt">
@@ -432,6 +453,18 @@
     </Text>
     <Text Include="..\Assets\sprites\BlueGem.txt">
       <Filter>Sprites</Filter>
+    </Text>
+    <Text Include="..\Assets\data\Level.txt">
+      <Filter>LevelData</Filter>
+    </Text>
+    <Text Include="..\Assets\data\Level1.txt">
+      <Filter>LevelData</Filter>
+    </Text>
+    <Text Include="..\Assets\sprites\TileData.txt">
+      <Filter>LevelData</Filter>
+    </Text>
+    <Text Include="..\Assets\data\Level2.txt">
+      <Filter>LevelData</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

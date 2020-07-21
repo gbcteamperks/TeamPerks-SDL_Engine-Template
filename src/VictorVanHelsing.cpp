@@ -6,7 +6,10 @@
 #include "Sword.h"
 #include "LifeBar.h"
 #include "Needle.h"
-
+#include "LevelManager.h"
+#include "ExplosiveSpider.h"
+#include "Util.h"
+int VictorVanHelsing::numberOfPlayers = 0;
 VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICTOR_WALK_UP)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
@@ -16,17 +19,21 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("victorvanhelsing");
 
-	// set frame width
-	setWidth(40);
-
-	// set frame height
-	setHeight(60);
+	
+	m_playerNumber = numberOfPlayers; // assign an id to this player
+	numberOfPlayers++; //add a player every time a victor is created
+	// set collision Box.
+	setWidth(35);
+	setHeight(48);
+	setPosX(pos.x);
+	setPosY(pos.y+ 8);
 
 	getTransform()->position = pos;
-	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
+	getRigidBody()->velocity = glm::vec2(2.0f, 2.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	addAbility(new Sword());
+	addAbility(new ExplosiveSpider());
 	setType(VICTOR);
 
 	m_buildAnimations();
@@ -34,6 +41,7 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 
 	UIList.push_back(new LifeBar());
 	UIList.push_back(new Needle());
+	m_pLife = new int(100);
 }
 
 VictorVanHelsing::~VictorVanHelsing()
@@ -44,6 +52,7 @@ void VictorVanHelsing::draw()
 	// alias for x and y
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
+	
 
 	switch (m_currentAnimationState)
 	{
@@ -78,7 +87,11 @@ void VictorVanHelsing::draw()
 
 void VictorVanHelsing::update()
 {
-	GameObject::m_BoundsRestrict();
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y + 8);
+	m_BoundsRestrict();
+	checkCollisionWithLevel(LVLMAN::Instance()->getObstacles());
+
 	for (auto s : UIList)
 	{
 		s->update(this);
@@ -117,7 +130,7 @@ void VictorVanHelsing::useCurrentAbility(int player)
 		setAngle(MAMA::AngleBetweenPoints(getTransform()->position, EventManager::Instance().getMousePosition()));
 		if (m_pListAbilities.size() > 0) 
 		{
-			m_pListAbilities.front()->execute(getTransform()->position, getAngle());
+			m_pListAbilities.front()->execute(getTransform()->position, getAngle(), false);
 		}
 	}
 	if (player == 2)
@@ -125,7 +138,7 @@ void VictorVanHelsing::useCurrentAbility(int player)
 		if (m_pListAbilities.size() > 0)
 		{
 			setAngle(MAMA::AngleBetweenPoints(getTransform()->position, EventManager::Instance().getGameController(0)->getLeftJoystickPosition()));
-			m_pListAbilities.front()->execute(getTransform()->position, getAngle());
+			m_pListAbilities.front()->execute(getTransform()->position, getAngle(), false);
 		}
 	}
 

@@ -1,6 +1,8 @@
 #include "LevelManager.h"
 #include "TextureManager.h"
 #include "MathManager.h"
+#include "Util.h"
+#include "PlayScene.h"
 #include <fstream>
 
 LevelManager* LevelManager::s_pInstance = nullptr;
@@ -11,52 +13,96 @@ LevelManager::~LevelManager() = default;
 
 void LevelManager::update(float scroll, bool x)
 {
-	for (int row = 0; row < Config::ROW_NUM; row++)
+
+	for (auto i : m_obstacles)
 	{
-		for (int col = 0; col < Config::COL_NUM; col++)
+		if (i->getType() == DESTRUCTIBLE)
 		{
-			if (x)
-			{
-				m_level[row][col]->getTransform()->position.x += scroll;
-			}
-			else
-			{
-				m_level[row][col]->getTransform()->position.y += scroll;
-			}
+			i->update();
+		
 		}
+		
 	}
-	if (x) 
-	{
-		m_sumDX += scroll;
-	}
-	else
-	{
-		m_sumDY += scroll;
-	}
+	//for (int row = 0; row < Config::ROW_NUM; row++)
+	//{
+	//	for (int col = 0; col < Config::COL_NUM; col++)
+	//	{
+	//		if (x)
+	//		{
+	//			m_level[row][col]->getTransform()->position.x += scroll;
+	//		}
+	//		else
+	//		{
+	//			m_level[row][col]->getTransform()->position.y += scroll;
+	//		}
+	//	}
+	//}
+	//if (x) 
+	//{
+	//	m_sumDX += scroll;
+	//}
+	//else
+	//{
+	//	m_sumDY += scroll;
+	//}
 }
 
 void LevelManager::clean()
 {
-
+	//Cleaning as Alex would say "Wrangle your Dangle"
 	clearLevel();
 	clearTiles();
 }
 
-void LevelManager::render()
+void LevelManager::render(bool debug)
 {
+	//Draw out the tiles
 	for (int row = 0; row < Config::ROW_NUM; row++)
 	{
 		for (int col = 0; col < Config::COL_NUM; col++)
 		{
-			
 			m_level[row][col]->draw();
-		
+
+			if (debug) 
+			{
+				if (m_level[row][col]->m_node->isOpen()) 
+				{
+					Util::DrawRect({ m_level[row][col]->getPosX(), m_level[row][col]->getPosY() }, m_level[row][col]->getWidth(), m_level[row][col]->getHeight(), { 0.0f,0.0f,1.0f,1.0f });
+				}
+				else 
+				{
+					Util::DrawRect({ m_level[row][col]->getPosX(), m_level[row][col]->getPosY() }, m_level[row][col]->getWidth(), m_level[row][col]->getHeight(), { 1.0f,0.0f,0.0f,1.0f });
+				}
+			}
 		}
 	}
+
+	for (auto i : m_obstacles) 
+	{
+		if (i->getType() == DESTRUCTIBLE) 
+		{
+			i->draw();
+			
+		}
+		if (debug)
+		{
+			if (i->getType() == DESTRUCTIBLE) 
+			{
+				Util::DrawRect({ i->getPosX() /*- i->getWidth()*/, i->getPosY() /*- i->getHeight() */ }, i->getWidth() - 10, i->getHeight() - 10, { 1.0f,1.0f,1.0f,1.0f });
+			}
+			else {
+				//Util::DrawRect({ i->getPosX(), i->getPosY() }, i->getWidth(), i->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+			}
+		}
+	}
+
+	
 }
 
 void LevelManager::loadTiles(std::string spritePath, std::string texture_Name, std::string tileDataPath)
 {
+	
+	TextureManager::Instance()->load(spritePath, texture_Name);
 	std::ifstream inFile(tileDataPath);
 	if (inFile.is_open())
 	{
@@ -64,18 +110,19 @@ void LevelManager::loadTiles(std::string spritePath, std::string texture_Name, s
 		char key;
 		int x, y;
 		bool o, h;
-	
-		TheTextureManager::Instance()->load(spritePath, texture_Name);
+
 		while (!inFile.eof())
 		{
 			inFile >> key >> x >> y >> o >> h;
+			std::cout << "tile x " << x << " tile y " << y << "\n";
 			m_tiles.emplace(key, new Tile("tiles", x, y, o, h));
 		}
+	
 	}
 	inFile.close();
 }
 
-void LevelManager::loadLevel(std::string levelDataPath)
+void LevelManager::loadLevel(std::string levelDataPath) //Passes the scene display list to add obstacles and hazard tiles
 {
 	std::ifstream inFile(levelDataPath);
 	if (inFile.is_open())
@@ -88,25 +135,39 @@ void LevelManager::loadLevel(std::string levelDataPath)
 			{
 				inFile >> key;
 				m_level[row][col] = m_tiles[key]->Clone();
-				m_level[row][col]->getTransform()->position.x = (float)64 * col;
-				m_level[row][col]->getTransform()->position.y = (float)64 * row;
+				m_level[row][col]->getTransform()->position.x = (int)(col* Config::TILE_SIZE);
+				m_level[row][col]->getTransform()->position.y = (int)(row* Config::TILE_SIZE);
+				
+				m_level[row][col]->m_node = new PathNode((int)(m_level[row][col]->getTransform()->position.x + 16), (int)(m_level[row][col]->getTransform()->position.y + 16));
+
+				m_level[row][col]->setPosX(m_level[row][col]->getTransform()->position.x);
+				m_level[row][col]->setPosY(m_level[row][col]->getTransform()->position.y);
+				if (m_level[row][col]->getX() == 4 && m_level[row][col]->getY() == 1) //if the index nums match up to where the door tile is on the texture make the tile a door game object
+				{
+					m_level[row][col]->setType(SPIKES);
+				}
+
+				if (m_level[row][col]->isObstacle() || m_level[row][col]->isHazard()) //If tile is an obstacle add it to the obstacle list
+				{
+					m_obstacles.push_back(m_level[row][col]);
+					m_level[row][col]->m_node->toggleNode();
+				}
 			}
 		}
 	}
 	inFile.close();
+	m_obstacles.push_back(new DestructibleObject(m_level[5][10]->getTransform()->position, 4));
 }
+
 
 void LevelManager::clearTiles()
 {
-	for (int row = 0; row < Config::ROW_NUM; row++)
+	for (int t = 0; t < m_tiles.size(); t++)
 	{
-		for (int col = 0; col < Config::COL_NUM; col++)
-		{
-
-			
-
-		}
+		delete m_tiles[t];
+		m_tiles[t] = nullptr;
 	}
+	m_tiles.clear();
 }
 
 void LevelManager::clearLevel()
@@ -119,34 +180,53 @@ void LevelManager::clearLevel()
 			m_level[row][col] = nullptr;
 		}
 	}
+	m_obstacles.clear();
 }
 
-bool LevelManager::checkCollision(GameObject* obj, const int dX, const int dY)
+bool LevelManager::checkCollision(GameObject* obj, const int dX, const int dY) //kinda took this out
 {
-	int row = (obj->getTransform()->position.y - m_sumDY) / 64;
-	int col = (obj->getTransform()->position.x - m_sumDX) / 64;
+	//int row = ((obj->getTransform()->position.y - m_sumDY) / Config::TILE_SIZE);
+	//int col = ((obj->getTransform()->position.x - m_sumDX) / Config::TILE_SIZE);
+	//const int numTiles = 4;
+	//
+	////std::cout <<" x: "<<col << " y: " << row << "\n";
+	//SDL_Rect p = { obj->getTransform()->position.x + dX, obj->getTransform()->position.y + dY,obj->getWidth(),obj->getHeight()}; // Adjusted bounding box.
+	////std::cout << "p " << " x " << p.x << " y " << p.y << " w " << p.w << " h " << p.h <<"\n";
+	//Tile* tiles[numTiles] = { m_level[row][col],																				// Player's tile.
+	//				   m_level[row][(col + 1 == Config::COL_NUM ? Config::COL_NUM - 1 : col + 1)],						// Right tile.
+	//				   m_level[(row + 1 == Config::ROW_NUM ? Config::ROW_NUM - 1 : row + 1)][(col + 1 == Config::COL_NUM ? Config::COL_NUM - 1 : col + 1)],	// Bottom-Right tile.
+	//				   m_level[(row + 1 == Config::ROW_NUM ? Config::ROW_NUM - 1 : row + 1)][col] // Bottom tile.
+	//				};
 
-	
-	//std::cout <<" x: "<<col << " y: " << row << "\n";
-	SDL_Rect p = { obj->getTransform()->position.x + dX, obj->getTransform()->position.y + dY,obj->getWidth(),obj->getHeight()}; // Adjusted bounding box.
-	//std::cout << "p " << " x " << p.x << " y " << p.y << " w " << p.w << " h " << p.h <<"\n";
-	Tile* tiles[4] = { m_level[row][col],																				// Player's tile.
-					   m_level[row][(col + 1 == Config::COL_NUM ? Config::COL_NUM - 1 : col + 1)],						// Right tile.
-					   m_level[(row + 1 == Config::ROW_NUM ? Config::ROW_NUM - 1 : row + 1)][(col + 1 == Config::COL_NUM ? Config::COL_NUM - 1 : col + 1)],	// Bottom-Right tile.
-					   m_level[(row + 1 == Config::ROW_NUM ? Config::ROW_NUM - 1 : row + 1)][col] // Bottom tile.
-					};									
-	for (int i = 0; i < 4; i++)
+	//for (int i = 0; i < numTiles; i++)
+	//{
+	//	
+
+	//	SDL_Rect t = MAMA::RectConverter(tiles[i]);
+	//	//std::cout << i <<" x: " << tiles[i]->getTransform()->position.x <<"y: " << tiles[i]->getTransform()->position.y << "is obstacle" << tiles[i]->isObstacle() << "\n";
+	//	if (tiles[i]->isObstacle())
+	//	{	
+	//		if (SDL_HasIntersection(&p, &t))
+	//		{
+	//			std::cout << "Collision" << std::endl;
+	//			return true;
+	//		}
+	//	}
+	//}
+	return false;
+}
+
+void LevelManager::printNodes()
+{
+	for (int row = 0; row < Config::ROW_NUM; row++)
 	{
-		SDL_Rect t = MAMA::RectConverter(tiles[i]);
-		//std::cout << i <<" x: " << tiles[i]->getTransform()->position.x <<"y: " << tiles[i]->getTransform()->position.y << "is obstacle" << tiles[i]->isObstacle() << "\n";
-		if (tiles[i]->isObstacle())
-		{	
-			if (SDL_HasIntersection(&p, &t))
+		for (int col = 0; col < Config::COL_NUM; col++)
+		{
+			if (m_level[row][col]->m_node != nullptr) 
 			{
-				std::cout << "Collision" << std::endl;
-				return true;
+				std::cout << "Node at x: " << m_level[row][col]->m_node->x << " y: " << m_level[row][col]->m_node->y <<"\n";
 			}
+			
 		}
 	}
-	return false;
 }

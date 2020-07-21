@@ -28,6 +28,7 @@ public:
 	void updateDisplayList();
 	void drawDisplayList();
 	std::vector<DisplayObject*>& getDisplayList();
+	std::vector<DisplayObject*> getEnemies();
 
 private:
 	std::vector<DisplayObject*> m_displayList;

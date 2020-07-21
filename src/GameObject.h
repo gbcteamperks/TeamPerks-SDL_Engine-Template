@@ -6,18 +6,19 @@
 #include "RigidBody.h"
 //#include "CollisionManager.h"
 #include <string>
+#include <vector>
 
 // enums
 #include "GameObjectType.h"
 
 //--
 // enum for which boundary the object collided
-enum {
+enum BoundaryCollided{
 	NOCOLLISION = 0,
 	RIGHTBOUNDARY,
 	LEFTBOUNDARY,
-	BELOWBOUNDARY,
-	ABOVEBOUNDARY
+	TOPBOUNDARY,
+	BOTTOMBOUNDARY
 };
 
 class GameObject {
@@ -43,10 +44,14 @@ public:
 	// getters and setters for game object properties
 	int getWidth() const;
 	int getHeight() const;
+	int getPosX() const;
+	int getPosY() const;
 	int getAngle() const;
 
 	void setWidth(int new_width);
 	void setHeight(int new_height);
+	void setPosX(int new_posX);
+	void setPosY(int new_posY);
 	void setAngle(int new_angle);
 	GameObjectType getType() const;
 	GameObjectType getParentType() const;
@@ -54,28 +59,36 @@ public:
 	void setParentType(GameObjectType new_type);
 	void m_BoundsRestrict();
 	bool m_CheckBounds();
+	bool checkCollisionWithLevel(std::vector<GameObject*> listObstacles);
+	void fleeBehaviour(GameObject* obj);
 
 	//--GameObject* getCurrentObject();
-
+	BoundaryCollided m_boundHit = NOCOLLISION;		//refer above enum
 	virtual int& getLife();
-private:
+	virtual int& getDamage();
+protected:
 	// transform component
 	Transform m_transform;
 	
 	// rigid body component
 	RigidBody m_rigidBody;
 
-	// size variables
+	// size variables for collision
 	int m_width;
 	int m_height;
+	int m_posX;
+	int m_posY;
 	GameObjectType m_type;
 	GameObjectType m_parent;
-	int m_boundHit = 0;		//refer above enum
+	
 	//-- self reference
 
 	int m_angle;
 	GameObject* m_currentObject;
 	int* m_pLife;
+	int* m_pDamage;
+
+	//debug
 
 };
 

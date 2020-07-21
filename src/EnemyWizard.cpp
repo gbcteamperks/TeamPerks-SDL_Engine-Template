@@ -1,7 +1,9 @@
 #include "EnemyWizard.h"
+#include "EnemyLifeBar.h"
 #include "Fireball.h"
 
-EnemyWizard::EnemyWizard() : m_currentAnimationState(BOSSONE_WALK_RIGHT)
+
+EnemyWizard::EnemyWizard(glm::vec2 position) : m_currentAnimationState(BOSSONE_WALK_RIGHT)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
 		"../Assets/sprites/magicenemy.txt",
@@ -15,8 +17,10 @@ EnemyWizard::EnemyWizard() : m_currentAnimationState(BOSSONE_WALK_RIGHT)
 
 	// set frame height
 	setHeight(60);
+	setPosX(position.x);
+	setPosY(position.y);
 
-	getTransform()->position = glm::vec2(90.0f, 90.0f);
+	getTransform()->position = position;
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
@@ -24,6 +28,11 @@ EnemyWizard::EnemyWizard() : m_currentAnimationState(BOSSONE_WALK_RIGHT)
 	setType(BOSS);
 
 	m_buildAnimations();
+
+	// Life
+	m_pLife = new int(100);
+	m_lifeRedCounter = *m_pLife;
+	UI.push_back(new EnemyLifeBar);
 }
 
 EnemyWizard::~EnemyWizard()
@@ -35,6 +44,7 @@ void EnemyWizard::draw()
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
 
+	
 	// draw the player according to animation state
 	switch (m_currentAnimationState)
 	{
@@ -57,14 +67,23 @@ void EnemyWizard::draw()
 	default:
 		break;
 	}
+	for (auto s : UI)
+	{
+		s->draw(this->m_lifeRedCounter);
+	}
 
 }
 
 void EnemyWizard::update()
 {
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
 	runHereThere();
 	bossAttack();
-
+	for (auto s : UI)
+	{
+		s->update(this);
+	}
 
 }
 

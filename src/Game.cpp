@@ -96,6 +96,7 @@ void Game::start()
 	m_currentSceneState = NO_SCENE;
 
 	changeSceneState(START_SCENE);
+	level = 1;
 }
 
 bool Game::isRunning() const
@@ -121,44 +122,55 @@ Uint32 Game::getFrames() const
 
 void Game::changeSceneState(const SceneState new_state)
 {
-	if (new_state != m_currentSceneState) {
-
-		// scene clean up
-		if (m_currentSceneState != NO_SCENE) 
-		{
-			m_currentScene->clean();
-			std::cout << "cleaning previous scene" << std::endl;
-			FontManager::Instance()->clean();
-			std::cout << "cleaning FontManager" << std::endl;
-			TextureManager::Instance()->clean();
-			std::cout << "cleaning TextureManager" << std::endl;
-		}
-
-		m_currentScene = nullptr;
-
-		m_currentSceneState = new_state;
-
-		EventManager::Instance().reset();
-
-		switch (m_currentSceneState)
-		{
-		case START_SCENE:
-			m_currentScene = new StartScene();
-			std::cout << "start scene activated" << std::endl;
-			break;
-		case PLAY_SCENE:
-			m_currentScene = new PlayScene();
-			std::cout << "play scene activated" << std::endl;
-			break;
-		case END_SCENE:
-			m_currentScene = new EndScene();
-			std::cout << "end scene activated" << std::endl;
-			break;
-		default:
-			std::cout << "default case activated" << std::endl;
-			break;
-		}
+	if(new_state == TRANSITION_SCENE)
+	{
+		m_pTransitionScene = new TransitionScene();
+		transition = true;
 	}
+	else
+	{
+		transition = false;
+	/*	if (new_state != m_currentSceneState) {*/
+
+			// scene clean up
+			if (m_currentSceneState != NO_SCENE)
+			{
+				m_currentScene->clean();
+				std::cout << "cleaning previous scene" << std::endl;
+				FontManager::Instance()->clean();
+				std::cout << "cleaning FontManager" << std::endl;
+				TextureManager::Instance()->clean();
+				std::cout << "cleaning TextureManager" << std::endl;
+			}
+
+			m_currentScene = nullptr;
+
+			m_currentSceneState = new_state;
+
+			EventManager::Instance().reset();
+
+			switch (m_currentSceneState)
+			{
+			case START_SCENE:
+				m_currentScene = new StartScene();
+				std::cout << "start scene activated" << std::endl;
+				break;
+			case PLAY_SCENE:
+				m_currentScene = new PlayScene(level);
+				level++;
+				std::cout << "play scene activated" << std::endl;
+				break;
+			case END_SCENE:
+				m_currentScene = new EndScene();
+				std::cout << "end scene activated" << std::endl;
+				break;
+			default:
+				std::cout << "default case activated" << std::endl;
+				break;
+			}
+		/*}*/
+	}
+	
 	
 }
 
@@ -176,14 +188,35 @@ void Game::render() const
 {
 	SDL_RenderClear(Renderer::Instance()->getRenderer()); // clear the renderer to the draw colour
 
-	m_currentScene->draw();
-
+	if(transition && !dynamic_cast<TransitionScene*>(m_pTransitionScene)->goToClean())
+	{
+		m_currentScene->draw();
+		m_pTransitionScene->draw();
+	}
+	else if (m_currentScene != nullptr)
+	{
+		m_currentScene->draw();
+	}
+	
 	SDL_RenderPresent(Renderer::Instance()->getRenderer()); // draw to the screen
 }
 
 void Game::update() const
 {
-	m_currentScene->update();
+	if(transition)
+	{
+		m_pTransitionScene->update();
+		if(dynamic_cast<TransitionScene*>(m_pTransitionScene)->goToClean())
+		{
+			level = dynamic_cast<PlayScene*>(m_currentScene)->getLevelNumber();
+		}
+	}
+	else
+	{
+		m_currentScene->update();
+	}
+
+	
 }
 
 void Game::clean() const
