@@ -26,7 +26,7 @@ private:
 	glm::vec2 playerPos;
 	std::vector<UIElement*> UI;
 	int m_lifeRedCounter;
-	int m_life;
+
 
 	
 	SpriteSheet* m_pSpriteSheet;

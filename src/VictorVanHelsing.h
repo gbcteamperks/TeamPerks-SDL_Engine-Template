@@ -31,7 +31,7 @@ public:
 	void useCurrentAbility(int player);
 	void changeAbility();
 	//Test To Lfe Bar
-	int& getLife() { return m_Life; }
+	int& getLife() { return *m_pLife; }
 	int getPlayerNumner() { return m_playerNumber; }
 	bool right, down = false;
 	static int numberOfPlayers;
@@ -48,7 +48,6 @@ private:
 	std::vector<Ability*> m_pListAbilities;
 	bool m_abilityReady = true;
 	int m_playerNumber;
-	int m_Life = 100;
 	std::vector<UIElement*> UIList;
 
 };

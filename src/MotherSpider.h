@@ -17,7 +17,7 @@ public:
 	virtual void clean() override;
 
 	void useCurrentAbility();
-	int& getLife() override { return m_Life; }
+	int& getLife() override { return *m_pLife; }
 
 private:
 	//animation variables
@@ -31,6 +31,5 @@ private:
 	//UI
 	std::vector<UIElement*> UI;
 	int m_lifeRedCounter;
-	int m_life;
 
 };

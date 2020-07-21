@@ -41,6 +41,7 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 
 	UIList.push_back(new LifeBar());
 	UIList.push_back(new Needle());
+	m_pLife = new int(100);
 }
 
 VictorVanHelsing::~VictorVanHelsing()
