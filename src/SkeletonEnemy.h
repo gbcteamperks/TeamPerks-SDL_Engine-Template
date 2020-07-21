@@ -17,7 +17,6 @@ public:
 	virtual void update() override;
 	virtual void clean() override;
 
-	int& getLife() override { return *m_pLife; }
 private:
 	//animation variables
 	void m_buildAnimations();

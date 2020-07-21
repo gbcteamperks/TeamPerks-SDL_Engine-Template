@@ -17,7 +17,6 @@ public:
 	void sound();
 	void animation();
 	void pickable(glm::vec2 position);
-	int& getDamage() { return m_damage; }
 
 	Orb* getAbility() override { return new Orb(); }
 
@@ -30,13 +29,6 @@ private:
 	SpriteSheet* m_pSpriteSheet;
 	
 	PlayerAnimationState m_currentAnimationState;
-	
-
-	bool m_running = false;
-	bool m_pickable = false;
-
-	int m_damage;
-	int m_angle;
 
 	StaticSprite* m_pPortrait;
 

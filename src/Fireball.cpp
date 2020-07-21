@@ -4,8 +4,7 @@ Fireball::Fireball()
 {
 	//m_velocity = 6;
 	m_running = false;
-	m_damage = 10;
-
+	m_pDamage = 5;
 	//getTransform()->position = glm::vec2(0.0f,0.0f);
 	TheTextureManager::Instance()->load("../Assets/Sprites/magicenemy-projectile.png", "circle");
 
@@ -23,7 +22,7 @@ Fireball::Fireball(glm::vec2 position, bool running, int angle, bool pickeable, 
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_damage = 0;
+	m_pDamage = 5;
 
 	getTransform()->position = position;
 	getRigidBody()->velocity += 6.0;
@@ -61,6 +60,12 @@ void Fireball::update()
 	if (m_running && !m_pickable) 
 	{
 		getTransform()->position += getRigidBody()->velocity;
+	}
+	else if (m_running && m_pickable)
+	{
+		m_pickeableTimer++;
+		if (m_pickeableTimer > 300)
+			m_abilityDone = true;
 	}
 }
 

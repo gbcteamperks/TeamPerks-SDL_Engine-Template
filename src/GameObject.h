@@ -85,8 +85,8 @@ protected:
 
 	int m_angle;
 	GameObject* m_currentObject;
-	int* m_pLife;
-	int* m_pDamage;
+	int m_pLife;
+	int m_pDamage;
 
 	//debug
 

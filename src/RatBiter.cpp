@@ -4,7 +4,7 @@ RatBiter::RatBiter()
 {
 	//m_velocity = 6;
 	m_running = false;
-	m_damage = 40;
+	m_pDamage = 40;
 
 	TextureManager::Instance()->load("../Assets/sprites/rat_small.png", "ratsmall");
 
@@ -29,7 +29,7 @@ RatBiter::RatBiter(glm::vec2 position, bool running, int angle, bool pickeable, 
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_damage = 0;
+	m_pDamage = 40;
 
 	m_currentAnimationState = PLAYER_RUN_UP;
 	m_buildAnimations();
@@ -69,6 +69,12 @@ void RatBiter::update()
 			getTransform()->position += getRigidBody()->velocity;
 		}
 		walkTimer++;
+	}
+	else if (m_running && m_pickable)
+	{
+		m_pickeableTimer++;
+		if (m_pickeableTimer > 300)
+			m_abilityDone = true;
 	}
 }
 

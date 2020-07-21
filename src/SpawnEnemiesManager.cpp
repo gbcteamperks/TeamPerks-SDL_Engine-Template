@@ -19,11 +19,11 @@ void SpawnEnemiesManager::level1()
 	auto level = LVLMAN::Instance()->getLevel();
 	if (timer > randomNum && countEnemies < 4)
 	{
-		int randomCol = rand() % (Config::COL_NUM - 1) + 1 ;
-		int randomRow = rand() % (Config::ROW_NUM- 1) + 1;
-		for (int col = randomCol; col < Config::COL_NUM; col++)
+		int randomCol = rand() % (Config::COL_NUM - 2) + 2;
+		int randomRow = rand() % (Config::ROW_NUM- 2) + 2;
+		for (int col = randomCol; col < Config::COL_NUM - 2; col++)
 		{
-			for (int row = randomRow; row < Config::ROW_NUM; row++)
+			for (int row = randomRow; row < Config::ROW_NUM - 2; row++)
 			{
 				if (!level[row][col]->isObstacle()) 
 				{

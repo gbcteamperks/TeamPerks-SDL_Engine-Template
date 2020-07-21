@@ -4,7 +4,7 @@ Orb::Orb()
 {
 	//m_velocity = 6;
 	m_running = false;
-	m_damage = 15;
+	m_pDamage = 15;
 
 	//getTransform()->position = glm::vec2(0.0f,0.0f);
 	TheTextureManager::Instance()->load("../Assets/Sprites/spiderExplode.png", "spiderExplode");
@@ -28,7 +28,7 @@ Orb::Orb(glm::vec2 position, bool running, int angle, bool pickeable, bool enemy
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_damage = 0;
+	m_pDamage = 15;
 
 
 	//animation
@@ -71,6 +71,12 @@ void Orb::update()
 	if (m_running && !m_pickable)
 	{
 		getTransform()->position += getRigidBody()->velocity;
+	}
+	else if (m_running && m_pickable)
+	{
+		m_pickeableTimer++;
+		if (m_pickeableTimer > 300)
+			m_abilityDone = true;
 	}
 }
 

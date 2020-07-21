@@ -8,6 +8,7 @@
 #include "Needle.h"
 #include "LevelManager.h"
 #include "ExplosiveSpider.h"
+#include "Orb.h"
 #include "Util.h"
 int VictorVanHelsing::numberOfPlayers = 0;
 VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICTOR_WALK_UP)
@@ -34,6 +35,8 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 	getRigidBody()->isColliding = false;
 	addAbility(new Sword());
 	addAbility(new ExplosiveSpider());
+	addAbility(new Fireball());
+	addAbility(new Orb());
 	setType(VICTOR);
 
 	m_buildAnimations();
@@ -42,7 +45,7 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 
 	UIList.push_back(new LifeBar());
 	UIList.push_back(new Needle());
-	m_pLife = new int(100);
+	m_pLife = 100;
 }
 
 VictorVanHelsing::~VictorVanHelsing()
@@ -116,7 +119,20 @@ void VictorVanHelsing::setAnimation(const Animation& animation)
 
 void VictorVanHelsing::addAbility(Ability* ability)
 {	
-	m_pListAbilities.push_back(ability);
+	if (m_pListAbilities.size() == 4) // 1 sword and 3 abilites
+	{
+		m_pListAbilities[1] = m_pListAbilities[2];
+		m_pListAbilities[2] = m_pListAbilities[3];
+		m_pListAbilities[3] = ability;
+
+		//or
+		//deleteAbility();
+		//m_pListAbilities.push_back(ability);
+	}
+	else 
+	{
+		m_pListAbilities.push_back(ability);
+	}
 }
 
 void VictorVanHelsing::deleteAbility()

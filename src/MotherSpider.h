@@ -17,7 +17,7 @@ public:
 	virtual void clean() override;
 
 	void useCurrentAbility();
-	int& getLife() override { return *m_pLife; }
+
 
 private:
 	//animation variables
