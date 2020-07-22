@@ -23,8 +23,8 @@ BlobKing::BlobKing(glm::vec2 position)
 	getRigidBody()->isColliding = false;
 	setType(BOSS);
 
-	m_Life = 300;
-	m_lifeRedCounter = m_Life;
+	m_pLife = 300;
+	m_lifeRedCounter = m_pLife;
 	UI.push_back(new EnemyLifeBar);
 	m_buildAnimations();
 	
