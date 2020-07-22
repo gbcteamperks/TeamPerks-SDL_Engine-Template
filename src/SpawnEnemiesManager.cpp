@@ -5,7 +5,6 @@
 #include "MotherSpider.h"
 #include "EnemyWizard.h"
 #include "RatKing.h"
-#include "BlobKing.h"
 #include "SkeletonEnemy.h"
 #include "Config.h"
 #include "Game.h"
@@ -70,23 +69,5 @@ void SpawnEnemiesManager::level1Boss()
 	}
 	
 	
-}
-
-void SpawnEnemiesManager::level2Boss()
-{
-	if (bossSummoned == false)
-	{
-		auto level = LVLMAN::Instance()->getLevel();
-		Game::Instance()->getCurrentScene()->removeChildByType(ENEMY);
-		Game::Instance()->getCurrentScene()->removeChildByType(ENEMYABILITY);
-		Game::Instance()->getCurrentScene()->addChild(new BlobKing(level[5][Config::COL_NUM / 2]->getTransform()->position));
-		bossSummoned = true;
-	}
-	else
-	{
-
-	}
-
-
 }
 
