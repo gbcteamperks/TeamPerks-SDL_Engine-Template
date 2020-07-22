@@ -174,6 +174,32 @@ void TextureManager::draw(const std::string& id, int x, int y, double angle, int
 	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[id].get(), &srcRect, &destRect, angle, nullptr, flip);
 }
 
+void TextureManager::draw(const std::string& id, SDL_Rect src, double angle, int alpha, SDL_RendererFlip flip, SDL_Rect dest)
+{
+
+	SDL_Rect srcRect;
+	SDL_Rect destRect;
+
+	srcRect.x = src.x;
+	srcRect.y = src.y;
+
+	int textureWidth, textureHeight;
+
+	//SDL_QueryTexture(m_textureMap[id].get(), nullptr, nullptr, &textureWidth, &textureHeight);
+
+	srcRect.w = src.w;
+	srcRect.h = src.h;
+	destRect.w = dest.w;
+	destRect.h = dest.h;
+
+	destRect.x = dest.x;
+	destRect.y = dest.y;
+
+
+	SDL_SetTextureAlphaMod(m_textureMap[id].get(), alpha);
+	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[id].get(), &srcRect, &destRect, angle, nullptr, flip);
+}
+
 void TextureManager::drawTile(const std::string& id, int x, int y, int indexX,int indexY, const double angle, const int alpha, const bool centered, const SDL_RendererFlip flip)
 {
 	SDL_Rect srcRect;

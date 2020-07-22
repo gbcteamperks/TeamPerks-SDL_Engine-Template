@@ -7,6 +7,7 @@
 #include "Animation.h"
 #include "SpriteSheet.h"
 #include <unordered_map>
+#include "Ability.h"
 
 class Player : public DisplayObject
 {
@@ -23,15 +24,18 @@ public:
 	void setAnimationState(PlayerAnimationState new_state);
 	void setAnimation(const Animation& animation);
 	void runHereThere();
-
+	virtual std::vector<Ability*> getAbilitiesList() { return m_pListAbilities; }
+	virtual int getAbilitieCounter() { return m_abilitieCounter; }
 private:
 	void m_buildAnimations();
 
 	SpriteSheet* m_pSpriteSheet;
-
+	//ability list
+	std::vector<Ability*> m_pListAbilities;
 	PlayerAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
 	bool m_playerFacingRight = true;
+	int m_abilitieCounter;
 };
 
 #endif /* defined (__PLAYER__) */
