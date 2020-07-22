@@ -30,12 +30,10 @@ public:
 	void useCurrentAbility(int player);
 	void changeAbility();
 	//Test To Lfe Bar
-	void countAbilitie();
+	//void countAbilitie();
 	int getPlayerNumner() { return m_playerNumber; }
 	bool right, down = false;
 	static int numberOfPlayers;
-	int getAbilitieCounter() { return m_abilitieCounter; }
-	std::vector<Ability*> getAbilitiesList() { return m_pListAbilities; }
 
 private:
 	void m_buildAnimations();
@@ -45,12 +43,10 @@ private:
 	std::unordered_map<std::string, Animation> m_pAnimations;
 	VictorVanHelsing* m_pObject;
 	//ability list
-	std::vector<Ability*> m_pListAbilities;
-	int m_currentAbility;//to swap Abilities
 	bool m_abilityReady = true;
 	int m_playerNumber;
 	std::vector<UIElement*> UIList;
-	int m_abilitieCounter;//For the UI lights
+
 };
 
 #endif /* defined (__VICTOR_VAN_HELSING__) */

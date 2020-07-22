@@ -222,7 +222,6 @@ void PlayScene::handleEvents()
 				{
 					click2MousePressed = true;
 					listPlayers[0]->changeAbility();
-					listPlayers[0]->countAbilitie();
 				}
 			}
 			if (!EventManager::Instance().getMouseButton(2))

@@ -25,8 +25,8 @@ public:
 	void setAnimation(const Animation& animation);
 	void runHereThere();
 	virtual std::vector<Ability*> getAbilitiesList() { return m_pListAbilities; }
-	virtual int getAbilitieCounter() { return m_abilitieCounter; }
-private:
+	virtual int getAbilitieCounter() { return m_currentAbility; }
+protected:
 	void m_buildAnimations();
 
 	SpriteSheet* m_pSpriteSheet;
@@ -35,7 +35,7 @@ private:
 	PlayerAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
 	bool m_playerFacingRight = true;
-	int m_abilitieCounter;
+	int m_currentAbility;
 };
 
 #endif /* defined (__PLAYER__) */
