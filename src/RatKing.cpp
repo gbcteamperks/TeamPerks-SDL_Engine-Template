@@ -3,6 +3,8 @@
 #include "TextureManager.h"
 #include "Util.h"
 #include "EnemyLifeBar.h"
+#include "MathManager.h"
+#include "CollisionManager.h"
 
 RatKing::RatKing(glm::vec2 position)
 {
@@ -22,7 +24,7 @@ RatKing::RatKing(glm::vec2 position)
 	setPosX(position.x);
 	setPosY(position.y);
 	
-	getTransform()->position = glm::vec2(position);;
+	getTransform()->position = glm::vec2(position);
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
@@ -35,6 +37,12 @@ RatKing::RatKing(glm::vec2 position)
 	m_buildAnimations();
 }
 
+enum
+{
+	IDLE,
+	PUSH,
+	ATTACK
+};
 
 void RatKing::draw()
 {
@@ -49,26 +57,46 @@ void RatKing::update()
 {
 	setPosX(getTransform()->position.x);
 	setPosY(getTransform()->position.y);
-
-	//update the functionality
-	static int tempCounter = 0;
 	
-	if (tempCounter > 120) {
-		int randomNum = rand() % 2;
-		if (randomNum == 0)
+	int distance = MAMA::Magnitude(MAMA::Distance(PlayScene::listPlayers[0]->getTransform()->position, this->getTransform()->position));
+	if (distance < 80)
+	{
+		m_currentAnimationState = PLAYER_RUN_LEFT;		//trigger push
+		//where to push the player
+		if(PlayScene::listPlayers[0]->getPosX() > this->getPosX() && PlayScene::listPlayers[0]->getPosX() < this->getPosX()+this->getWidth())
 		{
-			m_currentAnimationState = PLAYER_RUN_LEFT;
+			//push player down
+			for(int i = 0; i < 250; i++)
+			{
+				PlayScene::listPlayers[0]->getTransform()->position.y += 0.20f;
+			}
 		}
-		else if (randomNum == 1)
-		{
-			m_currentAnimationState = PLAYER_RUN_RIGHT;
-			useCurrentAbility();
-		}
-		m_currentAnimationState = static_cast<PlayerAnimationState>(rand() % 8); //num of animation states
-
-		tempCounter = 0;
 	}
-	tempCounter++;
+	else
+	{
+		m_currentAnimationState = PLAYER_RUN_DOWN;		//else idle
+	}
+
+
+	////update the functionality
+	//static int tempCounter = 0;
+	//
+	//if (tempCounter > 120) {
+	//	int randomNum = rand() % 2;
+	//	if (randomNum == 0)
+	//	{
+	//		m_currentAnimationState = PLAYER_RUN_LEFT;
+	//	}
+	//	else if (randomNum == 1)
+	//	{
+	//		m_currentAnimationState = PLAYER_RUN_RIGHT;
+	//		useCurrentAbility();
+	//	}
+	//	m_currentAnimationState = static_cast<PlayerAnimationState>(rand() % 8); //num of animation states
+
+	//	tempCounter = 0;
+	//}
+	//tempCounter++;
 
 	for (auto ui : UI)
 	{
@@ -82,7 +110,7 @@ void RatKing::useCurrentAbility()
 		switch (m_currentAnimationState)
 		{
 		case PLAYER_RUN_RIGHT:
-			m_pListAbilities.front()->execute(getTransform()->position, 180, true); // to the left
+			m_pListAbilities.front()->execute(getTransform()->position, 90, true); // to the left
 			changeAbility();
 			break;
 		default:
@@ -154,17 +182,41 @@ void RatKing::Animate()
 	switch (m_currentAnimationState)
 	{
 		case PLAYER_RUN_RIGHT:
-			TheTextureManager::Instance()->playAnimation("ratking", m_pAnimations["ratK_bite"],
-				x, y, animationVelocity, 0, 255, true);
+			if (PlayScene::listPlayers[0]->getPosX() > this->getPosX())
+			{
+				TheTextureManager::Instance()->playAnimation("ratking", m_pAnimations["ratK_bite"],
+					x, y, animationVelocity, 0, 255, true,SDL_FLIP_HORIZONTAL);
+			}
+			else
+			{
+				TheTextureManager::Instance()->playAnimation("ratking", m_pAnimations["ratK_bite"],
+					x, y, animationVelocity, 0, 255, true);
+			}
 			break;
 
 		case PLAYER_RUN_LEFT:
-			TheTextureManager::Instance()->playAnimation("ratking", m_pAnimations["ratK_push"],
-				x, y, animationVelocity, 0, 255, true);
+			if (PlayScene::listPlayers[0]->getPosX() > this->getPosX())
+			{
+				TheTextureManager::Instance()->playAnimation("ratking", m_pAnimations["ratK_push"],
+					x, y, animationVelocity, 0, 255, true,SDL_FLIP_HORIZONTAL);
+			}
+			else
+			{
+				TheTextureManager::Instance()->playAnimation("ratking", m_pAnimations["ratK_push"],
+					x, y, animationVelocity, 0, 255, true);
+			}
 			break;
 		default:
+		if(PlayScene::listPlayers[0]->getPosX() > this->getPosX())
+		{
+			TheTextureManager::Instance()->playAnimation("ratking", m_pAnimations["ratK_idle"],
+				x, y, animationVelocity, 0, 255, true,SDL_FLIP_HORIZONTAL);
+		}
+		else
+		{
 			TheTextureManager::Instance()->playAnimation("ratking", m_pAnimations["ratK_idle"],
 				x, y, animationVelocity, 0, 255, true);
+		}
 			break;
 	}
 
