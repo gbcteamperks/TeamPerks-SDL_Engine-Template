@@ -14,7 +14,7 @@ void Needle::draw()
 	TextureManager::Instance()->draw("Needle", x, y, angle, 255, SDL_FLIP_NONE, 15, 33);
 }
 
-void Needle::update(GameObject* player)
+void Needle::update(Player* player)
 {
 	if (player->getLife() > 75) {
 		x = (((100 - player->getLife()) * 0.3) + 85);

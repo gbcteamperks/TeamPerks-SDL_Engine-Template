@@ -34,9 +34,9 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	addAbility(new Sword());
-	addAbility(new ExplosiveSpider());
-	addAbility(new Fireball());
-	addAbility(new Orb());
+	//addAbility(new ExplosiveSpider());
+	//addAbility(new Fireball());
+	//addAbility(new Orb());
 	setType(VICTOR);
 
 	m_buildAnimations();
@@ -46,6 +46,7 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 	UIList.push_back(new LifeBar());
 	UIList.push_back(new Needle());
 	m_pLife = 100;
+	//m_abilitieCounter = 0;
 }
 
 VictorVanHelsing::~VictorVanHelsing()
@@ -226,5 +227,23 @@ void VictorVanHelsing::m_buildAnimations()
 }
 
 
-
+/*void VictorVanHelsing::countAbilitie() {
+	
+	if (m_pListAbilities.size() == 2)
+	{
+		if (m_abilitieCounter == 0) { m_abilitieCounter++; }
+		else if (m_abilitieCounter == 1) { m_abilitieCounter = 0; }
+		
+	}
+	else if (m_pListAbilities.size() == 3)
+	{
+		if (m_abilitieCounter < 2) { m_abilitieCounter++; }
+		else if (m_abilitieCounter == 2) { m_abilitieCounter = 0; }
+	}
+	else if (m_pListAbilities.size() == 4)
+	{
+		if (m_abilitieCounter < 3) { m_abilitieCounter++; }
+		else if (m_abilitieCounter == 3) { m_abilitieCounter = 0; }
+	}
+}*/
 
