@@ -31,8 +31,8 @@ RatKing::RatKing(glm::vec2 position)
 	setType(BOSS);
 	addAbility(new RatBiter());
 	
-	m_Life = 400;
-	m_lifeRedCounter = m_Life;
+	m_pLife = 400;
+	m_lifeRedCounter = m_pLife;
 	UI.push_back(new EnemyLifeBar);
 	m_buildAnimations();
 }

@@ -9,6 +9,8 @@ GameObject::GameObject():
 	m_width(0), m_height(0), m_type(NONE)
 {
 	m_currentObject = this;
+	m_pLife = 100;
+	m_pDamage = 20;
 	
 }
 
@@ -156,9 +158,11 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 	bool collision = false;
 	for (auto o : listObstacles)
 	{
-		if (CollisionManager::AABBCheckUpdatingPosition(this, o))
-		{
-			collision = true;
+		if (o->getType() != SPIKES) {
+			if (CollisionManager::AABBCheckUpdatingPosition(this, o))
+			{
+				collision = true;
+			}
 		}
 	}
 	return collision;
@@ -180,11 +184,9 @@ void GameObject::fleeBehaviour(GameObject* obj)
 
 int& GameObject::getLife()
 {
-	*GameObject::m_pLife = 100;
-	return* m_pLife;
+	return m_pLife;
 }
 int& GameObject::getDamage()
 {
-	*GameObject::m_pDamage = 25;
-	return*m_pLife;
+	return m_pDamage;
 }

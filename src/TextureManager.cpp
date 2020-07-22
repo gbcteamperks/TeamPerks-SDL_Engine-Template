@@ -249,6 +249,48 @@ void TextureManager::drawFrame(const std::string& id, const int x, const int y, 
 	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[id].get(), &srcRect, &destRect, angle, nullptr, flip);
 }
 
+void TextureManager::drawFrame(const std::string& id, const int x, const int y, const int frame_width,
+	const int frame_height, int current_row,
+	int current_frame, int drawSizeX, int drawSizeY, const double angle,
+	const int alpha, const bool centered, const SDL_RendererFlip flip)
+{
+
+
+	SDL_Rect srcRect;
+	SDL_Rect destRect;
+
+	srcRect.x = 0;
+	srcRect.y = 0;
+
+	// frame_height size
+	const auto textureWidth = frame_width;
+	const auto textureHeight = frame_height;
+
+	// starting point of the where we are looking
+	srcRect.x = textureWidth * current_frame;
+	srcRect.y = textureHeight * current_row;
+
+	srcRect.w = textureWidth;
+	srcRect.h = textureHeight;
+
+	destRect.w = drawSizeX;
+	destRect.h = drawSizeY;
+
+	if (centered) {
+		const int xOffset = textureWidth * 0.5;
+		const int yOffset = textureHeight * 0.5;
+		destRect.x = x - xOffset;
+		destRect.y = y - yOffset;
+	}
+	else {
+		destRect.x = x;
+		destRect.y = y;
+	}
+
+	SDL_SetTextureAlphaMod(m_textureMap[id].get(), alpha);
+	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[id].get(), &srcRect, &destRect, angle, nullptr, flip);
+}
+
 void TextureManager::animateFrames(int frame_width, int frame_height, const int frame_number, const int row_number, const float speed_factor, int &current_frame, int &current_row)
 {
 	const auto totalFrames = frame_number * row_number;

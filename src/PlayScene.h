@@ -17,6 +17,7 @@
 #include "Fireball.h"
 #include "Sword.h"
 #include "Tile.h"
+#include "DestructibleObject.h"
 #include <array>
 #include <map>
 class PlayScene : public Scene
@@ -41,7 +42,7 @@ public:
 	static std::vector<VictorVanHelsing*> listPlayers;
 	int getLevelNumber();
 	void invokeTransition();
-	
+	//bool getDebug() { return m_debugView };
 private:
 	glm::vec2 m_mousePosition;
 	std::vector<DisplayObject*> obstacle_List;
@@ -57,6 +58,14 @@ private:
 	int levelNumber;
 	std::string levelNumberConcatenate;
 	std::string tileNumberConcatenate;
+
+	//click mouse
+	bool click1MousePressed, click2MousePressed;
+
+	//pause
+	bool gamePaused;
+
+
 
 	
 

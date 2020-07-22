@@ -30,8 +30,8 @@ EnemyWizard::EnemyWizard(glm::vec2 position) : m_currentAnimationState(BOSSONE_W
 	m_buildAnimations();
 
 	// Life
-	m_Life = 100;
-	m_lifeRedCounter = m_Life;
+	m_pLife = 100;
+	m_lifeRedCounter = m_pLife;
 	UI.push_back(new EnemyLifeBar);
 }
 

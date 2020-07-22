@@ -20,7 +20,6 @@ public:
 	void setAnimation(const Animation& animation);
 	void m_buildAnimations() override;
 	void runHereThere();
-	int& getLife() override { return m_Life; }
 
 private:
 
@@ -37,7 +36,6 @@ private:
 	int m_bulletXPosition = 0;
 	float m_currentTime = 0.00f;
 	//UI
-	int m_life;
 	int m_lifeRedCounter;
 	std::vector<UIElement*> UI;
 };

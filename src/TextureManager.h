@@ -40,6 +40,9 @@ public:
 	void drawFrame(const std::string& id, int x, int y, int frame_width, int frame_height, 
 		int &current_row, int &current_frame, int frame_number, int row_number, float speed_factor,
 		double angle, int alpha, bool centered = false, SDL_RendererFlip flip = SDL_FLIP_NONE);
+	void drawFrame(const std::string& id, int x, int y, int frame_width, int frame_height,
+		int current_row,int current_frame, int drawSizeX, int drawSizeY,
+		double angle, int alpha, bool centered = false, SDL_RendererFlip flip = SDL_FLIP_NONE);
 	void drawText(const std::string& id, int x, int y, double angle, int alpha, bool centered = false, SDL_RendererFlip flip = SDL_FLIP_NONE);
 	
 	// animation functions

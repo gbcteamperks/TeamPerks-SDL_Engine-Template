@@ -32,8 +32,8 @@ SkeletonEnemy::SkeletonEnemy(glm::vec2 position)
 
 	m_buildAnimations();
 	// Life
-	m_Life = 200;
-	m_lifeRedCounter = m_Life;
+	m_pLife = 200;
+	m_lifeRedCounter = m_pLife;
 	UI.push_back(new EnemyLifeBar);
 }
 

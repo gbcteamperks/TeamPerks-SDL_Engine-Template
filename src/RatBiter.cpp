@@ -4,7 +4,7 @@ RatBiter::RatBiter()
 {
 	//m_velocity = 6;
 	m_running = false;
-	m_damage = 40;
+	m_pDamage = 40;
 
 	TextureManager::Instance()->load("../Assets/sprites/rat_small.png", "ratsmall");
 
@@ -29,7 +29,7 @@ RatBiter::RatBiter(glm::vec2 position, bool running, int angle, bool pickeable, 
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_damage = 0;
+	m_pDamage = 40;
 
 	m_currentAnimationState = PLAYER_RUN_UP;
 	m_buildAnimations();
@@ -70,29 +70,35 @@ void RatBiter::update()
 		}
 		walkTimer++;
 	}
+	else if (m_running && m_pickable)
+	{
+		m_pickeableTimer++;
+		if (m_pickeableTimer > 300)
+			m_abilityDone = true;
+	}
 }
 
 void RatBiter::draw()
 {
-	//update this ......
 	if (m_running && !m_pickable)
 	{
 		if (timer++ == timerDie)
 		{
-			m_currentAnimationState = PLAYER_RUN_DOWN;
+			m_currentAnimationState = PLAYER_RUN_UP;
 			die = true;
-			animation();
+			Animate();
 			//timer = 0;
 		}
 		else
 		{
-			m_currentAnimationState = PLAYER_RUN_DOWN;
-			animation();
+			m_currentAnimationState = PLAYER_RUN_UP;
+			Animate();
 		}
 	}
 	else if (m_running && m_pickable)
 	{
-		animation();
+		TheTextureManager::Instance()->playAnimation("BlueGem", m_pAnimations["BlueGem"],
+			getTransform()->position.x, getTransform()->position.y, 0.50f, 0, 255, true);
 	}
 }
 
@@ -138,71 +144,16 @@ void RatBiter::pickable(glm::vec2 position)
 
 void RatBiter::animation()
 {
-	// alias for x and y
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
-	float animationVelocity = 0.40f;
-	// draw the player according to animation state
-	switch (m_currentAnimationState)
-	{
-	case PLAYER_RUN_LEFT:
-		TheTextureManager::Instance()->playAnimation("ratsmall", m_pAnimations["ratsmall_left"],
-			x, y, animationVelocity, 0, 255, true);
-		break;
-	case PLAYER_RUN_UP:
-		TheTextureManager::Instance()->playAnimation("ratsmall", m_pAnimations["ratsmall_up"],
-			x, y, animationVelocity, 0, 255, true);
-		break;
-	case PLAYER_RUN_RIGHT:
-		TheTextureManager::Instance()->playAnimation("ratsmall", m_pAnimations["ratsmall_right"],
-			x, y, animationVelocity, 0, 255, true);
-		break;
-	case PLAYER_RUN_DOWN:
-		TheTextureManager::Instance()->playAnimation("ratsmall", m_pAnimations["ratsmall_down"],
-			x, y, animationVelocity, 0, 255, true);
-		break;
-	case ABILITY_LEFT:
-		TheTextureManager::Instance()->playAnimation("ratsmall", m_pAnimations["ratsmall_leftattack"],
-			x, y, animationVelocity, 0, 255, true);
-		break;
-	case ABILITY_UP:
-		TheTextureManager::Instance()->playAnimation("ratsmall", m_pAnimations["ratsmall_upattack"],
-			x, y, animationVelocity, 0, 255, true);
-		break;
-	case ABILITY_RIGHT:
-		TheTextureManager::Instance()->playAnimation("ratsmall", m_pAnimations["ratsmall_rightattack"],
-			x, y, animationVelocity, 0, 255, true);
-		break;
-	case ABILITY_DOWN:
-		TheTextureManager::Instance()->playAnimation("ratsmall", m_pAnimations["ratsmall_downattack"],
-			x, y, animationVelocity, 0, 255, true);
-		break;
-	default:
-		break;
-	}
+	float animationVelocity = 0.50f;
+
+	TheTextureManager::Instance()->playAnimation("ratsmall", m_pAnimations["ratsmall_down"], x, y, animationVelocity, 0, 255, true);
 }
 
 
 void RatBiter::m_buildAnimations()
 {
-
-	if (m_angle >= -45 && m_angle < 45)
-	{
-		m_currentAnimationState = PLAYER_RUN_RIGHT;
-	}
-	else if (m_angle >= 45 && m_angle < 135)
-	{
-		m_currentAnimationState = PLAYER_RUN_DOWN;
-	}
-	else if (m_angle >= 135 || m_angle < -135)
-	{
-		m_currentAnimationState = PLAYER_RUN_LEFT;
-	}
-	else if (m_angle >= -135 && m_angle < -45)
-	{
-		m_currentAnimationState = PLAYER_RUN_UP;
-	}
-	
 	Animation down = Animation();
 	down.name = "ratsmall_down";
 	down.frames.push_back(m_pSpriteSheet->getFrame("down-1"));

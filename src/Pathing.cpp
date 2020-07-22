@@ -4,6 +4,7 @@ PathNode::PathNode(int x, int y)
 {
 	this->x = x;
 	this->y = y;
+	m_openNode = true;
 }
 
 PathNode::~PathNode()

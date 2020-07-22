@@ -20,15 +20,10 @@ public:
 	void sound();
 	void animation();
 	void pickable(glm::vec2 position) ;
-	int& getDamage() { return m_damage; }
 
 	Fireball* getAbility() override { return new Fireball(); }
 private:
 
-	bool m_running = false;
-	bool m_pickable = false;
-	int m_damage;
-	int m_angle;
 	std::string m_key;
 	StaticSprite* m_pPortrait;
 

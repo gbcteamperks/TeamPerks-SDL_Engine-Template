@@ -17,7 +17,6 @@ public:
 	virtual void update() override;
 	virtual void clean() override;
 
-	int& getLife() override { return m_Life; }
 private:
 	//animation variables
 	void m_buildAnimations();
@@ -28,7 +27,7 @@ private:
 	PlayerAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
 	//UI
-	int m_life;
+
 	int m_lifeRedCounter;
 	std::vector<UIElement*> UI;
 

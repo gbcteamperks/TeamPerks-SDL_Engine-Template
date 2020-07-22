@@ -3,8 +3,7 @@
 Sword::Sword()
 {
 	m_running = false;
-	m_damage = 25;
-
+	m_pDamage = 30;
 
 	TheTextureManager::Instance()->load("../Assets/textures/swordSilver.png", "sword");
 
@@ -23,7 +22,7 @@ Sword::Sword(glm::vec2 position, bool running, int angle, bool pickeable, bool e
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_damage = 25;
+	m_pDamage = 30;
 
 	TheTextureManager::Instance()->load("../Assets/textures/swordSilver.png", "sword");
 

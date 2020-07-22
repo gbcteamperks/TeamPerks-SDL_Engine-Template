@@ -8,6 +8,7 @@
 #include "Needle.h"
 #include "LevelManager.h"
 #include "ExplosiveSpider.h"
+#include "Orb.h"
 #include "Util.h"
 int VictorVanHelsing::numberOfPlayers = 0;
 VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICTOR_WALK_UP)
@@ -34,13 +35,17 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 	getRigidBody()->isColliding = false;
 	addAbility(new Sword());
 	addAbility(new ExplosiveSpider());
+	addAbility(new Fireball());
+	addAbility(new Orb());
 	setType(VICTOR);
 
 	m_buildAnimations();
 	m_pObject = this;
+	m_currentAbility = 0;
 
 	UIList.push_back(new LifeBar());
 	UIList.push_back(new Needle());
+	m_pLife = 100;
 }
 
 VictorVanHelsing::~VictorVanHelsing()
@@ -114,12 +119,25 @@ void VictorVanHelsing::setAnimation(const Animation& animation)
 
 void VictorVanHelsing::addAbility(Ability* ability)
 {	
-	m_pListAbilities.push_back(ability);
+	if (m_pListAbilities.size() == 4) // 1 sword and 3 abilites
+	{
+		m_pListAbilities[1] = m_pListAbilities[2];
+		m_pListAbilities[2] = m_pListAbilities[3];
+		m_pListAbilities[3] = ability;
+
+		//or
+		//deleteAbility();
+		//m_pListAbilities.push_back(ability);
+	}
+	else 
+	{
+		m_pListAbilities.push_back(ability);
+	}
 }
 
 void VictorVanHelsing::deleteAbility()
 {
-	m_pListAbilities.erase(m_pListAbilities.begin()); //delete the first ability added.
+	m_pListAbilities.erase(m_pListAbilities.begin() + 1); //delete the first ability added.
 }
 
 void VictorVanHelsing::useCurrentAbility(int player)
@@ -129,7 +147,7 @@ void VictorVanHelsing::useCurrentAbility(int player)
 		setAngle(MAMA::AngleBetweenPoints(getTransform()->position, EventManager::Instance().getMousePosition()));
 		if (m_pListAbilities.size() > 0) 
 		{
-			m_pListAbilities.front()->execute(getTransform()->position, getAngle(), false);
+			m_pListAbilities[m_currentAbility]->execute(getTransform()->position, getAngle(), false);
 		}
 	}
 	if (player == 2)
@@ -137,7 +155,7 @@ void VictorVanHelsing::useCurrentAbility(int player)
 		if (m_pListAbilities.size() > 0)
 		{
 			setAngle(MAMA::AngleBetweenPoints(getTransform()->position, EventManager::Instance().getGameController(0)->getLeftJoystickPosition()));
-			m_pListAbilities.front()->execute(getTransform()->position, getAngle(), false);
+			m_pListAbilities[m_currentAbility]->execute(getTransform()->position, getAngle(), false);
 		}
 	}
 
@@ -145,13 +163,21 @@ void VictorVanHelsing::useCurrentAbility(int player)
 
 void VictorVanHelsing::changeAbility()
 {
-	static int AbilityCounter = 0;
+	/*static int AbilityCounter = 0;
 	AbilityCounter++;
 	if(m_pListAbilities.size() > 1){
 		if(AbilityCounter > m_pListAbilities.size() - 1){
 			AbilityCounter = 1;
 		}
 		std::iter_swap(m_pListAbilities.begin(), m_pListAbilities.begin()+ AbilityCounter);
+	}*/
+	if (m_currentAbility + 1 < m_pListAbilities.size())
+	{
+		m_currentAbility++;
+	}
+	else
+	{
+		m_currentAbility = 0;
 	}
 }
 

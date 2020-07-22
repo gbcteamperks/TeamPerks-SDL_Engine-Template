@@ -5,7 +5,7 @@ ExplosiveSpider::ExplosiveSpider()
 {
 	//m_velocity = 6;
 	m_running = false;
-	m_damage = 30;
+	m_pDamage = 15;
 
 	//getTransform()->position = glm::vec2(0.0f,0.0f);
 	TheTextureManager::Instance()->load("../Assets/Sprites/spiderExplode.png", "spiderExplode");
@@ -35,7 +35,7 @@ ExplosiveSpider::ExplosiveSpider(glm::vec2 position, bool running, int angle, bo
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_damage = 30;
+	m_pDamage = 15;
 
 	//animation
 
@@ -85,7 +85,14 @@ void ExplosiveSpider::update()
 		if (walkTimer < 90) {
 			getTransform()->position += getRigidBody()->velocity;
 		}
+		explosionTimer++;
 		walkTimer++;
+	}
+	else if (m_running && m_pickable)
+	{
+		m_pickeableTimer++;
+		if (m_pickeableTimer > 300)
+			m_abilityDone = true;
 	}
 }
 
@@ -103,11 +110,11 @@ void ExplosiveSpider::draw()
 		else {
 			AnimateDeath();
 		}
-		explosionTimer++;
 	}
 	else if (m_running && m_pickable)
 	{
-		animation();
+		TheTextureManager::Instance()->playAnimation("BlueGem", m_pAnimations["BlueGem"],
+			getTransform()->position.x, getTransform()->position.y, 0.50f, 0, 255, true);
 	}
 }
 
