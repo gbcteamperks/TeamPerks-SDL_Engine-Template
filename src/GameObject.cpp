@@ -11,7 +11,7 @@ GameObject::GameObject():
 	m_currentObject = this;
 	m_pLife = 100;
 	m_pDamage = 20;
-	
+	m_pNextDamageCounter = 0;
 }
 
 GameObject::~GameObject()
@@ -155,6 +155,11 @@ bool GameObject::m_CheckBounds()
 
 bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 {
+	m_pNextDamageCounter++;
+	if (m_pNextDamageCounter > 60) 
+	{
+		m_pNextDamageCounter = 60;
+	}
 	bool collision = false;
 	for (auto o : listObstacles)
 	{
@@ -163,6 +168,18 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 			{
 				collision = true;
 			}
+		}
+		else if (o->getType() == SPIKES)
+		{
+			if (m_pNextDamageCounter == 60) 
+			{
+				if (CollisionManager::AABBCheck(this, o))
+				{
+					this->getLife() += -o->getDamage();
+					m_pNextDamageCounter = 0;
+				}
+			}
+			
 		}
 	}
 	return collision;
