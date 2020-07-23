@@ -30,7 +30,6 @@ public:
 	void useCurrentAbility(int player);
 	void changeAbility();
 	//Test To Lfe Bar
-	//void countAbilitie();
 	int getPlayerNumner() { return m_playerNumber; }
 	bool right, down = false;
 	static int numberOfPlayers;

@@ -183,7 +183,7 @@ void TextureManager::draw(const std::string& id, SDL_Rect src, double angle, int
 	srcRect.x = src.x;
 	srcRect.y = src.y;
 
-	int textureWidth, textureHeight;
+	//int textureWidth, textureHeight;
 
 	//SDL_QueryTexture(m_textureMap[id].get(), nullptr, nullptr, &textureWidth, &textureHeight);
 

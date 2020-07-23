@@ -15,7 +15,7 @@ public:
 	virtual void draw() override;
 	virtual void update() override;
 	virtual void clean() override;
-
+	
 	void useCurrentAbility();
 
 private:
@@ -27,8 +27,6 @@ private:
 	std::vector<UIElement*> UI;
 	int m_lifeRedCounter;
 
-
-	
 	SpriteSheet* m_pSpriteSheet;
 	PlayerAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;

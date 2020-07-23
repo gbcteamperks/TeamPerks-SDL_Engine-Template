@@ -34,9 +34,9 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	addAbility(new Sword());
-	//addAbility(new ExplosiveSpider());
-	//addAbility(new Fireball());
-	//addAbility(new Orb());
+	addAbility(new ExplosiveSpider());
+	addAbility(new Fireball());
+	addAbility(new Orb());
 	setType(VICTOR);
 
 	m_buildAnimations();
@@ -164,14 +164,7 @@ void VictorVanHelsing::useCurrentAbility(int player)
 
 void VictorVanHelsing::changeAbility()
 {
-	/*static int AbilityCounter = 0;
-	AbilityCounter++;
-	if(m_pListAbilities.size() > 1){
-		if(AbilityCounter > m_pListAbilities.size() - 1){
-			AbilityCounter = 1;
-		}
-		std::iter_swap(m_pListAbilities.begin(), m_pListAbilities.begin()+ AbilityCounter);
-	}*/
+
 	if (m_currentAbility + 1 < m_pListAbilities.size())
 	{
 		m_currentAbility++;
@@ -225,25 +218,3 @@ void VictorVanHelsing::m_buildAnimations()
 
 	m_pAnimations["walkup"] = walkUp;
 }
-
-
-/*void VictorVanHelsing::countAbilitie() {
-	
-	if (m_pListAbilities.size() == 2)
-	{
-		if (m_abilitieCounter == 0) { m_abilitieCounter++; }
-		else if (m_abilitieCounter == 1) { m_abilitieCounter = 0; }
-		
-	}
-	else if (m_pListAbilities.size() == 3)
-	{
-		if (m_abilitieCounter < 2) { m_abilitieCounter++; }
-		else if (m_abilitieCounter == 2) { m_abilitieCounter = 0; }
-	}
-	else if (m_pListAbilities.size() == 4)
-	{
-		if (m_abilitieCounter < 3) { m_abilitieCounter++; }
-		else if (m_abilitieCounter == 3) { m_abilitieCounter = 0; }
-	}
-}*/
-

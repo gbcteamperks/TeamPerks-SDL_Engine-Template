@@ -28,10 +28,10 @@ RatKing::RatKing(glm::vec2 position)
 	getRigidBody()->isColliding = false;
 	setType(BOSS);
 	addAbility(new RatBiter());
-	
+	m_EnemyName = "Rat King";
 	m_pLife = 400;
 	m_lifeRedCounter = m_pLife;
-	UI.push_back(new EnemyLifeBar);
+	UI.push_back(new EnemyLifeBar(this));
 	m_buildAnimations();
 }
 

@@ -23,9 +23,10 @@ BlobKing::BlobKing(glm::vec2 position)
 	getRigidBody()->isColliding = false;
 	setType(BOSS);
 
+	m_EnemyName = "Blob King";
 	m_pLife = 300;
 	m_lifeRedCounter = m_pLife;
-	UI.push_back(new EnemyLifeBar);
+	UI.push_back(new EnemyLifeBar(this));
 	m_buildAnimations();
 	
 }

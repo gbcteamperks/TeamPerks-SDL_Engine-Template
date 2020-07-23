@@ -35,6 +35,7 @@ public:
 	void addAbility(Ability*);
 	void deleteAbility();
 	virtual void useCurrentAbility();
+	virtual std::string getName() { return m_EnemyName; }
 	void dropAbility();
 	void changeAbility();
 	//getters
@@ -43,6 +44,7 @@ protected:
 	//ability list
 	std::vector<Ability*> m_pListAbilities;
 	bool m_abilityReady = true;
+	std::string m_EnemyName;
 	//Enemy Life
 };
 
