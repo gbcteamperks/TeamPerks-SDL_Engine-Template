@@ -67,8 +67,10 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 		if (!object2->getRigidBody()->isColliding && !object1->getRigidBody()->isColliding) {
 
 			object2->getRigidBody()->isColliding = true;
-			object1->getRigidBody()->isColliding = true;
-
+			if (object2->getType() == SPIKES) {
+				object1->getRigidBody()->isColliding = true;
+				object2->getRigidBody()->isColliding = false;
+			}
 			return true;
 		}
 		return false;
@@ -76,6 +78,7 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 	else
 	{
 		object1->getRigidBody()->isColliding = false;
+		
 		return false;
 	}
 

@@ -87,7 +87,7 @@ protected:
 	GameObject* m_currentObject;
 	int m_pLife;
 	int m_pDamage;
-
+	int m_pNextDamageCounter;
 	//debug
 
 };
