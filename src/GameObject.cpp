@@ -185,6 +185,18 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 	return collision;
 }
 
+bool GameObject::collidingWithLevel(std::vector<GameObject*> listObstacles)
+{
+	for (auto o : listObstacles)
+	{
+		if (CollisionManager::SImpleAABBCheck(this, o))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void GameObject::fleeBehaviour(GameObject* obj)
 {
 	int distance = MAMA::Magnitude(MAMA::Distance(obj->getTransform()->position, this->getTransform()->position));
@@ -196,6 +208,14 @@ void GameObject::fleeBehaviour(GameObject* obj)
 		this->getTransform()->position.x += this->getRigidBody()->velocity.x * cos(angle);
 		this->getTransform()->position.y += this->getRigidBody()->velocity.y* sin(angle);
 	}
+}
+
+void GameObject::Move(float velx, float vely)
+{
+	getTransform()->position.x += velx;
+	getTransform()->position.y += vely;
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
 }
 
 

@@ -60,7 +60,9 @@ public:
 	void m_BoundsRestrict();
 	bool m_CheckBounds();
 	bool checkCollisionWithLevel(std::vector<GameObject*> listObstacles);
+	bool collidingWithLevel(std::vector<GameObject*> listObstacles);
 	void fleeBehaviour(GameObject* obj);
+	void Move(float velx, float vely);
 
 	//--GameObject* getCurrentObject();
 	BoundaryCollided m_boundHit = NOCOLLISION;		//refer above enum

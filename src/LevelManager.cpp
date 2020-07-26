@@ -183,6 +183,14 @@ void LevelManager::clearLevel()
 	m_obstacles.clear();
 }
 
+void LevelManager::drawObstaclesCollisionBox()
+{
+	for (auto o : m_obstacles)
+	{
+		Util::DrawRect(glm::vec2(o->getPosX(), o->getPosY()), o->getWidth(), o->getHeight(), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	}
+}
+
 bool LevelManager::checkCollision(GameObject* obj, const int dX, const int dY) //kinda took this out
 {
 	//int row = ((obj->getTransform()->position.y - m_sumDY) / Config::TILE_SIZE);
