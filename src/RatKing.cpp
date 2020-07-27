@@ -39,6 +39,7 @@ RatKing::RatKing(glm::vec2 position)
 void RatKing::draw()
 {
 	Animate();
+	animateBloodSplat();
 	for (auto s : UI)
 	{
 		s->draw(this->m_lifeRedCounter);
@@ -49,7 +50,6 @@ void RatKing::update()
 {
 	setPosX(getTransform()->position.x);
 	setPosY(getTransform()->position.y);
-	cooldownColliding();
 	//update the functionality
 	static int tempCounter = 0;
 	

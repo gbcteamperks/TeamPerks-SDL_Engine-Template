@@ -39,7 +39,7 @@ CrazyBat::~CrazyBat()
 void CrazyBat::draw()
 {
 	Animate();
-
+	animateBloodSplat();
 	for (auto s : UI)
 	{
 		s->draw(this->m_lifeRedCounter);
@@ -53,7 +53,6 @@ void CrazyBat::update()
 	setPosY(getTransform()->position.y);
 
 	Rebound();
-	cooldownColliding();
 	
 	for (auto s : UI)
 	{

@@ -67,6 +67,7 @@ void EnemyWizard::draw()
 	default:
 		break;
 	}
+	animateBloodSplat();
 	for (auto s : UI)
 	{
 		s->draw(this->m_lifeRedCounter);
@@ -80,7 +81,6 @@ void EnemyWizard::update()
 	setPosY(getTransform()->position.y);
 	runHereThere();
 	bossAttack();
-	cooldownColliding();
 	for (auto s : UI)
 	{
 		s->update(this);

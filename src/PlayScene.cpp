@@ -67,7 +67,6 @@ void PlayScene::update()
 				SpawnEnemiesManager::level1();
 				break;
 			}
-			SpawnEnemiesManager::level1();
 			//delete projectiles
 			if (getDisplayList().size() > 0) {
 				for (auto it = getDisplayList().begin(); it != getDisplayList().end(); it++) {
@@ -361,10 +360,9 @@ void PlayScene::collisions()
 				{
 					if (dynamic_cast<Ability*>(getDisplayList()[k])->IsRunning())
 					{
-						if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+						if (CollisionManager::AABBCheck(getDisplayList()[k], getDisplayList()[i])) {
 							dynamic_cast<Ability*>(getDisplayList()[k])->stop();
 							getDisplayList()[i]->getLife() -= 5;
-							dynamic_cast<VictorVanHelsing*>(getDisplayList()[i])->isGettingDamage() = true;
 							SoundManager::Instance().playSound("Grunt");
 							if (getDisplayList()[i]->getLife() == 0)
 							{
@@ -385,10 +383,23 @@ void PlayScene::collisions()
 				//VICTOR WITH ENEMIES
 				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == ENEMY)
 				{
-					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+					if (CollisionManager::AABBCheck(getDisplayList()[k], getDisplayList()[i])) {
 
 						getDisplayList()[i]->getLife() -= 5;
-						dynamic_cast<VictorVanHelsing*>(getDisplayList()[i])->isGettingDamage() = true;
+						SoundManager::Instance().playSound("Grunt");
+						if (getDisplayList()[i]->getLife() == 0)
+						{
+							changeState = true;
+						}
+					}
+				}
+
+				//VICTOR WITH ENEMIES
+				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == BOSS)
+				{
+					if (CollisionManager::AABBCheck(getDisplayList()[k], getDisplayList()[i])) {
+
+						getDisplayList()[i]->getLife() -= 5;
 						SoundManager::Instance().playSound("Grunt");
 						if (getDisplayList()[i]->getLife() == 0)
 						{

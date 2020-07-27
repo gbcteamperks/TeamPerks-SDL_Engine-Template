@@ -12,7 +12,6 @@ GameObject::GameObject():
 	m_pLife = 100;
 	m_pDamage = 20;
 	m_pNextDamageCounter = 0;
-	m_timerColliding = 0;
 }
 
 GameObject::~GameObject()
@@ -219,18 +218,6 @@ void GameObject::Move(float velx, float vely)
 	setPosY(getTransform()->position.y);
 }
 
-void GameObject::cooldownColliding()
-{
-	if (getRigidBody()->isColliding)
-	{
-		m_timerColliding++;
-		if (m_timerColliding >= 30) //0.5 seconds
-		{
-			getRigidBody()->isColliding = false;
-			m_timerColliding = 0;
-		}
-	}
-}
 
 
 int& GameObject::getLife()

@@ -33,7 +33,6 @@ public:
 	int getPlayerNumner() { return m_playerNumber; }
 	bool right, down = false;
 	static int numberOfPlayers;
-	bool& isGettingDamage() { return gettingDamage; }
 
 private:
 	void m_buildAnimations();
@@ -50,9 +49,6 @@ private:
 	int m_playerNumber;
 
 	std::vector<UIElement*> UIList;
-
-	bool gettingDamage;
-
 
 };
 

@@ -45,6 +45,7 @@ SkeletonEnemy::~SkeletonEnemy()
 void SkeletonEnemy::draw()
 {
 	Animate();
+	animateBloodSplat();
 	for (auto s : UI)
 	{
 		s->draw(this->m_lifeRedCounter);
@@ -55,7 +56,6 @@ void SkeletonEnemy::draw()
 void SkeletonEnemy::update()
 {
 	checkCollisionWithLevel(LevelManager::Instance()->getObstacles());
-	cooldownColliding();
 	setPosX(getTransform()->position.x);
 	setPosY(getTransform()->position.y);
 
@@ -193,4 +193,5 @@ void SkeletonEnemy::Animate()
 	default:
 		break;
 	}
+	
 }

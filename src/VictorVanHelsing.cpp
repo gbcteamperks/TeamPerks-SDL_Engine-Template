@@ -49,7 +49,6 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 	setType(VICTOR);
 
 	m_buildAnimations();
-	gettingDamage = false;
 	m_pObject = this;
 	m_currentAbility = 0;
 
@@ -107,7 +106,6 @@ void VictorVanHelsing::update()
 	setPosY(getTransform()->position.y + 8);
 	m_BoundsRestrict();
 	checkCollisionWithLevel(LVLMAN::Instance()->getObstacles());
-	cooldownColliding();
 
 	for (auto s : UIList)
 	{
@@ -260,12 +258,12 @@ void VictorVanHelsing::animateBloodSplat()
 	const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
 	const float velocityAnimation = 2.0f;
-	if (gettingDamage)
+	if (getRigidBody()->isColliding)
 	{
 		if (TheTextureManager::Instance()->playAnimation("bloodsplat2", m_pAnimations["bloodsplat"],
 			x, y, velocityAnimation, 0, 255, true))
 		{
-			gettingDamage = false;
+			getRigidBody()->isColliding = false;
 			m_pAnimations["bloodsplat"].current_frame = 0;
 		}
 	}
