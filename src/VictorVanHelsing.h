@@ -36,7 +36,10 @@ public:
 
 private:
 	void m_buildAnimations();
+	void animateBloodSplat();
+	
 	SpriteSheet* m_pSpriteSheet;
+	SpriteSheet* m_pSpriteSheetBlood;
 
 	VictorAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
@@ -44,6 +47,7 @@ private:
 	//ability list
 	bool m_abilityReady = true;
 	int m_playerNumber;
+
 	std::vector<UIElement*> UIList;
 
 };

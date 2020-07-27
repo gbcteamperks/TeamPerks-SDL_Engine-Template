@@ -42,6 +42,7 @@ RatKing::RatKing(glm::vec2 position)
 void RatKing::draw()
 {
 	Animate();
+	animateBloodSplat();
 	for (auto s : UI)
 	{
 		s->draw(this->m_lifeRedCounter);
@@ -52,7 +53,6 @@ void RatKing::update()
 {
 	setPosX(getTransform()->position.x);
 	setPosY(getTransform()->position.y);
-
 	//update the functionality
 	static int tempCounter = 0;
 	if(Util::distance(PlayScene::listPlayers[0]->getTransform()->position, this->getTransform()->position) < 100)

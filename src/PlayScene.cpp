@@ -55,7 +55,18 @@ void PlayScene::update()
 		if (!summonBoss)
 		{
 			updateDisplayList();
-			SpawnEnemiesManager::level1();
+			switch (getLevelNumber())
+			{
+			case 1:
+				SpawnEnemiesManager::level1();
+				break;
+			case 2:
+				SpawnEnemiesManager::level2();
+				break;
+			default:
+				SpawnEnemiesManager::level1();
+				break;
+			}
 			//delete projectiles
 			if (getDisplayList().size() > 0) {
 				for (auto it = getDisplayList().begin(); it != getDisplayList().end(); it++) {
@@ -336,9 +347,12 @@ void PlayScene::collisions()
 				//VICTOR AND PICKEABLE OBJECTS
 				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == PICKABLE)
 				{
-					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
-						dynamic_cast<VictorVanHelsing*>(getDisplayList()[i])->addAbility(dynamic_cast<Ability*>(getDisplayList()[k])->getAbility());
-						dynamic_cast<Ability*>(getDisplayList()[k])->stop();
+					if (dynamic_cast<Ability*>(getDisplayList()[k])->IsRunning())
+					{
+						if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+							dynamic_cast<VictorVanHelsing*>(getDisplayList()[i])->addAbility(dynamic_cast<Ability*>(getDisplayList()[k])->getAbility());
+							dynamic_cast<Ability*>(getDisplayList()[k])->stop();
+						}
 					}
 				}
 				//VICTOR AND ENEMYABILITIES
@@ -346,7 +360,7 @@ void PlayScene::collisions()
 				{
 					if (dynamic_cast<Ability*>(getDisplayList()[k])->IsRunning())
 					{
-						if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+						if (CollisionManager::AABBCheck(getDisplayList()[k], getDisplayList()[i])) {
 							dynamic_cast<Ability*>(getDisplayList()[k])->stop();
 							getDisplayList()[i]->getLife() -= 5;
 							SoundManager::Instance().playSound("Grunt");
@@ -364,6 +378,33 @@ void PlayScene::collisions()
 						
 						std::cout << " x: " << getDisplayList()[k]->getTransform()->position.x << " y: " << getDisplayList()[k]->getTransform()->position.y << "\n";
 						std::cout << "Hit Door\n";
+					}
+				}
+				//VICTOR WITH ENEMIES
+				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == ENEMY)
+				{
+					if (CollisionManager::AABBCheck(getDisplayList()[k], getDisplayList()[i])) {
+
+						getDisplayList()[i]->getLife() -= 5;
+						SoundManager::Instance().playSound("Grunt");
+						if (getDisplayList()[i]->getLife() == 0)
+						{
+							changeState = true;
+						}
+					}
+				}
+
+				//VICTOR WITH ENEMIES
+				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == BOSS)
+				{
+					if (CollisionManager::AABBCheck(getDisplayList()[k], getDisplayList()[i])) {
+
+						getDisplayList()[i]->getLife() -= 5;
+						SoundManager::Instance().playSound("Grunt");
+						if (getDisplayList()[i]->getLife() == 0)
+						{
+							changeState = true;
+						}
 					}
 				}
 				
@@ -442,7 +483,7 @@ void PlayScene::start()
 	//addChild(new RatKing());
 
 	//CrazyBat
-	addChild(new CrazyBat(glm::vec2(100,100)));
+	//addChild(new CrazyBat(glm::vec2(100,100)));
 
 	//Music
 	SoundManager::Instance().load("../Assets/audio/PlaySceneMusic.mp3", "PlaySceneMusic", SOUND_MUSIC);

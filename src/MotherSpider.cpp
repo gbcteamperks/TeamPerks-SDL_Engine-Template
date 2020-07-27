@@ -47,6 +47,7 @@ MotherSpider::~MotherSpider()
 void MotherSpider::draw()
 {
 	Animate();
+	animateBloodSplat();
 
 	for (auto s : UI)
 	{
@@ -285,4 +286,5 @@ void MotherSpider::Animate()
 	default:
 		break;
 	}
+	
 }

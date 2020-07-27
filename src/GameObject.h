@@ -82,7 +82,6 @@ protected:
 	int m_posY;
 	GameObjectType m_type;
 	GameObjectType m_parent;
-	
 	//-- self reference
 
 	int m_angle;
@@ -90,6 +89,7 @@ protected:
 	int m_pLife;
 	int m_pDamage;
 	int m_pNextDamageCounter;
+
 	//debug
 
 };

@@ -169,7 +169,7 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 				collision = true;
 			}
 		}
-		else if (o->getType() == SPIKES)
+		/*else if (o->getType() == SPIKES)
 		{
 			if (m_pNextDamageCounter == 60) 
 			{
@@ -180,7 +180,7 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 				}
 			}
 			
-		}
+		}*/
 	}
 	return collision;
 }
@@ -217,6 +217,7 @@ void GameObject::Move(float velx, float vely)
 	setPosX(getTransform()->position.x);
 	setPosY(getTransform()->position.y);
 }
+
 
 
 int& GameObject::getLife()
