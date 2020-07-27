@@ -35,7 +35,7 @@ RatKing::RatKing(glm::vec2 position)
 	UI.push_back(new EnemyLifeBar(this));
 	getRigidBody()->velocity = { 4,4 };
 	m_buildAnimations();
-	m_pDamage = 20;
+	m_pDamage = 16;
 }
 
 
@@ -65,6 +65,7 @@ void RatKing::update()
 		//m_currentAnimationState = PLAYER_RUN_LEFT;
 		m_pushBack();
 		PlayScene::listPlayers[0]->getLife() -= m_pDamage;
+		SoundManager::Instance().playSound("whip");
 		
 	}
 	else

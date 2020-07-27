@@ -494,6 +494,7 @@ void PlayScene::start()
 	SoundManager::Instance().load("../Assets/audio/Fireball.wav", "FireBall", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/electricshock.wav", "Orb", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/Grunting-sound.mp3", "Grunt", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/tailwhip.wav", "whip", SOUND_SFX);
 }
 
 
