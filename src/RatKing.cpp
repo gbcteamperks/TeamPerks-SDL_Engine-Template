@@ -49,7 +49,7 @@ void RatKing::update()
 {
 	setPosX(getTransform()->position.x);
 	setPosY(getTransform()->position.y);
-
+	cooldownColliding();
 	//update the functionality
 	static int tempCounter = 0;
 	

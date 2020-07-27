@@ -12,6 +12,7 @@ GameObject::GameObject():
 	m_pLife = 100;
 	m_pDamage = 20;
 	m_pNextDamageCounter = 0;
+	m_timerColliding = 0;
 }
 
 GameObject::~GameObject()
@@ -169,7 +170,7 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 				collision = true;
 			}
 		}
-		else if (o->getType() == SPIKES)
+		/*else if (o->getType() == SPIKES)
 		{
 			if (m_pNextDamageCounter == 60) 
 			{
@@ -180,7 +181,7 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 				}
 			}
 			
-		}
+		}*/
 	}
 	return collision;
 }
@@ -216,6 +217,19 @@ void GameObject::Move(float velx, float vely)
 	getTransform()->position.y += vely;
 	setPosX(getTransform()->position.x);
 	setPosY(getTransform()->position.y);
+}
+
+void GameObject::cooldownColliding()
+{
+	if (getRigidBody()->isColliding)
+	{
+		m_timerColliding++;
+		if (m_timerColliding >= 45) //0.75 seconds
+		{
+			getRigidBody()->isColliding = false;
+			m_timerColliding = 0;
+		}
+	}
 }
 
 

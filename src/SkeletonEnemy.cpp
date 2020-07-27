@@ -55,7 +55,7 @@ void SkeletonEnemy::draw()
 void SkeletonEnemy::update()
 {
 	checkCollisionWithLevel(LevelManager::Instance()->getObstacles());
-	
+	cooldownColliding();
 	setPosX(getTransform()->position.x);
 	setPosY(getTransform()->position.y);
 

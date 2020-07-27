@@ -80,6 +80,7 @@ void EnemyWizard::update()
 	setPosY(getTransform()->position.y);
 	runHereThere();
 	bossAttack();
+	cooldownColliding();
 	for (auto s : UI)
 	{
 		s->update(this);

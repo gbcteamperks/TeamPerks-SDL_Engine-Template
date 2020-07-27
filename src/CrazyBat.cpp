@@ -53,7 +53,7 @@ void CrazyBat::update()
 	setPosY(getTransform()->position.y);
 
 	Rebound();
-
+	cooldownColliding();
 	
 	for (auto s : UI)
 	{

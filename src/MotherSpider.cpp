@@ -61,6 +61,7 @@ void MotherSpider::update()
 	setPosY(getTransform()->position.y);
 
 	checkCollisionWithLevel(LevelManager::Instance()->getObstacles());
+	cooldownColliding();
 
 	static int tempCounter = 0;
 	if (tempCounter > 60) { //change state every # seconds

@@ -63,6 +63,7 @@ public:
 	bool collidingWithLevel(std::vector<GameObject*> listObstacles);
 	void fleeBehaviour(GameObject* obj);
 	void Move(float velx, float vely);
+	void cooldownColliding();
 
 	//--GameObject* getCurrentObject();
 	BoundaryCollided m_boundHit = NOCOLLISION;		//refer above enum
@@ -82,7 +83,7 @@ protected:
 	int m_posY;
 	GameObjectType m_type;
 	GameObjectType m_parent;
-	
+	int m_timerColliding;
 	//-- self reference
 
 	int m_angle;
@@ -90,6 +91,7 @@ protected:
 	int m_pLife;
 	int m_pDamage;
 	int m_pNextDamageCounter;
+
 	//debug
 
 };
