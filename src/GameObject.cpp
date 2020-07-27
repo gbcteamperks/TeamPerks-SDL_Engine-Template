@@ -224,7 +224,7 @@ void GameObject::cooldownColliding()
 	if (getRigidBody()->isColliding)
 	{
 		m_timerColliding++;
-		if (m_timerColliding >= 45) //0.75 seconds
+		if (m_timerColliding >= 30) //0.5 seconds
 		{
 			getRigidBody()->isColliding = false;
 			m_timerColliding = 0;
