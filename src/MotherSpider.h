@@ -17,7 +17,7 @@ public:
 	virtual void clean() override;
 
 	void useCurrentAbility();
-	int& getLife() override { return *m_pLife; }
+
 
 private:
 	//animation variables
@@ -27,7 +27,7 @@ private:
 	int m_randomAction = rand() % 2;
 	SpriteSheet* m_pSpriteSheet;
 	PlayerAnimationState m_currentAnimationState;
-	std::unordered_map<std::string, Animation> m_pAnimations;
+	
 	//UI
 	std::vector<UIElement*> UI;
 	int m_lifeRedCounter;

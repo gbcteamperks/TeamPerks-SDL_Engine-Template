@@ -11,7 +11,7 @@ class DestructibleObject : public DisplayObject
 {
 public:
 
-	DestructibleObject(glm::vec2 position, int numOfHits);
+	DestructibleObject(glm::vec2 position, int numOfHits, std::string data, std::string spritepath, std::string name, int width, int height, int drawX, int drawY);
 	~DestructibleObject();
 
 	virtual void draw() override;
@@ -21,11 +21,13 @@ public:
 	void setAnimationState(DestructibleObejectState new_state);
 	void setAnimation(const Animation& animation);
 
+
 private:
 	void m_buildAnimation();
 	SpriteSheet* m_pSpriteSheet;
 	DestructibleObejectState m_currentAnimation;
 	int m_numOfHits;
+
 	std::unordered_map<std::string, Animation> m_pAnimations;
 
 };

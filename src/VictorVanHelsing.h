@@ -2,15 +2,14 @@
 #ifndef __VICTOR_VAN_HELSING__
 #define __VICTOR_VAN_HELSING__
 
-#include "DisplayObject.h"
+#include "Player.h"
 #include "Animation.h"
 #include "VictorAnimationState.h"
 #include <unordered_map>
 #include "SpriteSheet.h"
-#include "Ability.h"
 #include "UIElement.h"
 
-class VictorVanHelsing : public DisplayObject
+class VictorVanHelsing : public Player
 {
 public:
 	VictorVanHelsing(glm::vec2 position);
@@ -31,23 +30,24 @@ public:
 	void useCurrentAbility(int player);
 	void changeAbility();
 	//Test To Lfe Bar
-	int& getLife() { return *m_pLife; }
 	int getPlayerNumner() { return m_playerNumber; }
 	bool right, down = false;
 	static int numberOfPlayers;
 
-
 private:
 	void m_buildAnimations();
+	void animateBloodSplat();
+	
 	SpriteSheet* m_pSpriteSheet;
+	SpriteSheet* m_pSpriteSheetBlood;
 
 	VictorAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
 	VictorVanHelsing* m_pObject;
 	//ability list
-	std::vector<Ability*> m_pListAbilities;
 	bool m_abilityReady = true;
 	int m_playerNumber;
+
 	std::vector<UIElement*> UIList;
 
 };

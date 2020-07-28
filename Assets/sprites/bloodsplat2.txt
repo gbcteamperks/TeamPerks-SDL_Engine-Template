@@ -1,0 +1,15 @@
+bloodsplat1 0 0 480 480
+bloodsplat2 480 0 480 480
+bloodsplat3 960 0 480 480
+bloodsplat4 1440 0 480 480
+bloodsplat5 1920 0 480 480
+bloodsplat6 2400 0 480 480
+bloodsplat7 2880 0 480 480
+bloodsplat8 3360 0 480 480
+bloodsplat9 3840 0 480 480
+bloodsplat10 4320 0 480 480
+bloodsplat11 4800 0 480 480
+bloodsplat12 5280 0 480 480
+bloodsplat13 5760 0 480 480
+bloodsplat14 6240 0 480 480
+bloodsplat15 6720 0 480 480

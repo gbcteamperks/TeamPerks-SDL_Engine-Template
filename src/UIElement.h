@@ -5,6 +5,8 @@
 
 #include <vector>
 #include "GameObject.h"
+#include "Player.h"
+#include "Enemy.h"
 
 
 class UIElement
@@ -17,6 +19,8 @@ public:
 	virtual void draw();
 	virtual void draw(const int a);
 	virtual void update(GameObject* player);
+	virtual void update(Player* player) {}
+	virtual void update(Enemy* player) {}
 	virtual void clean();
 
 

@@ -15,3 +15,5 @@ void DisplayObject::setParent(Scene * parent)
 {
 	m_pParentScene = parent;
 }
+
+

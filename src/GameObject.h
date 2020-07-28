@@ -60,7 +60,15 @@ public:
 	void m_BoundsRestrict();
 	bool m_CheckBounds();
 	bool checkCollisionWithLevel(std::vector<GameObject*> listObstacles);
+	bool collidingWithLevel(std::vector<GameObject*> listObstacles);
 	void fleeBehaviour(GameObject* obj);
+	void Move(float velx, float vely);
+
+	void setColX(int colX);
+	void setColY(int colY);
+	int getColX() const;
+	int getColY() const;
+	
 
 	//--GameObject* getCurrentObject();
 	BoundaryCollided m_boundHit = NOCOLLISION;		//refer above enum
@@ -80,14 +88,15 @@ protected:
 	int m_posY;
 	GameObjectType m_type;
 	GameObjectType m_parent;
-	
 	//-- self reference
 
 	int m_angle;
 	GameObject* m_currentObject;
-	int* m_pLife;
-	int* m_pDamage;
-
+	int m_pLife;
+	int m_pDamage;
+	int m_pNextDamageCounter;
+	int m_colX;
+	int m_colY;
 	//debug
 
 };

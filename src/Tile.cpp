@@ -13,7 +13,10 @@ Tile::Tile(std::string name, int x, int y, const bool o,const bool h)
     setWidth(32);
     setHeight(32);
     setType(TILE);
-    
+    if (x == 4 && y == 1)
+    {
+        m_pDamage = 4;
+    }
 }
 
 Tile::~Tile()

@@ -1,0 +1,16 @@
+bat_down1 0 0 32 32
+bat_down2 32 0 32 32
+bat_down3 64 0 32 32
+bat_down4 96 0 32 32
+bat_right1 0 32 32 32
+bat_right2 32 32 32 32
+bat_right3 64 32 32 32
+bat_right4 96 32 32 32
+bat_up1 0 64 32 32
+bat_up2 32 64 32 32
+bat_up3 64 64 32 32
+bat_up4 96 64 32 32
+bat_left1 0 96 32 32
+bat_left2 32 96 32 32
+bat_left3 64 96 32 32
+bat_left4 96 96 32 32

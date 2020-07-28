@@ -20,7 +20,6 @@ public:
 	void setAnimation(const Animation& animation);
 	void m_buildAnimations() override;
 	void runHereThere();
-	int& getLife() override { return *m_pLife; }
 
 private:
 

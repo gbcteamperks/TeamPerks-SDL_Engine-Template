@@ -13,11 +13,11 @@ public:
 	~LifeBar();
 
 	virtual void draw();
-	virtual void update(GameObject* player);
+	virtual void update(Player* player);
 	virtual void clean();
 private:
-
-
+	
+	SDL_Rect src;
 };
 
 

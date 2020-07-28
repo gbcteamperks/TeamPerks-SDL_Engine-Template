@@ -266,3 +266,10 @@ __pycache__/
 
 *.tlog
 
+Template/Intermediate/Debug/Template.tlog/CL.command.1.tlog
+Template/Intermediate/Debug/Template.tlog/CL.read.1.tlog
+Template/Intermediate/Debug/Template.tlog/CL.write.1.tlog
+Template/Intermediate/Debug/Template.tlog/link.command.1.tlog
+Template/Intermediate/Debug/Template.tlog/link.read.1.tlog
+Template/Intermediate/Debug/Template.tlog/link.write.1.tlog
+Template/Intermediate/Debug/Template.tlog/Template.lastbuildstate

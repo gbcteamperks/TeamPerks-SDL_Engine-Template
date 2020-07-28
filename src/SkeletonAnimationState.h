@@ -1,0 +1,14 @@
+#pragma once
+#ifndef __SKELTN_ANIMATION_STATE__
+#define _SKELTN_ANIMATION_STATE
+
+enum SkeltnAnimationState
+{
+	SKEL_WALK_DOWN,
+	SKEL_WALK_RIGHT,
+	SKEL_WALK_LEFT,
+	SKEL_WALK_UP,
+	NUM_OF_SKELANIMATION_STATES
+};
+
+#endif /* defined (__SKELTN_ANIMATION_STATE__)*/

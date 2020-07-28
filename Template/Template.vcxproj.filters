@@ -185,6 +185,12 @@
     <ClCompile Include="..\src\DestructibleObject.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\BlobKing.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CrazyBat.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -370,6 +376,15 @@
     <ClInclude Include="..\src\DestructibleObjectState.h">
       <Filter>Enums</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\BlobKing.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SkeletonAnimationState.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\CrazyBat.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf">
@@ -464,6 +479,9 @@
       <Filter>LevelData</Filter>
     </Text>
     <Text Include="..\Assets\data\Level2.txt">
+      <Filter>LevelData</Filter>
+    </Text>
+    <Text Include="..\Assets\data\Level3.txt">
       <Filter>LevelData</Filter>
     </Text>
   </ItemGroup>

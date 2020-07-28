@@ -13,36 +13,36 @@ public:
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void clean() override;
+	static int countOfBiterRats;
 
 	void start();
 	void execute(glm::vec2 position, int angle, bool enemyAbility);
 	void stop();
 	void sound();
 	void animation();
-	int& getDamage() { return m_damage; }
 	void pickable(glm::vec2 position);
+	int ratDirection;
 
 	RatBiter* getAbility() override 
 	{ 
 		return new RatBiter(); 
 	}
 
+	
+	
+	void seekPlayer();
+
 private:
 	//animation variables
+	
 	void m_buildAnimations();
 	void Animate();
 
 	SpriteSheet* m_pSpriteSheet;
 	SpriteSheet* m_pSpriteSheetExplosion;
 	PlayerAnimationState m_currentAnimationState;
-	std::unordered_map<std::string, Animation> m_pAnimations;
-
-	bool m_running = false;
-	bool m_pickable = false;
 
 	int walkTimer = 0;
-	int m_damage;
-	int m_angle;
 
 	int timerDie = 0;
 	int timer = 0;

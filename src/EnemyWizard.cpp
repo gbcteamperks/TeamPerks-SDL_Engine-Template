@@ -25,14 +25,14 @@ EnemyWizard::EnemyWizard(glm::vec2 position) : m_currentAnimationState(BOSSONE_W
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	addAbility(new Fireball());
-	setType(BOSS);
+	setType(ENEMY);
 
 	m_buildAnimations();
 
 	// Life
-	m_pLife = new int(100);
-	m_lifeRedCounter = *m_pLife;
-	UI.push_back(new EnemyLifeBar);
+	m_pLife = 100;
+	m_lifeRedCounter = m_pLife;
+	UI.push_back(new EnemyLifeBar(this));
 }
 
 EnemyWizard::~EnemyWizard()
@@ -67,6 +67,7 @@ void EnemyWizard::draw()
 	default:
 		break;
 	}
+	animateBloodSplat();
 	for (auto s : UI)
 	{
 		s->draw(this->m_lifeRedCounter);

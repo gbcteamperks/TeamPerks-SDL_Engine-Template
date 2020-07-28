@@ -35,9 +35,9 @@ MotherSpider::MotherSpider(glm::vec2 position)
 	addAbility(new Orb());
 
 	m_buildAnimations();
-	m_pLife = new int(150);
-	m_lifeRedCounter = *m_pLife;
-	UI.push_back(new EnemyLifeBar);
+	m_pLife = 150;
+	m_lifeRedCounter = m_pLife;
+	UI.push_back(new EnemyLifeBar(this));
 }
 
 MotherSpider::~MotherSpider()
@@ -47,6 +47,7 @@ MotherSpider::~MotherSpider()
 void MotherSpider::draw()
 {
 	Animate();
+	animateBloodSplat();
 
 	for (auto s : UI)
 	{
@@ -285,4 +286,5 @@ void MotherSpider::Animate()
 	default:
 		break;
 	}
+	
 }

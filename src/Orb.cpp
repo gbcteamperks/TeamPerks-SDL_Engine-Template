@@ -4,7 +4,7 @@ Orb::Orb()
 {
 	//m_velocity = 6;
 	m_running = false;
-	m_damage = 15;
+	m_pDamage = 15;
 
 	//getTransform()->position = glm::vec2(0.0f,0.0f);
 	TheTextureManager::Instance()->load("../Assets/Sprites/spiderExplode.png", "spiderExplode");
@@ -20,23 +20,15 @@ Orb::Orb(glm::vec2 position, bool running, int angle, bool pickeable, bool enemy
 		"../Assets/sprites/orbProjectile.txt",
 		"../Assets/sprites/orbprojectile.png",
 		"orbing");
-	//gem for pickeable
-	TheTextureManager::Instance()->loadSpriteSheet(
-		"../Assets/sprites/gem.txt",
-		"../Assets/sprites/Items_BlueGem.png",
-		"BlueGem");
-
 
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("orbing");
-	m_pSpriteSheetGem = TheTextureManager::Instance()->getSpriteSheet("BlueGem");
 
-	m_pSpriteSheetGem->setWidthAndHeight(64, 64);
 	m_pSpriteSheet->setWidthAndHeight(64, 64);
 
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_damage = 0;
+	m_pDamage = 15;
 
 
 	//animation
@@ -79,6 +71,12 @@ void Orb::update()
 	if (m_running && !m_pickable)
 	{
 		getTransform()->position += getRigidBody()->velocity;
+	}
+	else if (m_running && m_pickable)
+	{
+		m_pickeableTimer++;
+		if (m_pickeableTimer > 300)
+			m_abilityDone = true;
 	}
 }
 
@@ -125,21 +123,16 @@ void Orb::sound()
 
 void Orb::animation()
 {
-
-	// alias for x and y
-	const auto x = getTransform()->position.x;
-	const auto y = getTransform()->position.y;
-	float animationVelocity = 0.50f;
 	// draw the player according to animation state
 	if (m_running && !m_pickable)
 	{
 		TheTextureManager::Instance()->playAnimation("orbing", m_pAnimations["orbing"],
-			x, y, animationVelocity, 0, 255, true);
+			getTransform()->position.x, getTransform()->position.y, 0.50f, 0, 255, true);
 	}
 	else if (m_running && m_pickable)
 	{
 		TheTextureManager::Instance()->playAnimation("BlueGem", m_pAnimations["BlueGem"],
-			x, y, animationVelocity, 0, 255, true);
+			getTransform()->position.x, getTransform()->position.y, 0.50f, 0, 255, true);
 	}
 	
 
@@ -160,34 +153,19 @@ void Orb::m_buildAnimations()
 
 	m_pAnimations["orbing"] = animation;
 
-	Animation bluegem = Animation();
-
-	bluegem.name = "BlueGem";
-
-	bluegem.frames.push_back(m_pSpriteSheetGem->getFrame("gem1"));
-	bluegem.frames.push_back(m_pSpriteSheetGem->getFrame("gem2"));
-	bluegem.frames.push_back(m_pSpriteSheetGem->getFrame("gem3"));
-	bluegem.frames.push_back(m_pSpriteSheetGem->getFrame("gem4"));
-	bluegem.frames.push_back(m_pSpriteSheetGem->getFrame("gem5"));
-	bluegem.frames.push_back(m_pSpriteSheetGem->getFrame("gem6"));
-	bluegem.frames.push_back(m_pSpriteSheetGem->getFrame("gem7"));
-	bluegem.frames.push_back(m_pSpriteSheetGem->getFrame("gem8"));
-
-	m_pAnimations["BlueGem"] = bluegem;
-
 }
 
 void Orb::AnimateDeath()
 {
 	// alias for x and y
-	const auto x = getTransform()->position.x;
+	/*const auto x = getTransform()->position.x;
 	const auto y = getTransform()->position.y;
 	float animationVelocity = 0.50f;
 	if (TheTextureManager::Instance()->playAnimation("explosionSpider", m_pAnimations["Explosion"],
 		x, y, animationVelocity, 0, 255, true))
 	{
 		m_abilityDone = true;
-	}
+	}*/
 
 }
 void Orb::pickable(glm::vec2 position)
