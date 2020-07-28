@@ -27,9 +27,6 @@
     <Filter Include="Components">
       <UniqueIdentifier>{b7c412c5-8c88-4ab0-9c43-1843d4be5de1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Singletons">
-      <UniqueIdentifier>{9203a419-8eff-43d5-ba62-a14ed1c0da55}</UniqueIdentifier>
-    </Filter>
     <Filter Include="gbcTeamPerks">
       <UniqueIdentifier>{3b515766-bc38-4072-ba20-302d298437b3}</UniqueIdentifier>
     </Filter>
@@ -41,6 +38,9 @@
     </Filter>
     <Filter Include="LevelData">
       <UniqueIdentifier>{56ab8949-ba5a-442c-9c90-941480440da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Singletons">
+      <UniqueIdentifier>{9203a419-8eff-43d5-ba62-a14ed1c0da55}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -93,10 +93,10 @@
       <Filter>UI Objects</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Renderer.cpp">
-      <Filter>Singletons</Filter>
+      <Filter>Scenes\Singletons</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Game.cpp">
-      <Filter>Singletons</Filter>
+      <Filter>Scenes\Singletons</Filter>
     </ClCompile>
     <ClCompile Include="..\src\EventManager.cpp">
       <Filter>Managers</Filter>
@@ -272,10 +272,10 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Renderer.h">
-      <Filter>Singletons</Filter>
+      <Filter>Scenes\Singletons</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Game.h">
-      <Filter>Singletons</Filter>
+      <Filter>Scenes\Singletons</Filter>
     </ClInclude>
     <ClInclude Include="..\src\EventManager.h">
       <Filter>Managers</Filter>

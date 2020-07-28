@@ -121,7 +121,19 @@ void PlayScene::update()
 			}
 			getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr), getDisplayList().end());
 
-			SpawnEnemiesManager::level1Boss();
+			switch (getLevelNumber())
+			{
+			case 1:
+				SpawnEnemiesManager::level1Boss();
+				break;
+			case 2:
+				SpawnEnemiesManager::level2Boss();
+				break;
+			default:
+				SpawnEnemiesManager::level3Boss();
+				break;
+			}
+			
 		}
 
 		if (successful)

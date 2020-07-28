@@ -1,4 +1,6 @@
 #include "SpawnEnemiesManager.h"
+
+#include "BlobKing.h"
 #include "LevelManager.h"
 #include "MathManager.h"
 #include "CollisionManager.h"
@@ -15,6 +17,7 @@ bool SpawnEnemiesManager::bossSummoned = false;
 
 void SpawnEnemiesManager::level1()
 {
+	bossSummoned - false;
 	static int timer = 0;
 	int countEnemies = Game::Instance()->getCurrentScene()->getEnemies().size();
 	auto level = LVLMAN::Instance()->getLevel();
@@ -54,6 +57,7 @@ void SpawnEnemiesManager::level1()
 
 void SpawnEnemiesManager::level2()
 {
+	bossSummoned = false;
 	static int timer = 0;
 	int countEnemies = Game::Instance()->getCurrentScene()->getEnemies().size();
 	auto level = LVLMAN::Instance()->getLevel();
@@ -109,4 +113,38 @@ void SpawnEnemiesManager::level1Boss()
 	
 	
 }
+
+void SpawnEnemiesManager::level2Boss()
+{
+	if (bossSummoned == false)
+	{
+		auto level = LVLMAN::Instance()->getLevel();
+		Game::Instance()->getCurrentScene()->removeChildByType(ENEMY);
+		Game::Instance()->getCurrentScene()->removeChildByType(ENEMYABILITY);
+		Game::Instance()->getCurrentScene()->addChild(new BlobKing(level[5][Config::COL_NUM / 2]->getTransform()->position));
+		bossSummoned = true;
+	}
+	else
+	{
+
+	}
+}
+
+void SpawnEnemiesManager::level3Boss()
+{
+	if (bossSummoned == false)
+	{
+		auto level = LVLMAN::Instance()->getLevel();
+		Game::Instance()->getCurrentScene()->removeChildByType(ENEMY);
+		Game::Instance()->getCurrentScene()->removeChildByType(ENEMYABILITY);
+		Game::Instance()->getCurrentScene()->addChild(new BlobKing(level[5][Config::COL_NUM / 2]->getTransform()->position));
+		bossSummoned = true;
+	}
+	else
+	{
+
+	}
+}
+
+
 
