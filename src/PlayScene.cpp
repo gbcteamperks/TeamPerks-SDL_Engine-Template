@@ -35,7 +35,7 @@ void PlayScene::draw()
 			}
 			if (o->getType() == VICTOR)
 			{
-				Util::DrawRect({ o->getPosX() - 8, o->getPosY() + 8}, 16, 16, { 0,1.0f,0,1.0f });
+				//Util::DrawRect({ o->getPosX() - 8, o->getPosY() + 8}, 16, 16, { 0,1.0f,0,1.0f });
 			}
 		}
 		LevelManager::Instance()->drawObstaclesCollisionBox();
@@ -296,6 +296,10 @@ void PlayScene::handleEvents()
 		{
 			invokeTransition();
 		}
+		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_8))
+		{
+			listPlayers[0]->getLife() = 1;
+		}
 	
 
 	}
@@ -311,8 +315,6 @@ void PlayScene::handleEvents()
 void PlayScene::collisions()
 {
 
-	bool changeState = false;
-	
 	for (int i = 0; i < getDisplayList().size(); i++) {
 		for (int k = 0; k < getDisplayList().size();k++) 
 		{
@@ -401,10 +403,7 @@ void PlayScene::collisions()
 							dynamic_cast<Ability*>(getDisplayList()[k])->stop();
 							getDisplayList()[i]->getLife() -= 5;
 							SoundManager::Instance().playSound("Grunt");
-							if (getDisplayList()[i]->getLife() == 0)
-							{
-								changeState = true;
-							}
+							
 						}
 					}
 				}
@@ -424,10 +423,7 @@ void PlayScene::collisions()
 
 						getDisplayList()[i]->getLife() -= 5;
 						SoundManager::Instance().playSound("Grunt");
-						if (getDisplayList()[i]->getLife() == 0)
-						{
-							changeState = true;
-						}
+						
 					}
 				}
 
@@ -438,10 +434,7 @@ void PlayScene::collisions()
 
 						getDisplayList()[i]->getLife() -= 5;
 						SoundManager::Instance().playSound("Grunt");
-						if (getDisplayList()[i]->getLife() == 0)
-						{
-							changeState = true;
-						}
+						
 					}
 				}
 				
@@ -449,11 +442,16 @@ void PlayScene::collisions()
 		}
 	}
 
-	getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr),getDisplayList().end());
-	LVLMAN::Instance()->cleanObstacles();
-	if (changeState) {
+	if (listPlayers[0]->getLife() <= 0) 
+	{
+		listPlayers[0]->getLife() = 100;
+		levelNumber = 1;
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
+
+	getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr),getDisplayList().end());
+	LVLMAN::Instance()->cleanObstacles();
+
 
 }
 

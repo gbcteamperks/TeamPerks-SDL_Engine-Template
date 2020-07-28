@@ -65,7 +65,13 @@ void EndScene::start()
 	m_pBackgroundEndS = new BackgroundEndS();
 	addChild(m_pBackgroundEndS);
 
-	
+	for (int i = 0; i < getDisplayList().size();i++) 
+	{
+		if (getDisplayList()[i]->getType() == VICTOR) 
+		{
+			getDisplayList()[i]->getLife() = 100;
+		}
+	}
 
 	//Menu Button
 

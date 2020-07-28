@@ -39,6 +39,7 @@ BlobKing::~BlobKing()
 void BlobKing::draw()
 {
 	Animate();
+	animateBloodSplat();
 	for (auto s : UI)
 	{
 		s->draw(this->m_lifeRedCounter);
