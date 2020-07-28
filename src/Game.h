@@ -62,7 +62,6 @@ private:
 	bool m_bRunning;
 	Uint32 m_frames;
 	glm::vec2 m_mousePosition;
-	mutable int level;
 
 	// scene variables
 	Scene* m_currentScene;

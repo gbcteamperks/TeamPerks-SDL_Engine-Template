@@ -67,6 +67,7 @@ void SkeletonEnemy::draw()
 	default:
 		break;
 	}
+	animateBloodSplat();
 	for (auto s : UI)
 	{
 		s->draw(this->m_lifeRedCounter);

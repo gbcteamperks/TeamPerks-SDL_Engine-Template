@@ -279,4 +279,5 @@ void LevelManager::printNodes()
 
 void LevelManager::cleanObstacles()
 {
+	m_obstacles.erase(std::remove(m_obstacles.begin(), m_obstacles.end(), nullptr), m_obstacles.end());
 }

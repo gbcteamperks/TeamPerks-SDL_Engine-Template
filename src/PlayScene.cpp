@@ -12,15 +12,9 @@
 #include "Util.h"
 #include "CrazyBat.h"
 std::vector<VictorVanHelsing*> PlayScene::listPlayers;
-
+int PlayScene::levelNumber = 1;
 PlayScene::PlayScene()
 {
-	PlayScene::start();
-}
-
-PlayScene::PlayScene(int level)
-{
-	this->levelNumber = level;
 	PlayScene::start();
 }
 
@@ -62,7 +56,7 @@ void PlayScene::update()
 		if (!summonBoss)
 		{
 			updateDisplayList();
-			switch (getLevelNumber())
+			switch (levelNumber)
 			{
 			case 1:
 				SpawnEnemiesManager::level1();
@@ -456,6 +450,7 @@ void PlayScene::collisions()
 	}
 
 	getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr),getDisplayList().end());
+	LVLMAN::Instance()->cleanObstacles();
 	if (changeState) {
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
@@ -475,7 +470,7 @@ int PlayScene::getLevelNumber()
 void PlayScene::invokeTransition()
 {
 	levelNumber++;
-	//std::cout << "in invoke transition.." << std::endl;
+	//std::cout << levelNumber <<"\n"<< std::endl;
 	TheGame::Instance()->changeSceneState(TRANSITION_SCENE);
 
 }
@@ -483,7 +478,7 @@ void PlayScene::start()
 {
 	//LVLMAN::Instance()->loadTiles("../Assets/sprites/Level1_Tiles.png", "tiles", "../Assets/sprites/TileData.txt");
 
-
+	std::cout << "start" << levelNumber << "\n" << std::endl;
 	gamePaused = false;
 	switch (levelNumber)
 	{

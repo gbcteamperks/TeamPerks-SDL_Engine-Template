@@ -40,6 +40,7 @@ public:
 	bool checkCollision(GameObject* obj, const int dX, const int dY);
 	void printNodes();
 	void cleanObstacles();
+	
 private:
 
 	static LevelManager* s_pInstance;

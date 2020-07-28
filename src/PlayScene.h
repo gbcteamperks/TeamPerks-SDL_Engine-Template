@@ -24,7 +24,6 @@ class PlayScene : public Scene
 {
 public:
 	PlayScene();
-	PlayScene(int);
 	~PlayScene();
 
 	// Scene LifeCycle Functions
@@ -55,7 +54,7 @@ private:
 	//transition to next scene
 	bool successful = false;
 	bool summonBoss = false;
-	int levelNumber;
+	static int levelNumber;
 	std::string levelNumberConcatenate;
 	std::string tileNumberConcatenate;
 
