@@ -33,7 +33,7 @@ SkeletonEnemy::SkeletonEnemy(glm::vec2 position) : m_currentAnimationState(SKEL_
 	// Life
 	m_pLife = 200;
 	m_lifeRedCounter = m_pLife;
-	UI.push_back(new EnemyLifeBar);
+	UI.push_back(new EnemyLifeBar(this));
 }
 
 SkeletonEnemy::~SkeletonEnemy()
