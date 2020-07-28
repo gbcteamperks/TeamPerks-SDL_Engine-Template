@@ -26,6 +26,8 @@ private:
 
 	glm::vec2 playerPos;
 	glm::vec2 directionToPush;
+	glm::vec2 ratBiterPosition;
+	bool abilityUsed;
 	bool pushBackGo = false;
 	int currentTime;
 	int duration = 2;

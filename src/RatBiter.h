@@ -13,6 +13,7 @@ public:
 	virtual void update() override;
 	virtual void draw() override;
 	virtual void clean() override;
+	static int countOfBiterRats;
 
 	void start();
 	void execute(glm::vec2 position, int angle, bool enemyAbility);
@@ -20,14 +21,20 @@ public:
 	void sound();
 	void animation();
 	void pickable(glm::vec2 position);
+	int ratDirection;
 
 	RatBiter* getAbility() override 
 	{ 
 		return new RatBiter(); 
 	}
 
+	
+	
+	void seekPlayer();
+
 private:
 	//animation variables
+	
 	void m_buildAnimations();
 	void Animate();
 

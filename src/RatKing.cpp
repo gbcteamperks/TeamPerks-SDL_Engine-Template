@@ -36,6 +36,9 @@ RatKing::RatKing(glm::vec2 position)
 	getRigidBody()->velocity = { 4,4 };
 	m_buildAnimations();
 	m_pDamage = 16;
+
+	ratBiterPosition.x = getTransform()->position.x - getWidth();
+	ratBiterPosition.y = getTransform()->position.y - 10;
 }
 
 
@@ -98,22 +101,21 @@ void RatKing::update()
 		}
 		
 	}
-	//if (tempCounter > 120) {
-	//	int randomNum = rand() % 2;
-	//	if (randomNum == 0)
-	//	{
-	//		m_currentAnimationState = PLAYER_RUN_LEFT;
-	//	}
-	//	else if (randomNum == 1)
-	//	{
-	//		m_currentAnimationState = PLAYER_RUN_RIGHT;
-	//		useCurrentAbility();
-	//	}
-	//	m_currentAnimationState = static_cast<PlayerAnimationState>(rand() % 8); //num of animation states
 
-	//	tempCounter = 0;
-	//}
-	//tempCounter++;
+	int randomNum = rand() % 400;
+	if (randomNum == 3 && RatBiter::countOfBiterRats < 3)
+	{
+		/*if(abilityUsed == false)
+		{*/
+			useCurrentAbility();
+		/*	abilityUsed = true;
+		}*/
+		
+	}
+		//m_currentAnimationState = static_cast<PlayerAnimationState>(rand() % 8); //num of animation states
+
+		
+	
 
 	for (auto ui : UI)
 	{
@@ -123,25 +125,26 @@ void RatKing::update()
 
 void RatKing::useCurrentAbility()
 {
-	if (m_pListAbilities.size() > 0) {
+	/*if (m_pListAbilities.size() > 0) {
 		switch (m_currentAnimationState)
 		{
-		case PLAYER_RUN_RIGHT:
-			m_pListAbilities.front()->execute(getTransform()->position, 180, true); // to the left
-			changeAbility();
+		case PLAYER_RUN_RIGHT:*/
+	
+		m_pListAbilities.front()->execute(ratBiterPosition, 0, true); 
+			/*changeAbility();
 			break;
 		default:
 			break;
 		}
 
-	}
+	}*/
 }
 
 void RatKing::m_pushBack()
 {
 	directionToPush = { cos(MathManager::Deg2Rad(m_angle)) , sin(MathManager::Deg2Rad(m_angle)) };
 	getRigidBody()->velocity *= directionToPush;
-	std::cout << "Velocity = " << getRigidBody()->velocity.x << "," << getRigidBody()->velocity.y << std::endl;
+	//std::cout << "Velocity = " << getRigidBody()->velocity.x << "," << getRigidBody()->velocity.y << std::endl;
 	pushBackGo = true;
 }
 
