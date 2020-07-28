@@ -35,14 +35,23 @@ public:
 	void addAbility(Ability*);
 	void deleteAbility();
 	virtual void useCurrentAbility();
+	virtual std::string getName() { return m_EnemyName; }
 	void dropAbility();
 	void changeAbility();
 	//getters
 
 protected:
+
+	void buildBloodAnimation();
+	void animateBloodSplat();
+	std::unordered_map<std::string, Animation> m_pAnimations;
+
 	//ability list
 	std::vector<Ability*> m_pListAbilities;
 	bool m_abilityReady = true;
+	std::string m_EnemyName;
+	SpriteSheet* m_pSpriteSheetBlood;
+
 	//Enemy Life
 };
 

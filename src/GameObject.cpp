@@ -11,7 +11,7 @@ GameObject::GameObject():
 	m_currentObject = this;
 	m_pLife = 100;
 	m_pDamage = 20;
-	
+	m_pNextDamageCounter = 0;
 }
 
 GameObject::~GameObject()
@@ -155,6 +155,11 @@ bool GameObject::m_CheckBounds()
 
 bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 {
+	m_pNextDamageCounter++;
+	if (m_pNextDamageCounter > 60) 
+	{
+		m_pNextDamageCounter = 60;
+	}
 	bool collision = false;
 	for (auto o : listObstacles)
 	{
@@ -164,8 +169,32 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 				collision = true;
 			}
 		}
+		/*else if (o->getType() == SPIKES)
+		{
+			if (m_pNextDamageCounter == 60) 
+			{
+				if (CollisionManager::AABBCheck(this, o))
+				{
+					this->getLife() += -o->getDamage();
+					m_pNextDamageCounter = 0;
+				}
+			}
+			
+		}*/
 	}
 	return collision;
+}
+
+bool GameObject::collidingWithLevel(std::vector<GameObject*> listObstacles)
+{
+	for (auto o : listObstacles)
+	{
+		if (CollisionManager::SImpleAABBCheck(this, o))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 void GameObject::fleeBehaviour(GameObject* obj)
@@ -180,6 +209,15 @@ void GameObject::fleeBehaviour(GameObject* obj)
 		this->getTransform()->position.y += this->getRigidBody()->velocity.y* sin(angle);
 	}
 }
+
+void GameObject::Move(float velx, float vely)
+{
+	getTransform()->position.x += velx;
+	getTransform()->position.y += vely;
+	setPosX(getTransform()->position.x);
+	setPosY(getTransform()->position.y);
+}
+
 
 
 int& GameObject::getLife()

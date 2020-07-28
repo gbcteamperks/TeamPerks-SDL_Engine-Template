@@ -15,8 +15,9 @@ public:
 	virtual void draw() override;
 	virtual void update() override;
 	virtual void clean() override;
-
+	
 	void useCurrentAbility();
+	void m_pushBack();
 
 private:
 	//animation variables
@@ -24,11 +25,14 @@ private:
 	void Animate();
 
 	glm::vec2 playerPos;
+	glm::vec2 directionToPush;
+	bool pushBackGo = false;
+	int currentTime;
+	int duration = 2;
 	std::vector<UIElement*> UI;
 	int m_lifeRedCounter;
+	bool m_flip;
 
-
-	
 	SpriteSheet* m_pSpriteSheet;
 	PlayerAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;

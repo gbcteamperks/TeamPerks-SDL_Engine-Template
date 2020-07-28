@@ -18,8 +18,14 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 		"../Assets/sprites/victorvanhelsing.png",
 		"victorvanhelsing");
 
-	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("victorvanhelsing");
+	TheTextureManager::Instance()->loadSpriteSheet(
+		"../Assets/sprites/bloodsplat2.txt",
+		"../Assets/sprites/bloodsplat2.png",
+		"bloodsplat2");
 
+	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("victorvanhelsing");
+	m_pSpriteSheetBlood = TheTextureManager::Instance()->getSpriteSheet("bloodsplat2");
+	
 	
 	m_playerNumber = numberOfPlayers; // assign an id to this player
 	numberOfPlayers++; //add a player every time a victor is created
@@ -29,10 +35,13 @@ VictorVanHelsing::VictorVanHelsing(glm::vec2 pos) : m_currentAnimationState(VICT
 	setPosX(pos.x);
 	setPosY(pos.y+ 8);
 
+	m_pSpriteSheetBlood->setWidthAndHeight(64, 64);
+
 	getTransform()->position = pos;
 	getRigidBody()->velocity = glm::vec2(2.0f, 2.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
+
 	addAbility(new Sword());
 	//addAbility(new ExplosiveSpider());
 	//addAbility(new Fireball());
@@ -84,6 +93,7 @@ void VictorVanHelsing::draw()
 	default:
 		break;
 	}
+	animateBloodSplat();
 	for (auto s : UIList)
 	{
 		s->draw();
@@ -164,14 +174,7 @@ void VictorVanHelsing::useCurrentAbility(int player)
 
 void VictorVanHelsing::changeAbility()
 {
-	/*static int AbilityCounter = 0;
-	AbilityCounter++;
-	if(m_pListAbilities.size() > 1){
-		if(AbilityCounter > m_pListAbilities.size() - 1){
-			AbilityCounter = 1;
-		}
-		std::iter_swap(m_pListAbilities.begin(), m_pListAbilities.begin()+ AbilityCounter);
-	}*/
+
 	if (m_currentAbility + 1 < m_pListAbilities.size())
 	{
 		m_currentAbility++;
@@ -224,26 +227,46 @@ void VictorVanHelsing::m_buildAnimations()
 	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-4"));
 
 	m_pAnimations["walkup"] = walkUp;
+
+	Animation bloodsplat = Animation();
+
+	bloodsplat.name = "bloodsplat";
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat1"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat2"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat3"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat4"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat5"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat6"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat7"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat8"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat9"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat10"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat11"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat12"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat13"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat14"));
+	bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat15"));
+	//bloodsplat.frames.push_back(m_pSpriteSheetBlood->getFrame("bloodsplat16"));
+
+
+	m_pAnimations["bloodsplat"] = bloodsplat;
 }
 
+void VictorVanHelsing::animateBloodSplat()
+{
+	// alias for x and y
+	const auto x = getTransform()->position.x;
+	const auto y = getTransform()->position.y;
+	const float velocityAnimation = 2.0f;
+	if (getRigidBody()->isColliding)
+	{
+		if (TheTextureManager::Instance()->playAnimation("bloodsplat2", m_pAnimations["bloodsplat"],
+			x, y, velocityAnimation, 0, 255, true))
+		{
+			getRigidBody()->isColliding = false;
+			m_pAnimations["bloodsplat"].current_frame = 0;
+		}
+	}
+}
 
-/*void VictorVanHelsing::countAbilitie() {
-	
-	if (m_pListAbilities.size() == 2)
-	{
-		if (m_abilitieCounter == 0) { m_abilitieCounter++; }
-		else if (m_abilitieCounter == 1) { m_abilitieCounter = 0; }
-		
-	}
-	else if (m_pListAbilities.size() == 3)
-	{
-		if (m_abilitieCounter < 2) { m_abilitieCounter++; }
-		else if (m_abilitieCounter == 2) { m_abilitieCounter = 0; }
-	}
-	else if (m_pListAbilities.size() == 4)
-	{
-		if (m_abilitieCounter < 3) { m_abilitieCounter++; }
-		else if (m_abilitieCounter == 3) { m_abilitieCounter = 0; }
-	}
-}*/
 

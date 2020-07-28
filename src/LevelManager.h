@@ -36,6 +36,7 @@ public:
 	std::map<char, Tile*>& const getTiles() { return m_tiles; }
 	std::array<std::array<Tile*, Config::COL_NUM>, Config::ROW_NUM>& const getLevel() { return m_level; }
 	std::vector<GameObject*>& const getObstacles() { return m_obstacles; }
+	void drawObstaclesCollisionBox();
 	bool checkCollision(GameObject* obj, const int dX, const int dY);
 	void printNodes();
 

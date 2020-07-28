@@ -10,7 +10,7 @@
 #include "SpawnEnemiesManager.h"
 #include "SkeletonEnemy.h"
 #include "Util.h"
-
+#include "CrazyBat.h"
 std::vector<VictorVanHelsing*> PlayScene::listPlayers;
 
 PlayScene::PlayScene()
@@ -37,7 +37,7 @@ void PlayScene::draw()
 		{
 			Util::DrawRect({ o->getPosX() - o->getWidth() * 0.5, o->getPosY() - o->getHeight() * 0.5 }, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
 		}
-
+		LevelManager::Instance()->drawObstaclesCollisionBox();
 
 	}
 }
@@ -55,7 +55,18 @@ void PlayScene::update()
 		if (!summonBoss)
 		{
 			updateDisplayList();
-			SpawnEnemiesManager::level1();
+			switch (getLevelNumber())
+			{
+			case 1:
+				SpawnEnemiesManager::level1();
+				break;
+			case 2:
+				SpawnEnemiesManager::level2();
+				break;
+			default:
+				SpawnEnemiesManager::level1();
+				break;
+			}
 			//delete projectiles
 			if (getDisplayList().size() > 0) {
 				for (auto it = getDisplayList().begin(); it != getDisplayList().end(); it++) {
@@ -110,7 +121,19 @@ void PlayScene::update()
 			}
 			getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr), getDisplayList().end());
 
-			SpawnEnemiesManager::level1Boss();
+			switch (getLevelNumber())
+			{
+			case 1:
+				SpawnEnemiesManager::level1Boss();
+				break;
+			case 2:
+				SpawnEnemiesManager::level2Boss();
+				break;
+			default:
+				SpawnEnemiesManager::level3Boss();
+				break;
+			}
+			
 		}
 
 		if (successful)
@@ -277,62 +300,7 @@ void PlayScene::handleEvents()
 	
 }
 
-void PlayScene::start()
-{
-	//LVLMAN::Instance()->loadTiles("../Assets/sprites/Level1_Tiles.png", "tiles", "../Assets/sprites/TileData.txt");
-	
-	
-	gamePaused = false;
-	switch(levelNumber)
-	{
-	case 1:
-		levelNumberConcatenate = "../Assets/data/Level" + std::to_string((levelNumber)) + ".txt";
-		tileNumberConcatenate = "../Assets/sprites/Level" + std::to_string((levelNumber)) + "_Tiles.png";
-		break;
 
-	case 2:
-		levelNumberConcatenate = "../Assets/data/Level" + std::to_string((levelNumber)) + ".txt";
-		tileNumberConcatenate = "../Assets/sprites/Level" + std::to_string((levelNumber)) + "_Tiles.png";
-		break;
-
-	case 3:
-		levelNumberConcatenate = "../Assets/data/Level" + std::to_string((levelNumber)) + ".txt";
-		tileNumberConcatenate = "../Assets/sprites/Level" + std::to_string((levelNumber)) + "_Tiles.png";
-		break;
-
-	default:
-		break;
-	}
-	LVLMAN::Instance()->loadTiles(tileNumberConcatenate, "tiles", "../Assets/sprites/TileData.txt");
-	LVLMAN::Instance()->loadLevel(levelNumberConcatenate);
-	std::cout << "start";
-
-	//Boss
-	//addChild(new EnemyWizard());
-
-	//Victor
-	listPlayers.push_back(new VictorVanHelsing(glm::vec2(390.0f, 400.0f)));
-	addChild(listPlayers[0]);
-
-	
-	//BigSpider
-	//addChild(new MotherSpider());
-
-	addChild(new DestructibleObject(glm::vec2(200.0f, 200.0f), 4));
-
-	//KingRat
-	//addChild(new RatKing());
-
-	//Music
-	SoundManager::Instance().load("../Assets/audio/PlaySceneMusic.mp3", "PlaySceneMusic", SOUND_MUSIC);
-	SoundManager::Instance().playMusic("PlaySceneMusic");
-	//Sound fx
-	SoundManager::Instance().load("../Assets/audio/sword-1b.wav", "Sword", SOUND_SFX);
-	SoundManager::Instance().load("../Assets/audio/Rat.mp3", "Rat", SOUND_SFX);
-	SoundManager::Instance().load("../Assets/audio/Fireball.wav", "FireBall", SOUND_SFX);
-	SoundManager::Instance().load("../Assets/audio/electricshock.wav", "Orb", SOUND_SFX);
-	SoundManager::Instance().load("../Assets/audio/Grunting-sound.mp3", "Grunt", SOUND_SFX);
-}
 
 void PlayScene::collisions()
 {
@@ -390,9 +358,12 @@ void PlayScene::collisions()
 				//VICTOR AND PICKEABLE OBJECTS
 				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == PICKABLE)
 				{
-					if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
-						dynamic_cast<VictorVanHelsing*>(getDisplayList()[i])->addAbility(dynamic_cast<Ability*>(getDisplayList()[k])->getAbility());
-						dynamic_cast<Ability*>(getDisplayList()[k])->stop();
+					if (dynamic_cast<Ability*>(getDisplayList()[k])->IsRunning())
+					{
+						if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+							dynamic_cast<VictorVanHelsing*>(getDisplayList()[i])->addAbility(dynamic_cast<Ability*>(getDisplayList()[k])->getAbility());
+							dynamic_cast<Ability*>(getDisplayList()[k])->stop();
+						}
 					}
 				}
 				//VICTOR AND ENEMYABILITIES
@@ -400,7 +371,7 @@ void PlayScene::collisions()
 				{
 					if (dynamic_cast<Ability*>(getDisplayList()[k])->IsRunning())
 					{
-						if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+						if (CollisionManager::AABBCheck(getDisplayList()[k], getDisplayList()[i])) {
 							dynamic_cast<Ability*>(getDisplayList()[k])->stop();
 							getDisplayList()[i]->getLife() -= 5;
 							SoundManager::Instance().playSound("Grunt");
@@ -418,6 +389,33 @@ void PlayScene::collisions()
 						
 						std::cout << " x: " << getDisplayList()[k]->getTransform()->position.x << " y: " << getDisplayList()[k]->getTransform()->position.y << "\n";
 						std::cout << "Hit Door\n";
+					}
+				}
+				//VICTOR WITH ENEMIES
+				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == ENEMY)
+				{
+					if (CollisionManager::AABBCheck(getDisplayList()[k], getDisplayList()[i])) {
+
+						getDisplayList()[i]->getLife() -= 5;
+						SoundManager::Instance().playSound("Grunt");
+						if (getDisplayList()[i]->getLife() == 0)
+						{
+							changeState = true;
+						}
+					}
+				}
+
+				//VICTOR WITH ENEMIES
+				else if (getDisplayList()[i]->getType() == VICTOR && getDisplayList()[k]->getType() == BOSS)
+				{
+					if (CollisionManager::AABBCheck(getDisplayList()[k], getDisplayList()[i])) {
+
+						getDisplayList()[i]->getLife() -= 5;
+						SoundManager::Instance().playSound("Grunt");
+						if (getDisplayList()[i]->getLife() == 0)
+						{
+							changeState = true;
+						}
 					}
 				}
 				
@@ -448,6 +446,66 @@ void PlayScene::invokeTransition()
 	//std::cout << "in invoke transition.." << std::endl;
 	TheGame::Instance()->changeSceneState(TRANSITION_SCENE);
 
+}
+void PlayScene::start()
+{
+	//LVLMAN::Instance()->loadTiles("../Assets/sprites/Level1_Tiles.png", "tiles", "../Assets/sprites/TileData.txt");
+
+
+	gamePaused = false;
+	switch (levelNumber)
+	{
+	case 1:
+		levelNumberConcatenate = "../Assets/data/Level" + std::to_string((levelNumber)) + ".txt";
+		tileNumberConcatenate = "../Assets/sprites/Level" + std::to_string((levelNumber)) + "_Tiles.png";
+		break;
+
+	case 2:
+		levelNumberConcatenate = "../Assets/data/Level" + std::to_string((levelNumber)) + ".txt";
+		tileNumberConcatenate = "../Assets/sprites/Level" + std::to_string((levelNumber)) + "_Tiles.png";
+		break;
+
+	case 3:
+		levelNumberConcatenate = "../Assets/data/Level" + std::to_string((levelNumber)) + ".txt";
+		tileNumberConcatenate = "../Assets/sprites/Level" + std::to_string((levelNumber)) + "_Tiles.png";
+		break;
+
+	default:
+		break;
+	}
+	LVLMAN::Instance()->loadTiles(tileNumberConcatenate, "tiles", "../Assets/sprites/TileData.txt");
+	LVLMAN::Instance()->loadLevel(levelNumberConcatenate);
+	std::cout << "start";
+
+	//Boss
+	//addChild(new EnemyWizard());
+
+	//Victor
+	listPlayers.push_back(new VictorVanHelsing(glm::vec2(390.0f, 400.0f)));
+	addChild(listPlayers[0]);
+
+
+	//BigSpider
+	//addChild(new MotherSpider());
+
+	addChild(new DestructibleObject(glm::vec2(200.0f, 200.0f), 4));
+
+	//KingRat
+	//addChild(new RatKing());
+
+	//CrazyBat
+	//addChild(new CrazyBat(glm::vec2(100,100)));
+
+	//Music
+	SoundManager::Instance().load("../Assets/audio/PlaySceneMusic.mp3", "PlaySceneMusic", SOUND_MUSIC);
+	SoundManager::Instance().playMusic("PlaySceneMusic");
+	//Sound fx
+	SoundManager::Instance().load("../Assets/audio/sword-1b.wav", "Sword", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/Rat.mp3", "Rat", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/Fireball.wav", "FireBall", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/electricshock.wav", "Orb", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/Grunting-sound.mp3", "Grunt", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/tailwhip.wav", "whip", SOUND_SFX);
 }
 
 

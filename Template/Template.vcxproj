@@ -158,6 +158,7 @@
     <ClCompile Include="..\src\Ability.cpp" />
     <ClCompile Include="..\src\BackgroundEndS.cpp" />
     <ClCompile Include="..\src\BlobKing.cpp" />
+    <ClCompile Include="..\src\CrazyBat.cpp" />
     <ClCompile Include="..\src\DestructibleObject.cpp" />
     <ClCompile Include="..\src\Enemy.cpp" />
     <ClCompile Include="..\src\Button.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="..\src\Animation.h" />
     <ClInclude Include="..\src\BackgroundEndS.h" />
     <ClInclude Include="..\src\BlobKing.h" />
+    <ClInclude Include="..\src\CrazyBat.h" />
     <ClInclude Include="..\src\DestructibleObject.h" />
     <ClInclude Include="..\src\DestructibleObjectState.h" />
     <ClInclude Include="..\src\Enemy.h" />
