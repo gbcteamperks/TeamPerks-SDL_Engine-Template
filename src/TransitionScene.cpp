@@ -43,7 +43,7 @@ void TransitionScene::update()
 {
 	if(alpha == 255)
 	{
-		SDL_Delay(5000);
+		SDL_Delay(3500);
 		//TheGame::Instance()->changeSceneState(PLAY_SCENE);
 		goClean = true;
 		clean();

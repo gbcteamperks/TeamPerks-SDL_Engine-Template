@@ -116,6 +116,9 @@
     <ClCompile Include="..\src\Fireball.cpp">
       <Filter>Abilities</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Ability.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\Sword.cpp">
       <Filter>Abilities</Filter>
     </ClCompile>
@@ -184,12 +187,6 @@
     </ClCompile>
     <ClCompile Include="..\src\BlobKing.cpp">
       <Filter>Game Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\CrazyBat.cpp">
-      <Filter>Game Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Ability.cpp">
-      <Filter>Abilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -379,8 +376,8 @@
     <ClInclude Include="..\src\BlobKing.h">
       <Filter>Game Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\CrazyBat.h">
-      <Filter>Game Objects</Filter>
+    <ClInclude Include="..\src\SkeletonAnimationState.h">
+      <Filter>Enums</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

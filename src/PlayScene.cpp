@@ -124,7 +124,19 @@ void PlayScene::update()
 			}
 			getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr), getDisplayList().end());
 
-			SpawnEnemiesManager::level1Boss();
+			switch (getLevelNumber())
+			{
+			case 1:
+				SpawnEnemiesManager::level1Boss();
+				break;
+			case 2:
+				SpawnEnemiesManager::level2Boss();
+				break;
+			default:
+				SpawnEnemiesManager::level3Boss();
+				break;
+			}
+			
 		}
 
 		if (successful)
@@ -272,7 +284,6 @@ void PlayScene::handleEvents()
 		}
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_T))
 		{
-
 			LVLMAN::Instance()->printNodes();
 
 			/*std::cout << "x: " << LevelManager::Instance()->getLevel()[5][10]->m_node->x << " y:" << LevelManager::Instance()->getLevel()[5][10]->m_node->y << "\n";
@@ -517,6 +528,7 @@ void PlayScene::start()
 	SoundManager::Instance().load("../Assets/audio/Fireball.wav", "FireBall", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/electricshock.wav", "Orb", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/Grunting-sound.mp3", "Grunt", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/tailwhip.wav", "whip", SOUND_SFX);
 }
 
 
