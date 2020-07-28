@@ -35,9 +35,13 @@ void PlayScene::draw()
 	{
 		for (auto o : getDisplayList())
 		{
-			if (o->getType() != DESTRUCTIBLE) 
+			if (o->getType() != DESTRUCTIBLE)
 			{
 				Util::DrawRect({ o->getPosX() - o->getWidth() * 0.5, o->getPosY() - o->getHeight() * 0.5 }, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+			}
+			if (o->getType() == VICTOR)
+			{
+				Util::DrawRect({ o->getPosX() - 8, o->getPosY() + 8}, 16, 16, { 0,1.0f,0,1.0f });
 			}
 		}
 		LevelManager::Instance()->drawObstaclesCollisionBox();
@@ -293,7 +297,12 @@ void PlayScene::handleEvents()
 		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_P))
 		{
 			gamePaused = !gamePaused;
+		}	
+		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_0))
+		{
+			invokeTransition();
 		}
+	
 
 	}
 	else

@@ -63,17 +63,17 @@ void LevelManager::render(bool debug)
 		{
 			m_level[row][col]->draw();
 
-			if (debug) 
-			{
-				if (m_level[row][col]->m_node->isOpen()) 
-				{
-					Util::DrawRect({ m_level[row][col]->getPosX(), m_level[row][col]->getPosY() }, m_level[row][col]->getWidth(), m_level[row][col]->getHeight(), { 0.0f,0.0f,1.0f,1.0f });
-				}
-				else 
-				{
-					Util::DrawRect({ m_level[row][col]->getPosX(), m_level[row][col]->getPosY() }, m_level[row][col]->getWidth(), m_level[row][col]->getHeight(), { 1.0f,0.0f,0.0f,1.0f });
-				}
-			}
+			//if (debug) 
+			//{
+			//	if (m_level[row][col]->m_node->isOpen()) 
+			//	{
+			//		Util::DrawRect({ m_level[row][col]->getPosX(), m_level[row][col]->getPosY() }, m_level[row][col]->getWidth(), m_level[row][col]->getHeight(), { 0.0f,0.0f,1.0f,1.0f });
+			//	}
+			//	else 
+			//	{
+			//		Util::DrawRect({ m_level[row][col]->getPosX(), m_level[row][col]->getPosY() }, m_level[row][col]->getWidth(), m_level[row][col]->getHeight(), { 1.0f,0.0f,0.0f,1.0f });
+			//	}
+			//}
 		}
 	}
 
@@ -221,7 +221,6 @@ void LevelManager::drawObstaclesCollisionBox()
 		}
 	}
 }
-
 bool LevelManager::checkCollision(GameObject* obj, const int dX, const int dY) //kinda took this out
 {
 	//int row = ((obj->getTransform()->position.y - m_sumDY) / Config::TILE_SIZE);
@@ -257,7 +256,15 @@ bool LevelManager::checkCollision(GameObject* obj, const int dX, const int dY) /
 
 void LevelManager::printNodes()
 {
-	for (int row = 0; row < Config::ROW_NUM; row++)
+
+	for (auto o : m_obstacles)
+	{
+		if (o->getType() == SPIKES)
+		{
+			std::cout << o->getTransform()->position.x << " " << o->getTransform()->position.y << "\n";
+		}
+	}
+	/*for (int row = 0; row < Config::ROW_NUM; row++)
 	{
 		for (int col = 0; col < Config::COL_NUM; col++)
 		{
@@ -267,7 +274,7 @@ void LevelManager::printNodes()
 			}
 			
 		}
-	}
+	}*/
 }
 
 void LevelManager::cleanObstacles()

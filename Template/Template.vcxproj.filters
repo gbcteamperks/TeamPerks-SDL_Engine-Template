@@ -481,6 +481,9 @@
     <Text Include="..\Assets\data\Level2.txt">
       <Filter>LevelData</Filter>
     </Text>
+    <Text Include="..\Assets\data\Level3.txt">
+      <Filter>LevelData</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Assets\sprites\atlas.xml">
