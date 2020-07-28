@@ -258,7 +258,6 @@ void PlayScene::handleEvents()
 		}
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_T))
 		{
-
 			LVLMAN::Instance()->printNodes();
 
 			/*std::cout << "x: " << LevelManager::Instance()->getLevel()[5][10]->m_node->x << " y:" << LevelManager::Instance()->getLevel()[5][10]->m_node->y << "\n";

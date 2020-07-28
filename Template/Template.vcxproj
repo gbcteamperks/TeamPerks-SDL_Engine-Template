@@ -236,6 +236,7 @@
     <ClInclude Include="..\src\LevelManager.h" />
     <ClInclude Include="..\src\LifeBar.h" />
     <ClInclude Include="..\src\Needle.h" />
+    <ClInclude Include="..\src\SkeletonAnimationState.h" />
     <ClInclude Include="..\src\SkeletonEnemy.h" />
     <ClInclude Include="..\src\SpawnEnemiesManager.h" />
     <ClInclude Include="..\src\TransitionScene.h" />
