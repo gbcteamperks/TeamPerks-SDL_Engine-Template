@@ -67,7 +67,7 @@ void Scene::drawDisplayList()
 	{
 		if (m_displayList[count] != nullptr)
 		{
-			if (m_displayList[count]->getType() != TILE) {
+			if (m_displayList[count]->getType() != TILE || m_displayList[count]->getType() != DESTRUCTIBLE) {
 				m_displayList[count]->draw();
 			}
 		}

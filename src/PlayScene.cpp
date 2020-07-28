@@ -35,7 +35,10 @@ void PlayScene::draw()
 	{
 		for (auto o : getDisplayList())
 		{
-			Util::DrawRect({ o->getPosX() - o->getWidth() * 0.5, o->getPosY() - o->getHeight() * 0.5 }, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+			if (o->getType() != DESTRUCTIBLE) 
+			{
+				Util::DrawRect({ o->getPosX() - o->getWidth() * 0.5, o->getPosY() - o->getHeight() * 0.5 }, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+			}
 		}
 		LevelManager::Instance()->drawObstaclesCollisionBox();
 
@@ -321,6 +324,26 @@ void PlayScene::collisions()
 							}
 						}
 					}
+				}	
+				
+				else if (getDisplayList()[i]->getType() == PLAYERABILITY && getDisplayList()[k]->getType() == DESTRUCTIBLE)
+				{
+					if (dynamic_cast<Ability*>(getDisplayList()[i])->IsRunning())
+					{
+						// **** Its the same code as the ability and boss check ****
+						if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+							dynamic_cast<Ability*>(getDisplayList()[i])->stop();
+							if ((getDisplayList()[k])->getLife() > 0) {
+
+								getDisplayList()[k]->getLife() -= 1;
+							}
+							if ((getDisplayList()[k])->getLife() <= 0) {
+								getDisplayList()[k]->clean();
+								delete getDisplayList()[k];
+								getDisplayList()[k] = nullptr;
+							}
+						}
+					}
 				}
 				//PlAYER ABILITY AND BOSS
 				else if (getDisplayList()[i]->getType() == PLAYERABILITY && getDisplayList()[k]->getType() == BOSS)
@@ -463,7 +486,7 @@ void PlayScene::start()
 		break;
 	}
 	LVLMAN::Instance()->loadTiles(tileNumberConcatenate, "tiles", "../Assets/sprites/TileData.txt");
-	LVLMAN::Instance()->loadLevel(levelNumberConcatenate);
+	LVLMAN::Instance()->loadLevel(levelNumberConcatenate,getDisplayList());
 	std::cout << "start";
 
 	//Boss
@@ -477,7 +500,7 @@ void PlayScene::start()
 	//BigSpider
 	//addChild(new MotherSpider());
 
-	addChild(new DestructibleObject(glm::vec2(200.0f, 200.0f), 4));
+	//addChild(new DestructibleObject(glm::vec2(200.0f, 200.0f), 4));
 
 	//KingRat
 	//addChild(new RatKing());

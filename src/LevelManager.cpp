@@ -88,7 +88,7 @@ void LevelManager::render(bool debug)
 		{
 			if (i->getType() == DESTRUCTIBLE) 
 			{
-				Util::DrawRect({ i->getPosX() /*- i->getWidth()*/, i->getPosY() /*- i->getHeight() */ }, i->getWidth() - 10, i->getHeight() - 10, { 1.0f,1.0f,1.0f,1.0f });
+				//Util::DrawRect({ i->getPosX() /*- i->getWidth()*/, i->getPosY() /*- i->getHeight() */ }, i->getWidth(), i->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
 			}
 			else {
 				//Util::DrawRect({ i->getPosX(), i->getPosY() }, i->getWidth(), i->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
@@ -122,7 +122,7 @@ void LevelManager::loadTiles(std::string spritePath, std::string texture_Name, s
 	inFile.close();
 }
 
-void LevelManager::loadLevel(std::string levelDataPath) //Passes the scene display list to add obstacles and hazard tiles
+void LevelManager::loadLevel(std::string levelDataPath,std::vector<DisplayObject*>& dList) //Passes the scene display list to add obstacles and hazard tiles
 {
 	std::ifstream inFile(levelDataPath);
 	if (inFile.is_open())
@@ -134,12 +134,28 @@ void LevelManager::loadLevel(std::string levelDataPath) //Passes the scene displ
 			for (int col = 0; col < Config::COL_NUM; col++)
 			{
 				inFile >> key;
-				m_level[row][col] = m_tiles[key]->Clone();
-				m_level[row][col]->getTransform()->position.x = (int)(col* Config::TILE_SIZE);
-				m_level[row][col]->getTransform()->position.y = (int)(row* Config::TILE_SIZE);
+				if (key == 'b') 
+				{
+					m_level[row][col] = m_tiles['F']->Clone();
+				}
+				else 
+				{ 
+					m_level[row][col] = m_tiles[key]->Clone(); 
+				}
+				m_level[row][col]->getTransform()->position.x = (int)(col * Config::TILE_SIZE);
+				m_level[row][col]->getTransform()->position.y = (int)(row * Config::TILE_SIZE);
+
+				if (key == 'b') 
+				{
+					dList.push_back(new DestructibleObject(m_level[row][col]->getTransform()->position, 3, "../Assets/sprites/barrel.txt",
+						"../Assets/sprites/barrel.png","barrel",50,60,30,40));
+				}
+				
 				
 				m_level[row][col]->m_node = new PathNode((int)(m_level[row][col]->getTransform()->position.x + 16), (int)(m_level[row][col]->getTransform()->position.y + 16));
 
+				/*m_level[row][col]->setPosX(m_level[row][col]->m_node->x);
+				m_level[row][col]->setPosX(m_level[row][col]->m_node->y);*/
 				m_level[row][col]->setPosX(m_level[row][col]->getTransform()->position.x);
 				m_level[row][col]->setPosY(m_level[row][col]->getTransform()->position.y);
 				if (m_level[row][col]->getX() == 4 && m_level[row][col]->getY() == 1) //if the index nums match up to where the door tile is on the texture make the tile a door game object
@@ -156,7 +172,15 @@ void LevelManager::loadLevel(std::string levelDataPath) //Passes the scene displ
 		}
 	}
 	inFile.close();
-	m_obstacles.push_back(new DestructibleObject(m_level[5][10]->getTransform()->position, 4));
+	
+
+	for (int i = 0; i < dList.size(); i++) 
+	{
+		if (dList[i]->getType() == DESTRUCTIBLE) 
+		{
+		m_obstacles.push_back(dList[i]);
+		}
+	}
 }
 
 
@@ -187,7 +211,14 @@ void LevelManager::drawObstaclesCollisionBox()
 {
 	for (auto o : m_obstacles)
 	{
-		Util::DrawRect(glm::vec2(o->getPosX(), o->getPosY()), o->getWidth(), o->getHeight(), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+		if (o->getType() == DESTRUCTIBLE)
+		{
+			Util::DrawRect(glm::vec2(o->getPosX(), o->getPosY()), o->getColX(), o->getColY(), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+		}
+		else 
+		{
+			Util::DrawRect(glm::vec2(o->getPosX(), o->getPosY()), o->getWidth(), o->getHeight(), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+		}
 	}
 }
 
@@ -237,4 +268,8 @@ void LevelManager::printNodes()
 			
 		}
 	}
+}
+
+void LevelManager::cleanObstacles()
+{
 }

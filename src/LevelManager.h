@@ -28,7 +28,7 @@ public:
 	void render(bool debug);
 
 	void loadTiles(std::string spritePath, std::string texture_Name, std::string tileDataPath);
-	void loadLevel(std::string levelDataPath);
+	void loadLevel(std::string levelDataPath, std::vector<DisplayObject*>& displayList);
 
 	void clearTiles();
 	void clearLevel();
@@ -39,7 +39,7 @@ public:
 	void drawObstaclesCollisionBox();
 	bool checkCollision(GameObject* obj, const int dX, const int dY);
 	void printNodes();
-
+	void cleanObstacles();
 private:
 
 	static LevelManager* s_pInstance;

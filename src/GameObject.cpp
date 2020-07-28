@@ -169,7 +169,7 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 				collision = true;
 			}
 		}
-		/*else if (o->getType() == SPIKES)
+		else if (o->getType() == SPIKES)
 		{
 			if (m_pNextDamageCounter == 60) 
 			{
@@ -180,7 +180,7 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 				}
 			}
 			
-		}*/
+		}
 	}
 	return collision;
 }
@@ -216,6 +216,26 @@ void GameObject::Move(float velx, float vely)
 	getTransform()->position.y += vely;
 	setPosX(getTransform()->position.x);
 	setPosY(getTransform()->position.y);
+}
+
+void GameObject::setColX(int colX)
+{
+	m_colX = colX;
+}
+
+void GameObject::setColY(int colY)
+{
+	m_colY = colY;
+}
+
+int GameObject::getColX() const
+{
+	return m_colX;
+}
+
+int GameObject::getColY() const
+{
+	return m_colY;
 }
 
 

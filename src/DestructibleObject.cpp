@@ -2,34 +2,44 @@
 #include "TextureManager.h"
 #include "CollisionManager.h"
 #include "EventManager.h"
-DestructibleObject::DestructibleObject(glm::vec2 pos, int numOfHits)
+DestructibleObject::DestructibleObject(glm::vec2 pos, int numOfHits, std::string data, std::string spritepath, std::string name,int width, int height, int drawX, int drawY)
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
-		"../Assets/sprites/barrel.txt",
-		"../Assets/sprites/barrel.png",
-		"barrel"
-	);
+	data,spritepath,name);
 
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("barrel");
-	setWidth(48);
-	setHeight(58);
-	m_numOfHits = 4;
+	setWidth(width);
+	setHeight(height);
+	m_numOfHits = numOfHits;
+	m_pLife = m_numOfHits;
 	getTransform()->position = pos;
 	getRigidBody()->isColliding = false;
 	setType(DESTRUCTIBLE);
 	m_buildAnimation();
-
+	setColX(drawX);
+	setColY(drawY);
 }
 
 DestructibleObject::~DestructibleObject() = default;
 
 void DestructibleObject::draw()
 {
-	if (m_numOfHits = 4) 
+	if (getLife() == 3) 
 	{
 		TheTextureManager::Instance()->drawFrame("barrel", getTransform()->position.x, getTransform()->position.y,
-			this->getWidth(), this->getHeight(), 0, 0,39,49, 0, 255, false, SDL_FLIP_NONE);
+			getWidth(), getHeight(), 0, 0, getColX(),getColY(), 0, 255, false, SDL_FLIP_NONE);
+	}	
+	else if (getLife() == 2)
+	{
+		TheTextureManager::Instance()->drawFrame("barrel", getTransform()->position.x, getTransform()->position.y,
+			getWidth(),getHeight(), 0, 1, getColX(), getColY(), 0, 255, false, SDL_FLIP_NONE);
+	}	
+	else if (getLife() == 1)
+	{
+		TheTextureManager::Instance()->drawFrame("barrel", getTransform()->position.x, getTransform()->position.y,
+			getWidth(), getHeight(), 0, 2, getColX(), getColY(), 0, 255, false, SDL_FLIP_NONE);
 	}
+
 }
 
 void DestructibleObject::update()

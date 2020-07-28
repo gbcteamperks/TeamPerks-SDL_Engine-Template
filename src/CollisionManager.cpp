@@ -73,6 +73,11 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 				object1->getRigidBody()->isColliding = true;
 				object2->getRigidBody()->isColliding = false;
 			}
+			if (object1->getType() == PLAYERABILITY && object2->getType() == DESTRUCTIBLE) 
+			{
+				object1->getRigidBody()->isColliding = true;
+				object2->getRigidBody()->isColliding = false;
+			}
 			return true;
 		}
 		return false;
