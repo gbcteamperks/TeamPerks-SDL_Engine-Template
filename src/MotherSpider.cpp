@@ -23,8 +23,9 @@ MotherSpider::MotherSpider(glm::vec2 position)
 
 	// set frame height for the collision
 	setHeight(64);
-	setPosX(position.x);
-	setPosY(position.y);
+
+	setPosX(position.x - getWidth()*0.5);
+	setPosY(position.y - getHeight()*0.5);
 
 	getTransform()->position = position;
 	getRigidBody()->velocity = glm::vec2(2.0f, 2.0f);
@@ -58,10 +59,7 @@ void MotherSpider::draw()
 
 void MotherSpider::update()
 {
-	setPosX(getTransform()->position.x);
-	setPosY(getTransform()->position.y);
 
-	checkCollisionWithLevel(LevelManager::Instance()->getObstacles());
 
 	static int tempCounter = 0;
 	if (tempCounter > 60) { //change state every # seconds
@@ -84,6 +82,8 @@ void MotherSpider::update()
 			{
 				m_currentAnimationState = PLAYER_RUN_UP;
 			}
+
+
 			fleeBehaviour(PlayScene::listPlayers[0]);
 			if (PlayScene::listPlayers.size() > 1)
 			{

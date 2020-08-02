@@ -1,5 +1,6 @@
 #include "Tile.h"
 #include "TextureManager.h"
+#include "Config.h"
 
 Tile::Tile(std::string name, int x, int y, const bool o,const bool h)
 {
@@ -10,8 +11,8 @@ Tile::Tile(std::string name, int x, int y, const bool o,const bool h)
     m_bObstacle = o;
     m_bHazard = h;
     m_node = nullptr;
-    setWidth(32);
-    setHeight(32);
+    setWidth(Config::TILE_SIZE);
+    setHeight(Config::TILE_SIZE);
     setType(TILE);
     if (x == 4 && y == 1)
     {

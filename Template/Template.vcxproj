@@ -294,6 +294,7 @@
     <Image Include="..\Assets\sprites\spiderBig.png" />
     <Image Include="..\Assets\sprites\spiderExplode.png" />
     <Image Include="..\Assets\sprites\TileTest.png" />
+    <Image Include="..\Assets\sprites\VictorspriteSheet2.png" />
     <Image Include="..\Assets\sprites\victorvanhelsing.png" />
   </ItemGroup>
   <ItemGroup>

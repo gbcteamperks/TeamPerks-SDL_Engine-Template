@@ -20,8 +20,8 @@ RatKing::RatKing(glm::vec2 position)
 	//frame width and height
 	setWidth(96);
 	setHeight(96);
-	setPosX(position.x);
-	setPosY(position.y);
+	setPosX(position.x - getWidth()*0.5);
+	setPosY(position.y - getHeight()*0.5);
 	
 	getTransform()->position = glm::vec2(position);;
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
@@ -54,8 +54,8 @@ void RatKing::draw()
 
 void RatKing::update()
 {
-	setPosX(getTransform()->position.x);
-	setPosY(getTransform()->position.y);
+	setPosX(getTransform()->position.x - getWidth() * 0.5);
+	setPosY(getTransform()->position.y - getHeight() * 0.5);
 	//update the functionality
 	static int tempCounter = 0;
 	if(Util::distance(PlayScene::listPlayers[0]->getTransform()->position, this->getTransform()->position) < 100)
@@ -88,7 +88,7 @@ void RatKing::update()
 	if(pushBackGo)
 	{
 		m_currentAnimationState = PLAYER_RUN_LEFT;
-		PlayScene::listPlayers[0]->getTransform()->position += getRigidBody()->velocity;
+		PlayScene::listPlayers[0]->Move(getRigidBody()->velocity.x, getRigidBody()->velocity.y);
 		if(currentTime == 0)
 		{
 			currentTime = SDL_GetTicks() / 1000.0f;

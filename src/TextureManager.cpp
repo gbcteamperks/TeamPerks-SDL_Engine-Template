@@ -349,6 +349,7 @@ bool TextureManager::playAnimation(
 {
 	const auto totalFrames = animation.frames.size();
 	const int animationRate = round(totalFrames / 2 / speed_factor);
+	bool animationDone = false;
 
 	if (totalFrames > 1)
 	{
@@ -357,6 +358,7 @@ bool TextureManager::playAnimation(
 			animation.current_frame++;
 			if (animation.current_frame > totalFrames - 1)
 			{
+				animationDone = true;
 				animation.current_frame = 0;
 			}
 		}
@@ -407,9 +409,8 @@ bool TextureManager::playAnimation(
 	SDL_SetTextureAlphaMod(m_textureMap[sprite_sheet_name].get(), alpha);
 	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[sprite_sheet_name].get(), &srcRect, &destRect, angle, nullptr, flip);
 	
-	if (animation.current_frame == totalFrames - 1) //animation done
-		return true;
-	return false;
+	
+	return animationDone;
 }
 
 void TextureManager::drawText(const std::string& id, const int x, const int y, const double angle, const int alpha, const bool centered, const SDL_RendererFlip flip)

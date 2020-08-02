@@ -29,14 +29,9 @@ void PlayScene::draw()
 	{
 		for (auto o : getDisplayList())
 		{
-			if (o->getType() != DESTRUCTIBLE)
-			{
-				Util::DrawRect({ o->getPosX() - o->getWidth() * 0.5, o->getPosY() - o->getHeight() * 0.5 }, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
-			}
-			if (o->getType() == VICTOR)
-			{
-				//Util::DrawRect({ o->getPosX() - 8, o->getPosY() + 8}, 16, 16, { 0,1.0f,0,1.0f });
-			}
+			
+			Util::DrawRect({ o->getPosX(), o->getPosY()}, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+			
 		}
 		LevelManager::Instance()->drawObstaclesCollisionBox();
 
@@ -176,98 +171,16 @@ void PlayScene::handleEvents()
 							addChild(listPlayers[1]);
 						}
 					}
-					if (listPlayers.size() > 1)
-					{
-						const auto deadZone = 10000;
-						if (EventManager::Instance().getGameController(0)->LEFT_STICK_X[1] > deadZone)
-						{
-							listPlayers[1]->getTransform()->position.x += listPlayers[1]->getRigidBody()->velocity.x;
-							listPlayers[1]->setAnimationState(VICTOR_WALK_RIGHT);
-						}
-						if (EventManager::Instance().getGameController(0)->LEFT_STICK_X[1] < -deadZone)
-						{
-							listPlayers[1]->getTransform()->position.x -= listPlayers[1]->getRigidBody()->velocity.x;
-							listPlayers[1]->setAnimationState(VICTOR_WALK_LEFT);
-						}
-						if (EventManager::Instance().getGameController(0)->LEFT_STICK_Y[1] < -deadZone)
-						{
-							listPlayers[1]->getTransform()->position.y -= listPlayers[1]->getRigidBody()->velocity.y;
-							listPlayers[1]->setAnimationState(VICTOR_WALK_UP);
-
-						}
-						if (EventManager::Instance().getGameController(0)->LEFT_STICK_Y[1] > deadZone)
-						{
-							listPlayers[1]->getTransform()->position.y += listPlayers[1]->getRigidBody()->velocity.y;
-							listPlayers[1]->setAnimationState(VICTOR_WALK_DOWN);
-						}
-						//Change Ability
-						if (EventManager::Instance().getGameController(0)->Arealeased())
-						{
-							listPlayers[1]->changeAbility();
-						}
-						//Use Current Ability
-						if (EventManager::Instance().getGameController(0)->Brealeased())
-						{
-							listPlayers[1]->useCurrentAbility(2);
-						}
-					}
+					listPlayers[1]->handleEventsController();
 				}
 			}
 
 			//KeyBoard
+			listPlayers[0]->handleEventsKeyboard();
+			
 
 
-			if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A)/* && LVLMAN::Instance()->checkCollision(listPlayers[0], -playerSpeed, 0)*/)
-			{
-				listPlayers[0]->setAnimationState(VICTOR_WALK_LEFT);
-				listPlayers[0]->getTransform()->position.x -= listPlayers[0]->getRigidBody()->velocity.x;
-			}
-			else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], playerSpeed, 0)*/)
-			{
-				listPlayers[0]->setAnimationState(VICTOR_WALK_RIGHT);
-				listPlayers[0]->getTransform()->position.x += listPlayers[0]->getRigidBody()->velocity.x;
-			}
-			if (EventManager::Instance().isKeyDown(SDL_SCANCODE_W) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], 0, -playerSpeed)*/)
-			{
-				listPlayers[0]->setAnimationState(VICTOR_WALK_UP);
-				listPlayers[0]->getTransform()->position.y -= listPlayers[0]->getRigidBody()->velocity.y;
-			}
-			else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_S) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], 0, playerSpeed)*/)
-			{
-				listPlayers[0]->setAnimationState(VICTOR_WALK_DOWN);
-				listPlayers[0]->getTransform()->position.y += listPlayers[0]->getRigidBody()->velocity.y;
-			}
-
-
-			//Change Ability
-			if (EventManager::Instance().getMouseButton(2))
-			{
-				if (!click2MousePressed)
-				{
-					click2MousePressed = true;
-					listPlayers[0]->changeAbility();
-				}
-			}
-			if (!EventManager::Instance().getMouseButton(2))
-			{
-				click2MousePressed = false;
-			}
-
-			//Use Current Ability
-			if (EventManager::Instance().getMouseButton(0))
-			{
-				if (!click1MousePressed)
-				{
-					click1MousePressed = true;
-					listPlayers[0]->useCurrentAbility(1);
-				}
-
-			}
-			if (!EventManager::Instance().getMouseButton(0))
-			{
-				click1MousePressed = false;
-			}
-
+			
 		}
 		
 
@@ -506,7 +419,7 @@ void PlayScene::start()
 	//addChild(new EnemyWizard());
 
 	//Victor
-	listPlayers.push_back(new VictorVanHelsing(glm::vec2(390.0f, 400.0f)));
+	listPlayers.push_back(new VictorVanHelsing(glm::vec2(525.0f, 150.0f)));
 	addChild(listPlayers[0]);
 
 

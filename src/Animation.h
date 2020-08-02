@@ -11,9 +11,9 @@ struct Animation
 	int current_frame = 0;
 	void setWidthAndHeight(int w, int h)
 	{
-		for (auto f : frames) {
-			f.dw = w;
-			f.dh = h;
+		for (int i = 0; i < frames.size(); i++) {
+			frames[i].dw = w;
+			frames[i].dh = h;
 		}
 	}
 };

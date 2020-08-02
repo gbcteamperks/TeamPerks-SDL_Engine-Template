@@ -44,8 +44,9 @@ void DestructibleObject::draw()
 
 void DestructibleObject::update()
 {
-	setPosX(getTransform()->position.x);
-	setPosY(getTransform()->position.y);
+	updateCollision();
+	setPosX(getTransform()->position.x - getWidth() * 0.5);
+	setPosY(getTransform()->position.y - getHeight() * 0.5);
 }
 
 void DestructibleObject::clean()
@@ -71,4 +72,21 @@ void DestructibleObject::m_buildAnimation()
 	destruction.frames.push_back(m_pSpriteSheet->getFrame("frame-3"));
 
 	m_pAnimations["frame"] = destruction;
+}
+
+void DestructibleObject::updateCollision()
+{
+
+	if (getRigidBody()->isColliding)
+	{
+		tempTimer++;
+		if (tempTimer > 45)
+		{
+			getRigidBody()->isColliding = false;
+		}
+	}
+	else
+	{
+		tempTimer = 0;
+	}
 }

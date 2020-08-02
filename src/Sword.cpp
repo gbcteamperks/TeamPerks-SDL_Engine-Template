@@ -32,15 +32,16 @@ Sword::Sword(glm::vec2 position, bool running, int angle, bool pickeable, bool e
 	getRigidBody()->velocity *= direction;
 
 
-	setWidth(30);//for collision
-	setHeight(30);
+	setWidth(50);//for collision
+	setHeight(100);
+	getTransform()->position -= glm::vec2(getWidth() * 0.5, getHeight() * 0.5);
 	getRigidBody()->isColliding = false;
 
 	if (m_pickable) {
 		setType(PICKABLE);
 	}
 	else {
-		getTransform()->position += (70.0f * direction);
+		getTransform()->position += (40.0f * direction);
 		if (enemyAbility) {
 			setType(ENEMYABILITY);
 		}
@@ -70,7 +71,7 @@ void Sword::draw()
 {
 	
 	if (m_running) {
-		TheTextureManager::Instance()->draw("sword", getTransform()->position.x, getTransform()->position.y, m_angle + 90, 255, true);
+		//TheTextureManager::Instance()->draw("sword", getTransform()->position.x, getTransform()->position.y, m_angle + 90, 255, true);
 	}
 }
 

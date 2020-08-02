@@ -75,9 +75,9 @@ RatBiter::RatBiter(glm::vec2 position, bool running, int angle, bool pickeable, 
 
 void RatBiter::update()
 {
-	/*setPosX(getTransform()->position.x);
-	setPosY(getTransform()->position.y);
-	if (m_running && !m_pickable)
+	setPosX(getTransform()->position.x - getWidth()*0.5);
+	setPosY(getTransform()->position.y - getHeight() * 0.5);
+	/*if (m_running && !m_pickable)
 	{
 		if (walkTimer < 120) {
 			getTransform()->position += getRigidBody()->velocity;

@@ -58,8 +58,7 @@ private:
 	std::string levelNumberConcatenate;
 	std::string tileNumberConcatenate;
 
-	//click mouse
-	bool click1MousePressed, click2MousePressed;
+	
 
 	//pause
 	bool gamePaused;

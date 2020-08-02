@@ -66,8 +66,8 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 	}
 	else
 	{
-		p1 = { object1->getPosX() - object1->getWidth() * 0.5, object1->getPosY() - object1->getHeight() * 0.5 }; //collision box to the top corner
-		p2 = { object2->getPosX() - object2->getWidth() * 0.5, object2->getPosY() - object2->getHeight() * 0.5 }; //collision box to the top corner
+		p1 = { object1->getPosX(), object1->getPosY()}; //collision box to the top corner
+		p2 = { object2->getPosX(), object2->getPosY()}; //collision box to the top corner
 	}
 
 	if (
@@ -88,8 +88,8 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 			}
 			if (object1->getType() == PLAYERABILITY && object2->getType() == DESTRUCTIBLE) 
 			{
-				object1->getRigidBody()->isColliding = true;
-				object2->getRigidBody()->isColliding = false;
+				//object1->getRigidBody()->isColliding = true;
+				object2->getRigidBody()->isColliding = true;
 			}
 			return true;
 		}
