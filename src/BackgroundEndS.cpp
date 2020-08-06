@@ -1,5 +1,6 @@
 #include "TextureManager.h"
 #include "BackgroundEndS.h"
+#include "Config.h"
 
 BackgroundEndS::BackgroundEndS()
 {
@@ -9,14 +10,14 @@ BackgroundEndS::BackgroundEndS()
 		"Endsheet");
 
 	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("Endsheet");
-
+	m_pSpriteSheet->setWidthAndHeight(Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT);
 	// set frame width
 	setWidth(800);
 
 	// set frame height
 	setHeight(600);
 
-	getTransform()->position = glm::vec2(400.0f, 300.0f); //center of the screen
+	getTransform()->position = glm::vec2(Config::SCREEN_WIDTH*0.5, Config::SCREEN_HEIGHT*0.5); //center of the screen
 
 	setType(BACKGROUND);
 

@@ -415,24 +415,35 @@ void PlayScene::start()
 	LVLMAN::Instance()->loadLevel(levelNumberConcatenate,getDisplayList());
 	std::cout << "start";
 
-	//Boss
-	//addChild(new EnemyWizard());
-
+	
 	//Victor
 	listPlayers.push_back(new VictorVanHelsing(glm::vec2(525.0f, 150.0f)));
 	addChild(listPlayers[0]);
+	int x, y;
+	switch (levelNumber)
+	{
+	case 1:
+		break;
+	case 2:
+		x = Config::SCREEN_WIDTH * .5;
+		y = Config::SCREEN_HEIGHT*0.2;
+		for (auto p : PlayScene::listPlayers) {
+			p->getTransform()->position = glm::vec2(x, y);
+			x = x + 50;
+		}
+		break;
+	case 3:
+		x = Config::SCREEN_WIDTH*.5;
+		y = Config::SCREEN_HEIGHT * .5;
+		for (auto p : PlayScene::listPlayers) {
+			p->getTransform()->position = glm::vec2(x, y);
+			x = x + 50;
+		}
+		break;
+	}
 
 
-	//BigSpider
-	//addChild(new MotherSpider());
 
-	//addChild(new DestructibleObject(glm::vec2(200.0f, 200.0f), 4));
-
-	//KingRat
-	//addChild(new RatKing());
-
-	//CrazyBat
-	//addChild(new CrazyBat(glm::vec2(100,100)));
 
 	//Music
 	SoundManager::Instance().load("../Assets/audio/PlaySceneMusic.mp3", "PlaySceneMusic", SOUND_MUSIC);

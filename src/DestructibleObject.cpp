@@ -63,7 +63,7 @@ void DestructibleObject::setAnimation(const Animation& animation)
 
 void DestructibleObject::m_buildAnimation()
 {
-	Animation destruction = Animation();
+	/*Animation destruction = Animation();
 
 	destruction.name = "frame";
 	destruction.frames.push_back(m_pSpriteSheet->getFrame("frame-0"));
@@ -71,7 +71,7 @@ void DestructibleObject::m_buildAnimation()
 	destruction.frames.push_back(m_pSpriteSheet->getFrame("frame-2"));
 	destruction.frames.push_back(m_pSpriteSheet->getFrame("frame-3"));
 
-	m_pAnimations["frame"] = destruction;
+	m_pAnimations["frame"] = destruction;*/
 }
 
 void DestructibleObject::updateCollision()
