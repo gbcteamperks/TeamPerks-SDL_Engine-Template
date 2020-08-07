@@ -59,7 +59,7 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 
 	if(object1->getType() == VICTOR && object2->getType() == SPIKES)
 	{
-		p1 = { object1->getPosX() - 8, object1->getPosY() + 8}; //collision box to the top corner
+		p1 = { object1->getPosX() + 8, object1->getPosY() + 32}; //collision box to the top corner
 		p2 = { object2->getPosX(), object2->getPosY() };
 		p1Width = 16;
 		p1Height = 16;
