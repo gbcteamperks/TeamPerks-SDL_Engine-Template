@@ -11,6 +11,7 @@
 #include "SkeletonEnemy.h"
 #include "Util.h"
 #include "CrazyBat.h"
+#include "King.h"
 std::vector<VictorVanHelsing*> PlayScene::listPlayers;
 int PlayScene::levelNumber = 1;
 PlayScene::PlayScene()
@@ -55,7 +56,7 @@ void PlayScene::update()
 			switch (levelNumber)
 			{
 			case 1:
-				SpawnEnemiesManager::level1();
+				//SpawnEnemiesManager::level1();
 				break;
 			case 2:
 				SpawnEnemiesManager::level2();
@@ -443,7 +444,7 @@ void PlayScene::start()
 		break;
 	}
 
-
+	addChild(new King(glm::vec2(200, 300)));
 
 
 	//Music

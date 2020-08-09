@@ -95,9 +95,6 @@ private:
 	CircleList* m_patrolNodes;
 
 
-	float m_durationOfLife = 5;
-
-	float m_currentTime = 0.00f;
 	//UI
 	int m_lifeRedCounter;
 	std::vector<UIElement*> UI;

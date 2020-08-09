@@ -76,8 +76,8 @@ void SkeletonEnemy::draw()
 
 void SkeletonEnemy::update()
 {
-	setPosX(getTransform()->position.x);
-	setPosY(getTransform()->position.y);
+	setPosX(getTransform()->position.x - getWidth()*0.5);
+	setPosY(getTransform()->position.y - getHeight()*0.5);
 	Patrol();
 	skeltnAtk();
 	for (auto s : UI)
