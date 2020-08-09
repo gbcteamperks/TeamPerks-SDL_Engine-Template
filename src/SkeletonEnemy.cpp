@@ -20,8 +20,8 @@ SkeletonEnemy::SkeletonEnemy(glm::vec2 position) : m_currentAnimationState(SKEL_
 
 	// set frame height
 	setHeight(64);
-	setPosX(position.x);
-	setPosY(position.y);
+	setPosX(position.x - getWidth() * 0.5);
+	setPosY(position.y - getHeight() * 0.5);
 
 	getTransform()->position = position;
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
