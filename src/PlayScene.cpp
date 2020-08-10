@@ -45,7 +45,7 @@ void PlayScene::update()
 	if (!gamePaused) 
 	{
 		collisions();
-		if (enemyKillCount > 5)
+		if (enemyKillCount > 4)
 		{
 			//successful = true;
 			summonBoss = true;
@@ -123,7 +123,7 @@ void PlayScene::update()
 			switch (getLevelNumber())
 			{
 			case 1:
-				SpawnEnemiesManager::level1Boss();
+					SpawnEnemiesManager::level1Boss();
 				break;
 			case 2:
 				SpawnEnemiesManager::level2Boss();

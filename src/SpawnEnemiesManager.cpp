@@ -17,7 +17,7 @@ bool SpawnEnemiesManager::bossSummoned = false;
 
 void SpawnEnemiesManager::level1()
 {
-	bossSummoned - false;
+	bossSummoned = false;
 	static int timer = 0;
 	int countEnemies = Game::Instance()->getCurrentScene()->getEnemies().size();
 	auto level = LVLMAN::Instance()->getLevel();
@@ -125,7 +125,7 @@ void SpawnEnemiesManager::level2Boss()
 	}
 	else
 	{
-
+		
 	}
 }
 
@@ -141,7 +141,7 @@ void SpawnEnemiesManager::level3Boss()
 	}
 	else
 	{
-
+		
 	}
 }
 
