@@ -45,7 +45,7 @@ void PlayScene::update()
 	if (!gamePaused) 
 	{
 		collisions();
-		if (enemyKillCount > 4)
+		if (enemyKillCount > 0)
 		{
 			//successful = true;
 			summonBoss = true;
@@ -135,7 +135,7 @@ void PlayScene::update()
 			
 		}
 
-		if (presuccessful)
+		if (presuccessful && levelNumber!=1)
 		{
 			if(m_currentTime == 0)
 			{
@@ -147,6 +147,11 @@ void PlayScene::update()
 				invokeTransition();
 			}
 			
+		}
+		else if (presuccessful && levelNumber == 1)
+		{
+			successful = true;
+			invokeTransition();
 		}
 		LevelManager::Instance()->update(5, true);
 	}

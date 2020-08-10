@@ -138,8 +138,8 @@ void RatKing::useCurrentAbility()
 		m_pListAbilities.front()->execute({ getPosX() - 20 ,getColY() + getHeight() }, 0, true);
 		m_pListAbilities.front()->execute({ getPosX() + getWidth(), getPosY() + getHeight()}, 0, true);*/
 
-		m_pListAbilities.front()->execute({ 300,50 }, 0, true);
-		m_pListAbilities.front()->execute({ 580,50  }, 0, true);
+		m_pListAbilities.front()->execute({ 400,50 }, 0, true);
+		m_pListAbilities.front()->execute({ 700,50  }, 0, true);
 		m_pListAbilities.front()->execute({  300,300 }, 0, true);
 		m_pListAbilities.front()->execute({ 580,300}, 0, true);
 		abilityUsed = true;

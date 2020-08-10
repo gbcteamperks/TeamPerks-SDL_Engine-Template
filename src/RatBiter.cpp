@@ -24,7 +24,7 @@ RatBiter::RatBiter()
 
 	getRigidBody()->isColliding = false;
 	timerDie = (40 + rand() % 91);
-	setType(ENEMYABILITY);
+	setType(ENEMY);
 }
 
 
@@ -57,18 +57,18 @@ RatBiter::RatBiter(glm::vec2 position, bool running, int angle, bool pickeable, 
 	setWidth(30);//for collision
 	setHeight(30);
 	getRigidBody()->isColliding = false;
-	if (m_pickable) {
+	/*if (m_pickable) {
 		setType(PICKABLE);
 	}
-	else {
-		getTransform()->position += (70.0f * direction);
+	else {*/
+		//getTransform()->position += (70.0f * direction);
 		if (enemyAbility) {
 			setType(ENEMYABILITY);
 		}
-		else {
-			setType(PLAYERABILITY);
-		}
-	}
+	//	else {
+	//		setType(PLAYERABILITY);
+	//	}
+	
 	timerDie = (40 + rand() % 91);
 	start();
 }
