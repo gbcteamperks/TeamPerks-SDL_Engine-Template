@@ -133,9 +133,18 @@ void PlayScene::update()
 			
 		}
 
-		if (successful)
+		if (presuccessful)
 		{
-			invokeTransition();
+			if(m_currentTime == 0)
+			{
+				m_currentTime = (int)SDL_GetTicks() / 1000;
+			}
+			if(((int)SDL_GetTicks()/1000) - m_currentTime > 4)
+			{
+				successful = true;
+				invokeTransition();
+			}
+			
 		}
 		LevelManager::Instance()->update(5, true);
 	}
@@ -291,7 +300,7 @@ void PlayScene::collisions()
 								getDisplayList()[k]->clean();
 								delete getDisplayList()[k];
 								getDisplayList()[k] = nullptr;
-								successful = true;
+								presuccessful = true;
 							}
 						}
 					}
@@ -381,6 +390,7 @@ int PlayScene::getLevelNumber()
 
 void PlayScene::invokeTransition()
 {
+	
 	levelNumber++;
 	//std::cout << levelNumber <<"\n"<< std::endl;
 	TheGame::Instance()->changeSceneState(TRANSITION_SCENE);

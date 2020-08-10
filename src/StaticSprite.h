@@ -16,5 +16,6 @@ public:
 	void draw(int);
 	virtual void update() override;
 	virtual void clean() override;
+	void setAlpha(int alpha);
 
 };

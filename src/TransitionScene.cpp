@@ -6,10 +6,9 @@
 
 TransitionScene::TransitionScene()
 {
-	//whiteBackground = new TransitionSceneBackground();
 	m_pTransitionSprite = new StaticSprite("../Assets/textures/whitebackground.png", "whitebackground", 0.0f, 0.0f);
-	const SDL_Color black = { 0, 0, 0, 255 };
-	m_pText = new Label("Level Completed! Proceeding to next..", "Consolas", 40, black, glm::vec2(520.0f, 400.0f));
+	const SDL_Color red = { 185, 0, 28, 255 };
+	m_pText = new Label("Level Completed! Proceeding to next..", "sot", 60, red, glm::vec2(520.0f, 400.0f));
 	m_pText->setParent(this);
 	addChild(m_pText);
 }
@@ -25,7 +24,6 @@ bool TransitionScene::goToClean()
 
 void TransitionScene::draw()
 {
-	//whiteBackground->draw();
 	if(alpha<255)
 	{
 		m_pTransitionSprite->draw(alpha++);
