@@ -30,7 +30,9 @@ void PlayScene::draw()
 		for (auto o : getDisplayList())
 		{
 			
-			Util::DrawRect({ o->getPosX(), o->getPosY()}, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+			if (o->getType() != DESTRUCTIBLE) {
+				Util::DrawRect({ o->getPosX(), o->getPosY() }, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+			}
 			Util::DrawRect({ listPlayers[0]->getPosX()+8,listPlayers[0]->getPosY()+32 }, 16, 16, { 0.0f,1.0f,1.0f,1.0f });
 			
 		}

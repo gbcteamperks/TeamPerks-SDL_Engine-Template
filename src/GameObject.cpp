@@ -184,8 +184,16 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 	bool collision = false;
 	for (auto o : listObstacles)
 	{
-		if (o->getType() != SPIKES) {
+		
+		if (o->getType() != SPIKES && o->getType() != DESTRUCTIBLE) {
 			if (CollisionManager::SImpleAABBCheck(this, o))
+			{
+				collision = true;
+			}
+		}
+		else if (o->getType() == DESTRUCTIBLE)
+		{
+			if (CollisionManager::DestructibleAABBCheck(this, o))
 			{
 				collision = true;
 			}
@@ -200,7 +208,6 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 					m_pNextDamageCounter = 0;
 				}
 			}
-			
 		}
 	}
 	return collision;
