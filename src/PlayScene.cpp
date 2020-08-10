@@ -45,7 +45,7 @@ void PlayScene::update()
 	if (!gamePaused) 
 	{
 		collisions();
-		if (enemyKillCount > 0)
+		if (enemyKillCount > 4)
 		{
 			//successful = true;
 			summonBoss = true;
