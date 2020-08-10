@@ -54,6 +54,7 @@ private:
 	//transition to next scene
 	bool successful = false;
 	bool summonBoss = false;
+	bool presuccessful = false;
 	static int levelNumber;
 	std::string levelNumberConcatenate;
 	std::string tileNumberConcatenate;
