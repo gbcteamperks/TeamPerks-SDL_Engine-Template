@@ -39,7 +39,8 @@ King::King(glm::vec2 position)
 	m_Flip = SDL_FLIP_NONE;
 
 	// Life
-	m_pLife = 500;
+	m_maxLife = 1000.0f;
+	m_pLife = m_maxLife;
 	m_lifeRedCounter = m_pLife;
 	UI.push_back(new EnemyLifeBar(this));
 
@@ -151,12 +152,12 @@ void King::update()
 	switch (m_currentKingState)
 	{
 	case KingState::IDLE:
-		if (m_pLife <= 250 && m_pLife >= 100)
+		if (m_pLife <= m_maxLife*0.5 && m_pLife >= m_maxLife*0.2)
 		{
 			m_velocityIDLE = 60;
 			m_velocityAnimation = 1.5f;
 		}
-		else if (m_pLife < 100)
+		else if (m_pLife < m_maxLife * 0.2)
 		{
 			m_velocityIDLE = 30;
 			m_velocityAnimation = 2.0f;
