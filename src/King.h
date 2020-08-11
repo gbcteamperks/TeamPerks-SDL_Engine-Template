@@ -46,5 +46,5 @@ private:
 	std::vector<UIElement*> UI;
 
 	float m_distanceToPlayer;
-	float m_timeIDLE, m_timeWALKING;
+	float m_timeIDLE, m_timeWALKING, m_velocityIDLE, m_velocityAnimation;
 };

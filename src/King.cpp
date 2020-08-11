@@ -28,6 +28,8 @@ King::King(glm::vec2 position)
 	m_distanceToPlayer = 0.0f;
 	m_timeIDLE = 0.0f;
 	m_timeWALKING = 0.0f;
+	m_velocityIDLE = 120.0f;
+	m_velocityAnimation = 1.0f;
 
 	m_EnemyName = "KING";
 	setType(BOSS);
@@ -60,35 +62,35 @@ void King::draw()
 	{
 	case KingState::IDLE:
 		if (TheTextureManager::Instance()->playAnimation("KingSpriteSheet", m_pAnimations["idle"],
-			x, y, 1.0f, 0, 255, true, m_Flip))
+			x, y, 1.0f * m_velocityAnimation, 0, 255, true, m_Flip))
 		{
 			//setState(RUNNING);
 		}
 		break;
 	case KingState::ATTACK1:
 		if (TheTextureManager::Instance()->playAnimation("KingSpriteSheet", m_pAnimations["attack"],
-			x, y, 2.0f, 0, 255, true, m_Flip))
+			x, y, 2.0f * m_velocityAnimation, 0, 255, true, m_Flip))
 		{
 			setKingState(KingState::ATTACK1SWING);
 		}
 		break;
 	case KingState::ATTACK1SWING:
 		if (TheTextureManager::Instance()->playAnimation("KingSpriteSheet", m_pAnimations["attackswing"],
-			x, y, 2.0f, 0, 255, true, m_Flip))
+			x, y, 2.0f* m_velocityAnimation, 0, 255, true, m_Flip))
 		{
 			setKingState(KingState::ATTACK1END);
 		}
 		break;
 	case KingState::ATTACK1END:
 		if (TheTextureManager::Instance()->playAnimation("KingSpriteSheet", m_pAnimations["attackend"],
-			x, y, 1.0f, 0, 255, true, m_Flip))
+			x, y, 1.0f * m_velocityAnimation, 0, 255, true, m_Flip))
 		{
 			setKingState(KingState::IDLE);
 		}
 		break;
 	case KingState::TELEPORT:
 		if (TheTextureManager::Instance()->playAnimation("KingSpriteSheet", m_pAnimations["teleport"],
-			x, y, 5.0f, 0, 255, true, m_Flip))
+			x, y, 5.0f* m_velocityAnimation, 0, 255, true, m_Flip))
 		{
 			setKingState(KingState::TELEPORTBACK);
 			getTransform()->position = MAMA::LerpV(getTransform()->position, PlayScene::listPlayers[0]->getTransform()->position, 0.8f);
@@ -96,35 +98,35 @@ void King::draw()
 		break;
 	case KingState::TELEPORTBACK:
 		if (TheTextureManager::Instance()->playAnimation("KingSpriteSheet", m_pAnimations["teleportback"],
-			x, y, 5.0f, 0, 255, true, m_Flip))
+			x, y, 5.0f * m_velocityAnimation, 0, 255, true, m_Flip))
 		{
 			setKingState(KingState::IDLE);
 		}
 		break;
 	case KingState::ATTACK2:
 		if (TheTextureManager::Instance()->playAnimation("KingSpriteSheet", m_pAnimations["attacktwo"],
-			x, y, 2.0f, 0, 255, true, m_Flip))
+			x, y, 2.0f * m_velocityAnimation, 0, 255, true, m_Flip))
 		{
 			setKingState(KingState::ATTACK2EXPLOSION);
 		}
 		break;
 	case KingState::ATTACK2EXPLOSION:
 		if (TheTextureManager::Instance()->playAnimation("KingSpriteSheet", m_pAnimations["attacktwoexp"],
-			x, y, 0.1f, 0, 255, true, m_Flip))
+			x, y, 0.1f * m_velocityAnimation, 0, 255, true, m_Flip))
 		{
 			setKingState(KingState::ATTACK2END);
 		}
 		break;
 	case KingState::ATTACK2END:
 		if (TheTextureManager::Instance()->playAnimation("KingSpriteSheet", m_pAnimations["attacktwoend"],
-			x, y, 0.5f, 0, 255, true, m_Flip))
+			x, y, 0.5f * m_velocityAnimation, 0, 255, true, m_Flip))
 		{
 			setKingState(KingState::IDLE);
 		}
 		break;
 	case KingState::WALK:
 		if (TheTextureManager::Instance()->playAnimation("KingSpriteSheet", m_pAnimations["walk"],
-			x, y, 0.5f, 0, 255, true, m_Flip))
+			x, y, 0.5f * m_velocityAnimation, 0, 255, true, m_Flip))
 		{
 			//setKingState(KingState::IDLE);
 		}
@@ -149,7 +151,18 @@ void King::update()
 	switch (m_currentKingState)
 	{
 	case KingState::IDLE:
-		if (m_timeIDLE > 60)
+		if (m_pLife < 200 && m_pLife >= 100)
+		{
+			m_velocityIDLE = 60;
+			m_velocityAnimation = 1.5f;
+		}
+		else if (m_pLife < 100)
+		{
+			m_velocityIDLE = 30;
+			m_velocityAnimation = 2.0f;
+		}
+
+		if (m_timeIDLE > m_velocityIDLE)
 		{
 			m_ActionTree->solveTree();
 			m_timeIDLE = 0;
@@ -495,9 +508,9 @@ void King::Seeking()
 {
 	double direction = MAMA::AngleBetweenPoints(getTransform()->position, PlayScene::listPlayers[0]->getTransform()->position)*M_PI/180;
 	glm::vec2 unitDir = glm::vec2(cos(direction), sin(direction));
-	float speed = 2.0f;
+	float speed = 2.0f * m_velocityAnimation;
 	glm::vec2 desired = unitDir * speed;
-	float seekingFactor = 0.2f;
+	float seekingFactor = 0.2f * m_velocityAnimation;
 	getRigidBody()->velocity.x = MAMA::LerpD(getRigidBody()->velocity.x, desired.x, seekingFactor);
 	getRigidBody()->velocity.y = MAMA::LerpD(getRigidBody()->velocity.y, desired.y, seekingFactor);
 	getTransform()->position += getRigidBody()->velocity;

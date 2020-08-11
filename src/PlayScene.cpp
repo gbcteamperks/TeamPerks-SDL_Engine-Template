@@ -63,6 +63,9 @@ void PlayScene::update()
 			case 2:
 				SpawnEnemiesManager::level2();
 				break;
+			case 3:
+				summonBoss = true;
+				break;
 			default:
 				SpawnEnemiesManager::level1();
 				break;
@@ -124,7 +127,7 @@ void PlayScene::update()
 			switch (getLevelNumber())
 			{
 			case 1:
-					SpawnEnemiesManager::level1Boss();
+				SpawnEnemiesManager::level1Boss();
 				break;
 			case 2:
 				SpawnEnemiesManager::level2Boss();

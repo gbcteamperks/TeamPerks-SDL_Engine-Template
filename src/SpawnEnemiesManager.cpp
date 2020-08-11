@@ -37,11 +37,31 @@ void SpawnEnemiesManager::level1()
 						int randomEnemy = rand() % 100;
 						if (randomEnemy <= 30)
 						{
-							Game::Instance()->getCurrentScene()->addChild(new MotherSpider(level[row][col]->getTransform()->position));
+							MotherSpider* spider = new MotherSpider(level[row][col]->getTransform()->position);
+							if (!spider->checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))
+							{
+								Game::Instance()->getCurrentScene()->addChild(spider);
+							}
+							else
+							{
+								delete spider;
+								spider = nullptr;
+								continue;
+							}
 						}
 						else if(randomEnemy >= 31 && randomEnemy <= 100)
 						{
-							Game::Instance()->getCurrentScene()->addChild(new CrazyBat(level[row][col]->getTransform()->position));
+							CrazyBat* bat = new CrazyBat(level[row][col]->getTransform()->position);
+							if (!bat->checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))
+							{
+								Game::Instance()->getCurrentScene()->addChild(bat);
+							}
+							else
+							{
+								delete bat;
+								bat = nullptr;
+								continue;
+							}
 						}
 					
 						timer = 0;
