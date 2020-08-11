@@ -80,9 +80,6 @@
     <ClCompile Include="..\src\Player.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\SpriteSheet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\PlayScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -192,6 +189,12 @@
       <Filter>Game Objects</Filter>
     </ClCompile>
     <ClCompile Include="..\src\King.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Slimeattack.cpp">
+      <Filter>Abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SpriteSheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -393,6 +396,9 @@
     </ClInclude>
     <ClInclude Include="..\src\DecisionTree.h">
       <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Slimeattack.h">
+      <Filter>Abilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
