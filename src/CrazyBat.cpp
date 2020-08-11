@@ -17,10 +17,11 @@ CrazyBat::CrazyBat(glm::vec2 position)
 
 	// set frame height for the collision
 	setHeight(32);
-	setPosX(position.x);
-	setPosY(position.y);
+	
 
 	getTransform()->position = position;
+	setPosX(getTransform()->position.x - getWidth() * 0.5);
+	setPosY(getTransform()->position.y - getHeight() * 0.5);
 	getRigidBody()->velocity = glm::vec2(2.0f, 2.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;

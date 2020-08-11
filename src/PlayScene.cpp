@@ -11,6 +11,7 @@
 #include "SkeletonEnemy.h"
 #include "Util.h"
 #include "CrazyBat.h"
+#include "King.h"
 std::vector<VictorVanHelsing*> PlayScene::listPlayers;
 int PlayScene::levelNumber = 1;
 PlayScene::PlayScene()
@@ -61,6 +62,9 @@ void PlayScene::update()
 				break;
 			case 2:
 				SpawnEnemiesManager::level2();
+				break;
+			case 3:
+				summonBoss = true;
 				break;
 			default:
 				SpawnEnemiesManager::level1();
@@ -123,7 +127,7 @@ void PlayScene::update()
 			switch (getLevelNumber())
 			{
 			case 1:
-					SpawnEnemiesManager::level1Boss();
+				SpawnEnemiesManager::level1Boss();
 				break;
 			case 2:
 				SpawnEnemiesManager::level2Boss();
@@ -478,8 +482,6 @@ void PlayScene::start()
 		}
 		break;
 	}
-
-
 
 
 	//Music

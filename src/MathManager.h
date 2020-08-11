@@ -12,6 +12,7 @@ class MathManager
 {
 public: // Public methods.
 	static glm::vec2 Distance(glm::vec2 pos1, glm::vec2 pos2);
+	static double DistanceDouble(glm::vec2 pos1, glm::vec2 pos2);
 	static double AngleBetweenPoints(glm::vec2 pos1, glm::vec2 pos2);
 	static void SetDeltas(const double angle, double& dx, double& dy, double fx = 1.0, double fy = 1.0);
 	static double SetDeltaX(const double angle, double fx = 1.0);
@@ -21,8 +22,9 @@ public: // Public methods.
 	static double Angle180(double a);
 	static double Angle360(double a);
 	static double LerpD(double first, double second, double perc);
+	static  glm::vec2 LerpV(glm::vec2 pos1, glm::vec2 pos2, float factor);
 	static double LerpRad(double a, double b, double factor);
-	static double Distance(const int& x1, const int& x2, const int& y1, const int& y2);
+	
 	static double Distance(const double &x1, const double& x2, const double& y1, const double& y2);
 	static SDL_Rect RectConverter(GameObject* obj);
 	static double Magnitude(glm::vec2 vec);

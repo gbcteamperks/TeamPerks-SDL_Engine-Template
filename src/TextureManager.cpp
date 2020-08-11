@@ -356,10 +356,11 @@ bool TextureManager::playAnimation(
 		if (TheGame::Instance()->getFrames() % animationRate == 0)
 		{
 			animation.current_frame++;
-			if (animation.current_frame > totalFrames - 1)
+
+			if (animation.current_frame >= totalFrames - 1 )
 			{
+				animation.current_frame = totalFrames - 1;
 				animationDone = true;
-				animation.current_frame = 0;
 			}
 		}
 	}
@@ -409,6 +410,10 @@ bool TextureManager::playAnimation(
 	SDL_SetTextureAlphaMod(m_textureMap[sprite_sheet_name].get(), alpha);
 	SDL_RenderCopyEx(Renderer::Instance()->getRenderer(), m_textureMap[sprite_sheet_name].get(), &srcRect, &destRect, angle, nullptr, flip);
 	
+	if (animationDone)
+	{
+		animation.current_frame = 0;
+	}
 	
 	return animationDone;
 }

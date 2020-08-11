@@ -191,8 +191,8 @@
     <ClCompile Include="..\src\CrazyBat.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Slimeattack.cpp">
-      <Filter>Abilities</Filter>
+    <ClCompile Include="..\src\King.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -388,8 +388,11 @@
     <ClInclude Include="..\src\CrazyBat.h">
       <Filter>Game Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Slimeattack.h">
-      <Filter>Abilities</Filter>
+    <ClInclude Include="..\src\King.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\DecisionTree.h">
+      <Filter>Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
