@@ -158,6 +158,37 @@ bool CollisionManager::DestructibleAABBCheck(GameObject* object1, GameObject* ob
 	return false;
 }
 
+bool CollisionManager::AbilityAABBCheck(GameObject* object1, GameObject* object2)
+{
+	// prepare relevant variables
+	glm::vec2 p1 = { object1->getPosX(), object1->getPosY() }; //collision box to the top corner
+	glm::vec2 p2 = { object2->getPosX() + object2->getColX(), object2->getPosY() + object2->getColY() }; //collision box to the top corner
+	const float p1Width = object1->getWidth();
+	const float p1Height = object1->getHeight();
+	const float p2Width = object2->getColX();
+	const float p2Height = object2->getColY();
+
+	if (
+		p1.x < p2.x + p2Width &&
+		p1.x + p1Width > p2.x &&
+		p1.y < p2.y + p2Height &&
+		p1.y + p1Height > p2.y
+		)
+	{
+		if (!object2->getRigidBody()->isColliding && !object1->getRigidBody()->isColliding) {
+
+			if (object1->getType() == PLAYERABILITY && object2->getType() == DESTRUCTIBLE)
+			{
+				//object1->getRigidBody()->isColliding = true;
+				object2->getRigidBody()->isColliding = true;
+			}
+			return true;
+		}
+		return false;
+	}
+	return false;
+}
+
 bool CollisionManager::AABBCheckBoss(GameObject* object1, GameObject* object2)
 {
 	// prepare relevant variables

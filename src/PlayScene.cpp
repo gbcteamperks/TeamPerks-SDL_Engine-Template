@@ -281,7 +281,7 @@ void PlayScene::collisions()
 					if (dynamic_cast<Ability*>(getDisplayList()[i])->IsRunning())
 					{
 						// **** Its the same code as the ability and boss check ****
-						if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+						if (CollisionManager::AbilityAABBCheck(getDisplayList()[i], getDisplayList()[k])) {
 							dynamic_cast<Ability*>(getDisplayList()[i])->stop();
 							if ((getDisplayList()[k])->getLife() > 0) {
 
