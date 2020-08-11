@@ -273,3 +273,6 @@ Template/Intermediate/Debug/Template.tlog/link.command.1.tlog
 Template/Intermediate/Debug/Template.tlog/link.read.1.tlog
 Template/Intermediate/Debug/Template.tlog/link.write.1.tlog
 Template/Intermediate/Debug/Template.tlog/Template.lastbuildstate
+*.tlog
+Template/Intermediate/Debug/vc142.idb
+Template/Intermediate/Debug/Template.tlog/Template.lastbuildstate
