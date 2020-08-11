@@ -133,7 +133,7 @@ void PlayScene::update()
 			case 2:
 				SpawnEnemiesManager::level2Boss();
 				break;
-			default:
+			case 3:
 				SpawnEnemiesManager::level3Boss();
 				break;
 			}
