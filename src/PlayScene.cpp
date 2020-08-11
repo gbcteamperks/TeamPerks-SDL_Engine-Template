@@ -46,7 +46,7 @@ void PlayScene::update()
 	if (!gamePaused) 
 	{
 		collisions();
-		if (enemyKillCount > 0)
+		if (enemyKillCount > 4)
 		{
 			//successful = true;
 			summonBoss = true;
@@ -494,6 +494,8 @@ void PlayScene::start()
 	SoundManager::Instance().load("../Assets/audio/electricshock.wav", "Orb", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/Grunting-sound.mp3", "Grunt", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/tailwhip.wav", "whip", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/slimespit.wav", "slimy", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/ratbiter.wav", "ratbiter", SOUND_SFX);
 }
 
 

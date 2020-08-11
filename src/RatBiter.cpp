@@ -109,6 +109,7 @@ void RatBiter::draw()
 
 void RatBiter::clean()
 {
+	//std::cout << "clean" << std::endl;
 }
 
 void RatBiter::start()
@@ -148,7 +149,7 @@ void RatBiter::start()
 
 		//down
 	case 4:
-		m_currentAnimationState = PLAYER_RUN_LEFT;
+		m_currentAnimationState = PLAYER_RUN_RIGHT;
 		getRigidBody()->velocity = { 2,0 };
 		ratDirection = RATRIGHT;
 		ratTag = 4;
@@ -170,7 +171,10 @@ void RatBiter::execute(glm::vec2 position, int angle, bool enemyAbility)
 void RatBiter::stop()
 {
 	//countOfBiterRats--;
+	SoundManager::Instance().playSound("ratbiter", 0, 3);
+	//std::cout << "clean" << std::endl;
 	m_running = false;
+	
 }
 
 void RatBiter::sound()
@@ -220,7 +224,12 @@ void RatBiter::seekPlayer()
 			}
 			Move(getRigidBody()->velocity.x, getRigidBody()->velocity.y * -1);
 		}
-		break;
+		//death animation.
+		/*if (CollisionManager::AABBCheck(this, PlayScene::listPlayers[0]))
+		{
+			m_currentAnimationState = ABILITY_RIGHT;
+		}
+		break;*/
 
 	case 2:
 	case 3:
@@ -240,158 +249,8 @@ void RatBiter::seekPlayer()
 		}
 		break;
 
-	/*case 3:
-		Move(0, getRigidBody()->velocity.y);
-		if (collidingWithLevel(LevelManager::Instance()->getObstacles()))
-		{
-			getRigidBody()->velocity.y *= -1;
-			if (getRigidBody()->velocity.y < 0)
-			{
-				m_currentAnimationState = PLAYER_RUN_UP;
-			}
-			else
-			{
-				m_currentAnimationState = PLAYER_RUN_DOWN;
-			}
-			Move(getRigidBody()->velocity.x * -1, getRigidBody()->velocity.y);
-		}
-		break;
-
-	case 4:
-		Move(getRigidBody()->velocity.x, 0);
-		if (collidingWithLevel(LevelManager::Instance()->getObstacles()))
-		{
-			getRigidBody()->velocity.x *= -1;
-			if (getRigidBody()->velocity.x < 0)
-			{
-				m_currentAnimationState = PLAYER_RUN_LEFT;
-			}
-			else
-			{
-				m_currentAnimationState = PLAYER_RUN_RIGHT;
-			}
-			Move(getRigidBody()->velocity.x, getRigidBody()->velocity.y * -1);
-		}
-		break;*/
 	}
-	/*if(PlayScene::listPlayers[0]->getTransform()->position.y < getTransform()->position.y)
-	{
-		Move(getRigidBody()->velocity.x, 0);
-		if (collidingWithLevel(LevelManager::Instance()->getObstacles()))
-		{
-			getRigidBody()->velocity.x *= -1;
-			if(getRigidBody()->velocity.x < 0)
-			{
-				m_currentAnimationState = PLAYER_RUN_LEFT;
-			}
-			else
-			{
-				m_currentAnimationState = PLAYER_RUN_RIGHT;
-			}
-			Move(getRigidBody()->velocity.x, getRigidBody()->velocity.y * -1);
-		}
-	}
-	if (PlayScene::listPlayers[0]->getTransform()->position.x < getTransform()->position.x)
-	{
-		
-	}*/
-
-
-
-	//switch(ratDirection)
-	//{
-	//	case RATRIGHT:
-	//		if (checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))// || (abs(PlayScene::listPlayers[0]->getTransform()->position.x - getTransform()->position.x) < 5))
-	//		{
-	//			getRigidBody()->velocity = { 0,4 };
-	//			if (PlayScene::listPlayers[0]->getTransform()->position.y < getTransform()->position.y)
-	//			{
-	//				ratDirection = RATUP;
-	//				m_currentAnimationState = PLAYER_RUN_UP;
-	//				getTransform()->position -= getRigidBody()->velocity;
-	//			}
-	//			else
-	//			{
-	//				ratDirection = RATDOWN;
-	//				m_currentAnimationState = PLAYER_RUN_DOWN;
-	//				getTransform()->position += getRigidBody()->velocity;
-	//			}
-	//		}
-	//		else
-	//		{
-	//			getTransform()->position += getRigidBody()->velocity;
-	//		}
-	//	break;
-
-	//	case RATLEFT:
-	//		if (checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))// || (abs(PlayScene::listPlayers[0]->getTransform()->position.x - getTransform()->position.x) < 5))
-	//		{
-	//			getRigidBody()->velocity = { 0,4 };
-	//			if (PlayScene::listPlayers[0]->getTransform()->position.y < getTransform()->position.y || checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))
-	//			{
-	//				ratDirection = RATUP;
-	//				m_currentAnimationState = PLAYER_RUN_UP;
-	//				getTransform()->position -= getRigidBody()->velocity;
-	//			}
-	//			else
-	//			{
-	//				ratDirection = RATDOWN;
-	//				m_currentAnimationState = PLAYER_RUN_DOWN;
-	//				getTransform()->position += getRigidBody()->velocity;
-	//			}
-	//		}
-	//		else
-	//		{
-	//			getTransform()->position -= getRigidBody()->velocity;
-	//		}
-	//	break;
-
-	//	case RATUP:
-	//		if (checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))// || (abs(PlayScene::listPlayers[0]->getTransform()->position.y - getTransform()->position.y) < 5))
-	//		{
-	//			getRigidBody()->velocity = { 4,0 };
-	//			if (PlayScene::listPlayers[0]->getTransform()->position.x < getTransform()->position.x)
-	//			{
-	//				ratDirection = RATLEFT;
-	//				m_currentAnimationState = PLAYER_RUN_LEFT;
-	//				getTransform()->position -= getRigidBody()->velocity;
-	//			}
-	//			else
-	//			{
-	//				ratDirection = RATRIGHT;
-	//				m_currentAnimationState = PLAYER_RUN_RIGHT;
-	//				getTransform()->position += getRigidBody()->velocity;
-	//			}
-	//		}
-	//		else
-	//		{
-	//			getTransform()->position += getRigidBody()->velocity;
-	//		}
-	//		break;
-
-	//	case RATDOWN:
-	//		if (checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))// || (abs(PlayScene::listPlayers[0]->getTransform()->position.y - getTransform()->position.y) < 5))
-	//		{
-	//			getRigidBody()->velocity = { 4,0 };
-	//			if (PlayScene::listPlayers[0]->getTransform()->position.x < getTransform()->position.x)
-	//			{
-	//				ratDirection = RATLEFT;
-	//				m_currentAnimationState = PLAYER_RUN_LEFT;
-	//				getTransform()->position -= getRigidBody()->velocity;
-	//			}
-	//			else
-	//			{
-	//				ratDirection = RATRIGHT;
-	//				m_currentAnimationState = PLAYER_RUN_RIGHT;
-	//				getTransform()->position += getRigidBody()->velocity;
-	//			}
-	//		}
-	//		else
-	//		{
-	//			getTransform()->position -= getRigidBody()->velocity;
-	//		}
-	//		break;
-	//}
+	
 	
 }
 
@@ -533,6 +392,10 @@ void RatBiter::Animate()
 			}
 			break;
 
+		case ABILITY_RIGHT:
+			TheTextureManager::Instance()->playAnimation("ratsmall", m_pAnimations["ratsmall_deadright"], x, y, animationVelocity, 0, 255, true);
+			break;
+
 		default:
 			break;
 	}
@@ -542,5 +405,5 @@ void RatBiter::Animate()
 
 RatBiter::~RatBiter()
 {
-	//countOfBiterRats--;
+	RatBiter::clean();
 }

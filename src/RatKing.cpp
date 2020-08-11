@@ -104,7 +104,7 @@ void RatKing::update()
 		
 	}
 
-	int randomNum = rand() % 400;
+	int randomNum = rand() % 100;
 	if (randomNum == 4)
 	{
 		/*if(abilityUsed == false)

@@ -20,7 +20,7 @@ BlobKing::BlobKing(glm::vec2 position)
 	setPosY(position.y);
 
 	getTransform()->position = glm::vec2(position);
-	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
+	getRigidBody()->velocity = glm::vec2(2.0f, 2.0f);
 	getRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	getRigidBody()->isColliding = false;
 	setType(BOSS);
@@ -57,10 +57,11 @@ void BlobKing::update()
 	//update the functionality
 	static int tempCounter = 0;
 
-	if (tempCounter > 120) {
+	if (tempCounter > 90) {
 		int randomNum = rand() % 2;
 		if (randomNum == 0)
 		{
+			SoundManager::Instance().playSound("slimy", 0, 3);
 			useCurrentAbility();
 		}
 		//m_currentAnimationState = static_cast<PlayerAnimationState>(rand() % 8); //num of animation states
@@ -73,15 +74,18 @@ void BlobKing::update()
 	{
 		ui->update(this);
 	}
+	
 	if(leftRightToggle)
 	{
-		std::cout << getPosX() << std::endl;
+		
 		if(getPosX() > minX && !waiting)
 		{
-			getRigidBody()->velocity.x *= -1;
+			Move(getRigidBody()->velocity.x, 0);
+			//std::cout << getPosX() << std::endl;
+			waitTime = SDL_GetTicks() / 1000.0f;
 			m_currentAnimationState = PLAYER_RUN_LEFT;
 		}
-		else if(getPosX() == minX)
+		else if(getPosX() <= minX)
 		{
 			waiting = true;
 			waitTime = SDL_GetTicks() / 1000.0f;
@@ -92,11 +96,12 @@ void BlobKing::update()
 	{
 		if (getPosX() < maxX && !waiting)
 		{
-			getRigidBody()->velocity.x *= 1;
+			
+			Move(getRigidBody()->velocity.x, 0);
 			waitTime = SDL_GetTicks() / 1000.0f;
 			m_currentAnimationState = PLAYER_RUN_RIGHT;
 		}
-		else if (getPosX() == maxX)
+		else if (getPosX() >= maxX)
 		{
 			waiting = true;
 			leftRightToggle = !leftRightToggle;
@@ -108,6 +113,7 @@ void BlobKing::update()
 		m_currentAnimationState = PLAYER_RUN_DOWN;
 		if(SDL_GetTicks() / 1000.0f - waitTime >= 4)
 		{
+			getRigidBody()->velocity.x *= -1;
 			waitTime = 0;
 			waiting = false;
 		}

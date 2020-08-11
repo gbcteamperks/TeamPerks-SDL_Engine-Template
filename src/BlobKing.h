@@ -25,9 +25,9 @@ private:
 
 	int moveTimer = 0;
 
-	int minX = 362;
-	int maxX = 500;
-	bool leftRightToggle;
+	int minX = 355;
+	int maxX = 675;
+	bool leftRightToggle = false;
 	int waitTime;
 	bool waiting = false;
 	
