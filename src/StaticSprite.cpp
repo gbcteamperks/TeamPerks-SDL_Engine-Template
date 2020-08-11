@@ -38,6 +38,11 @@ void StaticSprite::draw(int alpha)
 	TheTextureManager::Instance()->draw(name, x, y, 0, alpha, SDL_FLIP_NONE, Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT);
 }
 
+void StaticSprite::setAlpha(int alpha)
+{
+	
+}
+
 void StaticSprite::update()
 {
 }

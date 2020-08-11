@@ -22,6 +22,7 @@ public:
 	void animation();
 	void pickable(glm::vec2 position);
 	int ratDirection;
+	int ratTag = 0;
 
 	RatBiter* getAbility() override 
 	{ 
@@ -31,6 +32,7 @@ public:
 	
 	
 	void seekPlayer();
+	void guardRatKing();
 
 private:
 	//animation variables

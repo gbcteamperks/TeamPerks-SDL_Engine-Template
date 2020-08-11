@@ -31,7 +31,9 @@ void PlayScene::draw()
 		for (auto o : getDisplayList())
 		{
 			
-			Util::DrawRect({ o->getPosX(), o->getPosY()}, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+			if (o->getType() != DESTRUCTIBLE) {
+				Util::DrawRect({ o->getPosX(), o->getPosY() }, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+			}
 			Util::DrawRect({ listPlayers[0]->getPosX()+8,listPlayers[0]->getPosY()+32 }, 16, 16, { 0.0f,1.0f,1.0f,1.0f });
 			
 		}
@@ -44,7 +46,7 @@ void PlayScene::update()
 	if (!gamePaused) 
 	{
 		collisions();
-		if (enemyKillCount > 5)
+		if (enemyKillCount > 4)
 		{
 			//successful = true;
 			summonBoss = true;
@@ -122,7 +124,7 @@ void PlayScene::update()
 			switch (getLevelNumber())
 			{
 			case 1:
-				SpawnEnemiesManager::level1Boss();
+					SpawnEnemiesManager::level1Boss();
 				break;
 			case 2:
 				SpawnEnemiesManager::level2Boss();
@@ -134,8 +136,22 @@ void PlayScene::update()
 			
 		}
 
-		if (successful)
+		if (presuccessful && levelNumber!=1)
 		{
+			if(m_currentTime == 0)
+			{
+				m_currentTime = (int)SDL_GetTicks() / 1000;
+			}
+			if(((int)SDL_GetTicks()/1000) - m_currentTime > 4)
+			{
+				successful = true;
+				invokeTransition();
+			}
+			
+		}
+		else if (presuccessful && levelNumber == 1)
+		{
+			successful = true;
 			invokeTransition();
 		}
 		LevelManager::Instance()->update(5, true);
@@ -292,7 +308,7 @@ void PlayScene::collisions()
 								getDisplayList()[k]->clean();
 								delete getDisplayList()[k];
 								getDisplayList()[k] = nullptr;
-								successful = true;
+								presuccessful = true;
 							}
 						}
 					}
@@ -382,6 +398,7 @@ int PlayScene::getLevelNumber()
 
 void PlayScene::invokeTransition()
 {
+	
 	levelNumber++;
 	//std::cout << levelNumber <<"\n"<< std::endl;
 	TheGame::Instance()->changeSceneState(TRANSITION_SCENE);
