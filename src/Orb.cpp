@@ -28,7 +28,7 @@ Orb::Orb(glm::vec2 position, bool running, int angle, bool pickeable, bool enemy
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_pDamage = 15;
+	m_pDamage = 20;
 
 
 	//animation

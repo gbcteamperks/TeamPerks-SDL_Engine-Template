@@ -22,7 +22,7 @@ Fireball::Fireball(glm::vec2 position, bool running, int angle, bool pickeable, 
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_pDamage = 5;
+	m_pDamage = 15;
 
 	getTransform()->position = position;
 	getRigidBody()->velocity = { 6.0f, 6.0f };

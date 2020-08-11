@@ -36,7 +36,7 @@ MotherSpider::MotherSpider(glm::vec2 position)
 	addAbility(new Orb());
 
 	m_buildAnimations();
-	m_pLife = 150;
+	m_pLife = 100;
 	m_lifeRedCounter = m_pLife;
 	UI.push_back(new EnemyLifeBar(this));
 }

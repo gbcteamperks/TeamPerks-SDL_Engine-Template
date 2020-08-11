@@ -139,7 +139,6 @@ void PlayScene::update()
 			}
 			
 		}
-
 		if (presuccessful && levelNumber!=1)
 		{
 			if(m_currentTime == 0)
@@ -151,7 +150,6 @@ void PlayScene::update()
 				successful = true;
 				invokeTransition();
 			}
-			
 		}
 		else if (presuccessful && levelNumber == 1)
 		{
@@ -231,7 +229,7 @@ void PlayScene::handleEvents()
 		}	
 		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_0))
 		{
-			//invokeTransition();
+			invokeTransition();
 		}
 		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_8))
 		{
@@ -427,6 +425,7 @@ void PlayScene::invokeTransition()
 {
 	
 	levelNumber++;
+	SpawnEnemiesManager::bossSummoned = false;
 	//std::cout << levelNumber <<"\n"<< std::endl;
 	if (levelNumber == 4) {
 		levelNumber = 1;
