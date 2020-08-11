@@ -5,6 +5,8 @@
 #include "glm/gtx/string_cast.hpp"
 #include "Renderer.h"
 #include "EventManager.h"
+#include "VictorVanHelsing.h"
+#include "victoryScene.h"
 
 
 Game* Game::s_pInstance = nullptr;
@@ -96,7 +98,7 @@ void Game::start()
 	m_currentSceneState = NO_SCENE;
 
 	changeSceneState(START_SCENE);
-	level = 1;
+
 }
 
 bool Game::isRunning() const
@@ -156,12 +158,15 @@ void Game::changeSceneState(const SceneState new_state)
 				std::cout << "start scene activated" << std::endl;
 				break;
 			case PLAY_SCENE:
-				m_currentScene = new PlayScene(level);
-				level++;
+				m_currentScene = new PlayScene();
 				std::cout << "play scene activated" << std::endl;
 				break;
 			case END_SCENE:
 				m_currentScene = new EndScene();
+				std::cout << "end scene activated" << std::endl;
+				break;
+			case VICTORY_SCENE:
+				m_currentScene = new victoryScene();
 				std::cout << "end scene activated" << std::endl;
 				break;
 			default:
@@ -206,10 +211,10 @@ void Game::update() const
 	if(transition)
 	{
 		m_pTransitionScene->update();
-		if(dynamic_cast<TransitionScene*>(m_pTransitionScene)->goToClean())
+		/*if(dynamic_cast<TransitionScene*>(m_pTransitionScene)->goToClean())
 		{
 			level = dynamic_cast<PlayScene*>(m_currentScene)->getLevelNumber();
-		}
+		}*/
 	}
 	else
 	{

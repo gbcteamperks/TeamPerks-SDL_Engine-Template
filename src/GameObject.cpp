@@ -4,6 +4,7 @@
 #include "CollisionManager.h"
 #include "MathManager.h"
 #include "EventManager.h"
+#include "LevelManager.h"
 
 GameObject::GameObject():
 	m_width(0), m_height(0), m_type(NONE)
@@ -97,6 +98,26 @@ void GameObject::setParentType(const GameObjectType new_type)
 	m_parent = new_type;
 }
 
+void GameObject::setState(State state)
+{
+	m_currentState = state;
+}
+
+void GameObject::setSpeed(float speed)
+{
+	m_speed = speed;
+}
+
+float GameObject::getSpeed()
+{
+	return m_speed;
+}
+
+void GameObject::setFlip(SDL_RendererFlip flip)
+{
+	m_Flip = flip;
+}
+
 
 //boundry restrict
 void GameObject::m_BoundsRestrict()
@@ -163,8 +184,16 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 	bool collision = false;
 	for (auto o : listObstacles)
 	{
-		if (o->getType() != SPIKES) {
-			if (CollisionManager::AABBCheckUpdatingPosition(this, o))
+		
+		if (o->getType() != SPIKES && o->getType() != DESTRUCTIBLE) {
+			if (CollisionManager::SImpleAABBCheck(this, o))
+			{
+				collision = true;
+			}
+		}
+		else if (o->getType() == DESTRUCTIBLE)
+		{
+			if (CollisionManager::DestructibleAABBCheck(this, o))
 			{
 				collision = true;
 			}
@@ -179,7 +208,6 @@ bool GameObject::checkCollisionWithLevel(std::vector<GameObject*> listObstacles)
 					m_pNextDamageCounter = 0;
 				}
 			}
-			
 		}
 	}
 	return collision;
@@ -205,8 +233,11 @@ void GameObject::fleeBehaviour(GameObject* obj)
 		int angle = MAMA::AngleBetweenPoints(obj->getTransform()->position, this->getTransform()->position);
 		m_angle = angle;
 		angle = angle * 3.1416 / 180;
-		this->getTransform()->position.x += this->getRigidBody()->velocity.x * cos(angle);
-		this->getTransform()->position.y += this->getRigidBody()->velocity.y* sin(angle);
+		Move(getRigidBody()->velocity.x * cos(angle), getRigidBody()->velocity.y * sin(angle));
+		if (checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))
+		{
+			Move(-getRigidBody()->velocity.x * cos(angle), -getRigidBody()->velocity.y * sin(angle));
+		}
 	}
 }
 
@@ -214,8 +245,8 @@ void GameObject::Move(float velx, float vely)
 {
 	getTransform()->position.x += velx;
 	getTransform()->position.y += vely;
-	setPosX(getTransform()->position.x);
-	setPosY(getTransform()->position.y);
+	setPosX(getTransform()->position.x - getWidth()*0.5);
+	setPosY(getTransform()->position.y - getHeight()*0.5);
 }
 
 void GameObject::setColX(int colX)

@@ -23,6 +23,14 @@ private:
 	void m_buildAnimations();
 	void Animate();
 
+	int moveTimer = 0;
+
+	int minX = 355;
+	int maxX = 675;
+	bool leftRightToggle = false;
+	int waitTime;
+	bool waiting = false;
+	
 	glm::vec2 playerPos;
 	std::vector<UIElement*> UI;
 	int m_lifeRedCounter;

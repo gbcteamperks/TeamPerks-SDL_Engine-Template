@@ -20,8 +20,8 @@ SkeletonEnemy::SkeletonEnemy(glm::vec2 position) : m_currentAnimationState(SKEL_
 
 	// set frame height
 	setHeight(64);
-	setPosX(position.x);
-	setPosY(position.y);
+	setPosX(position.x - getWidth() * 0.5);
+	setPosY(position.y - getHeight() * 0.5);
 
 	getTransform()->position = position;
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
@@ -31,7 +31,7 @@ SkeletonEnemy::SkeletonEnemy(glm::vec2 position) : m_currentAnimationState(SKEL_
 
 	m_buildAnimations();
 	// Life
-	m_pLife = 200;
+	m_pLife = 100;
 	m_lifeRedCounter = m_pLife;
 	UI.push_back(new EnemyLifeBar(this));
 }
@@ -67,6 +67,7 @@ void SkeletonEnemy::draw()
 	default:
 		break;
 	}
+	animateBloodSplat();
 	for (auto s : UI)
 	{
 		s->draw(this->m_lifeRedCounter);
@@ -75,8 +76,8 @@ void SkeletonEnemy::draw()
 
 void SkeletonEnemy::update()
 {
-	setPosX(getTransform()->position.x);
-	setPosY(getTransform()->position.y);
+	setPosX(getTransform()->position.x - getWidth()*0.5);
+	setPosY(getTransform()->position.y - getHeight()*0.5);
 	Patrol();
 	skeltnAtk();
 	for (auto s : UI)

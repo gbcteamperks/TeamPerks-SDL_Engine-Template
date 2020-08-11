@@ -23,28 +23,6 @@ void LevelManager::update(float scroll, bool x)
 		}
 		
 	}
-	//for (int row = 0; row < Config::ROW_NUM; row++)
-	//{
-	//	for (int col = 0; col < Config::COL_NUM; col++)
-	//	{
-	//		if (x)
-	//		{
-	//			m_level[row][col]->getTransform()->position.x += scroll;
-	//		}
-	//		else
-	//		{
-	//			m_level[row][col]->getTransform()->position.y += scroll;
-	//		}
-	//	}
-	//}
-	//if (x) 
-	//{
-	//	m_sumDX += scroll;
-	//}
-	//else
-	//{
-	//	m_sumDY += scroll;
-	//}
 }
 
 void LevelManager::clean()
@@ -62,18 +40,6 @@ void LevelManager::render(bool debug)
 		for (int col = 0; col < Config::COL_NUM; col++)
 		{
 			m_level[row][col]->draw();
-
-			//if (debug) 
-			//{
-			//	if (m_level[row][col]->m_node->isOpen()) 
-			//	{
-			//		Util::DrawRect({ m_level[row][col]->getPosX(), m_level[row][col]->getPosY() }, m_level[row][col]->getWidth(), m_level[row][col]->getHeight(), { 0.0f,0.0f,1.0f,1.0f });
-			//	}
-			//	else 
-			//	{
-			//		Util::DrawRect({ m_level[row][col]->getPosX(), m_level[row][col]->getPosY() }, m_level[row][col]->getWidth(), m_level[row][col]->getHeight(), { 1.0f,0.0f,0.0f,1.0f });
-			//	}
-			//}
 		}
 	}
 
@@ -147,7 +113,7 @@ void LevelManager::loadLevel(std::string levelDataPath,std::vector<DisplayObject
 
 				if (key == 'b') 
 				{
-					dList.push_back(new DestructibleObject(m_level[row][col]->getTransform()->position, 3, "../Assets/sprites/barrel.txt",
+					dList.push_back(new DestructibleObject(m_level[row][col]->getTransform()->position + glm::vec2{0,-10}, 3, "../Assets/sprites/barrel.txt",
 						"../Assets/sprites/barrel.png","barrel",50,60,30,40));
 				}
 				
@@ -178,7 +144,9 @@ void LevelManager::loadLevel(std::string levelDataPath,std::vector<DisplayObject
 	{
 		if (dList[i]->getType() == DESTRUCTIBLE) 
 		{
-		m_obstacles.push_back(dList[i]);
+			/*dList[i]->getTransform()->position.x += dList[i]->getColX();
+			dList[i]->getTransform()->position.y += dList[i]->getColY();*/
+			m_obstacles.push_back(dList[i]);
 		}
 	}
 }
@@ -211,14 +179,16 @@ void LevelManager::drawObstaclesCollisionBox()
 {
 	for (auto o : m_obstacles)
 	{
-		if (o->getType() == DESTRUCTIBLE)
+		
+		if (o->getType() == DESTRUCTIBLE) 
 		{
-			Util::DrawRect(glm::vec2(o->getPosX(), o->getPosY()), o->getColX(), o->getColY(), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+			Util::DrawRect(glm::vec2(o->getPosX() + o->getColX() - 5, o->getPosY() + o->getColY() - 10), o->getColX(), o->getColY(), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 		}
 		else 
 		{
-			Util::DrawRect(glm::vec2(o->getPosX(), o->getPosY()), o->getWidth(), o->getHeight(), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+			Util::DrawRect(glm::vec2(o->getPosX(), o->getPosY()), o->getWidth(), o->getHeight(), glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
 		}
+		//Util::DrawRect(glm::vec2(o->getPosX(), o->getPosY()), o->getWidth(), o->getHeight(), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	}
 }
 bool LevelManager::checkCollision(GameObject* obj, const int dX, const int dY) //kinda took this out
@@ -279,4 +249,5 @@ void LevelManager::printNodes()
 
 void LevelManager::cleanObstacles()
 {
+	m_obstacles.erase(std::remove(m_obstacles.begin(), m_obstacles.end(), nullptr), m_obstacles.end());
 }

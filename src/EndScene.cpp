@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "glm/gtx/string_cast.hpp"
 #include "EventManager.h"
-
+#include "Config.h"
 EndScene::EndScene()
 {
 	EndScene::start();
@@ -65,12 +65,18 @@ void EndScene::start()
 	m_pBackgroundEndS = new BackgroundEndS();
 	addChild(m_pBackgroundEndS);
 
-	
+	for (int i = 0; i < getDisplayList().size();i++) 
+	{
+		if (getDisplayList()[i]->getType() == VICTOR) 
+		{
+			getDisplayList()[i]->getLife() = 100;
+		}
+	}
 
 	//Menu Button
 
 	m_pMenuButton = new Button("../Assets/textures/buttonRed.png", "MenuButton", START_BUTTON);
-	m_pMenuButton->getTransform()->position = glm::vec2(240.0f, 350.0f);
+	m_pMenuButton->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.3, Config::SCREEN_HEIGHT * 0.6);
 	m_pMenuButton->addEventListener(CLICK, [&](Button* button)-> void
 		{
 			button->setActive(false);
@@ -90,14 +96,14 @@ void EndScene::start()
 	addChild(m_pMenuButton);
 	//label Menu Button
 	const SDL_Color white = { 255, 255, 255, 255 };
-	m_pLabelMenu = new Label("Menu", "Dock51", 40, white, glm::vec2(240.0f, 350.0f));
+	m_pLabelMenu = new Label("Menu", "Dock51", 40, white, glm::vec2(Config::SCREEN_WIDTH * 0.3, Config::SCREEN_HEIGHT * 0.6));
 	m_pLabelMenu->setParent(this);
 	addChild(m_pLabelMenu);
 
 
 	// Restart Button
 	m_pRestartButton = new Button("../Assets/textures/buttonRed.png", "restartButton", RESTART_BUTTON);
-	m_pRestartButton->getTransform()->position = glm::vec2(560.0f, 350.0f);
+	m_pRestartButton->getTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.7, Config::SCREEN_HEIGHT * 0.6);
 	m_pRestartButton->addEventListener(CLICK, [&](Button* button)-> void
 	{
 		button->setActive(false);
@@ -116,13 +122,13 @@ void EndScene::start()
 
 	addChild(m_pRestartButton);
 
-	m_pLabelRestart = new Label("Restart", "Dock51", 40, white, glm::vec2(560.0f, 350.0f));
+	m_pLabelRestart = new Label("Restart", "Dock51", 40, white, glm::vec2(Config::SCREEN_WIDTH * 0.7, Config::SCREEN_HEIGHT * 0.6));
 	m_pLabelRestart->setParent(this);
 	addChild(m_pLabelRestart);
 
 	//GameOver Label
 	const SDL_Color red = { 255, 0, 0, 255 };
-	m_label = new Label("GAME OVER", "Dock51", 80, red, glm::vec2(400.0f, 200.0f));
+	m_label = new Label("GAME OVER", "Dock51", 80, red, glm::vec2(Config::SCREEN_WIDTH * 0.5, Config::SCREEN_HEIGHT * 0.4));
 	m_label->setParent(this);
 	addChild(m_label);
 }

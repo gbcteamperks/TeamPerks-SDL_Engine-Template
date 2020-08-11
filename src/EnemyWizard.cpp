@@ -1,24 +1,24 @@
 #include "EnemyWizard.h"
 #include "EnemyLifeBar.h"
 #include "Fireball.h"
+#include "MathManager.h"
 
-
-EnemyWizard::EnemyWizard(glm::vec2 position) : m_currentAnimationState(BOSSONE_WALK_RIGHT)
+EnemyWizard::EnemyWizard(glm::vec2 position) 
 {
 	TheTextureManager::Instance()->loadSpriteSheet(
-		"../Assets/sprites/magicenemy.txt",
-		"../Assets/sprites/magicenemy.png",
-		"magicenemy");
+		"../Assets/sprites/wizardSpriteSheet.txt",
+		"../Assets/sprites/wizardSpriteSheet.png",
+		"wizardSpriteSheet");
 
-	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("magicenemy");
+	m_pSpriteSheet = TheTextureManager::Instance()->getSpriteSheet("wizardSpriteSheet");
 
 	// set frame width
 	setWidth(40);
-
 	// set frame height
 	setHeight(60);
-	setPosX(position.x);
-	setPosY(position.y);
+
+	setPosX(position.x - getWidth() * 0.5);
+	setPosY(position.y - getHeight() * 0.5);
 
 	getTransform()->position = position;
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
@@ -26,13 +26,17 @@ EnemyWizard::EnemyWizard(glm::vec2 position) : m_currentAnimationState(BOSSONE_W
 	getRigidBody()->isColliding = false;
 	addAbility(new Fireball());
 	setType(ENEMY);
-
+	setState(State::IDLE);
+	RightCicle = rand() % 2;
 	m_buildAnimations();
-
+	m_Flip = SDL_FLIP_NONE;
 	// Life
 	m_pLife = 100;
 	m_lifeRedCounter = m_pLife;
 	UI.push_back(new EnemyLifeBar(this));
+
+	m_patrolNodes = new CircleList();
+	setNodes();
 }
 
 EnemyWizard::~EnemyWizard()
@@ -46,23 +50,37 @@ void EnemyWizard::draw()
 
 	
 	// draw the player according to animation state
-	switch (m_currentAnimationState)
+	switch (m_currentState)
 	{
-	case BOSSONE_WALK_RIGHT:
-		TheTextureManager::Instance()->playAnimation("magicenemy", m_pAnimations["walkright"],
-			x, y, 0.12f, 0, 255, true);
+	case IDLE:
+		if (TheTextureManager::Instance()->playAnimation("wizardSpriteSheet", m_pAnimations["idle"],
+			x, y, 0.25f, 0, 255, true, m_Flip))
+		{
+			setState(RUNNING);
+		}
 		break;
-	case BOSSONE_WALK_LEFT:
-		TheTextureManager::Instance()->playAnimation("magicenemy", m_pAnimations["walkright"],
-			x, y, 0.12f, 0, 255, true, SDL_FLIP_HORIZONTAL);
+	case RUNNING:
+		if (getRigidBody()->velocity.x > 0)
+			m_Flip = SDL_FLIP_HORIZONTAL;
+		else
+			m_Flip = SDL_FLIP_NONE;
+		TheTextureManager::Instance()->playAnimation("wizardSpriteSheet", m_pAnimations["move"],
+			x, y, 0.25f, 0, 255, true, m_Flip);
 		break;
-	case BOSSONE_WALK_UP:
-		TheTextureManager::Instance()->playAnimation("magicenemy", m_pAnimations["walkup"],
-			x, y, 0.25f, 0, 255, true);
+	case RANGEATK:
+		if (TheTextureManager::Instance()->playAnimation("wizardSpriteSheet", m_pAnimations["attack"],
+			x, y, 0.25f, 0, 255, true, m_Flip))
+		{
+			setState(RANGEATK2);
+			bossAttack();
+		}
 		break;
-	case BOSSONE_WALK_DOWN:
-		TheTextureManager::Instance()->playAnimation("magicenemy", m_pAnimations["walkdown"],
-			x, y, 0.25f, 0, 255, true);
+	case RANGEATK2:
+		if (TheTextureManager::Instance()->playAnimation("wizardSpriteSheet", m_pAnimations["attackback"],
+			x, y, 0.25f, 0, 255, true, m_Flip))
+		{
+			setState(State::IDLE);
+		}
 		break;
 	default:
 		break;
@@ -77,10 +95,21 @@ void EnemyWizard::draw()
 
 void EnemyWizard::update()
 {
-	setPosX(getTransform()->position.x);
-	setPosY(getTransform()->position.y);
-	runHereThere();
-	bossAttack();
+	
+
+	switch (m_currentState)
+	{
+	case IDLE:
+		break;
+	case RUNNING:
+		PatrolWtNodes();
+		Move(getRigidBody()->velocity.x, getRigidBody()->velocity.y);
+		break;
+	case RANGEATK:
+		break;
+	default:
+		break;
+	}
 	for (auto s : UI)
 	{
 		s->update(this);
@@ -90,115 +119,108 @@ void EnemyWizard::update()
 
 void EnemyWizard::clean()
 {
+
 }
 
 void EnemyWizard::bossAttack()
 {
-	static int abilityTime = 0;
-
-	if ((int)m_currentTime % 3 != 0)
-	{
-		abilityTime = 0;
-	}
-
-	if ((int)m_currentTime % 3 == 0 && abilityTime == 0)
-	{
-		abilityTime++;
-		useCurrentAbility();
-	}
-
-
+	m_angle = MAMA::AngleBetweenPoints(this->getTransform()->position, PlayScene::listPlayers[0]->getTransform()->position);
+	m_pListAbilities.front()->execute(getTransform()->position, m_angle, true); // to the left
 }
 
-
-
-void EnemyWizard::setAnimationState(const BossOneAnimationState new_state)
+void EnemyWizard::setNodes()
 {
-	m_currentAnimationState = new_state;
+	float iValue = 0.1f;
+	float fValue = 0.9f;
+	m_patrolNodes->add(new Node(Config::SCREEN_WIDTH* iValue, Config::SCREEN_HEIGHT* iValue));
+	m_patrolNodes->add(new Node(Config::SCREEN_WIDTH * iValue, Config::SCREEN_HEIGHT * fValue));
+	m_patrolNodes->add(new Node(Config::SCREEN_WIDTH * fValue, Config::SCREEN_HEIGHT * fValue));
+	m_patrolNodes->add(new Node(Config::SCREEN_WIDTH * fValue, Config::SCREEN_HEIGHT * iValue));
+	initialPosPatrol = rand() % 4;
+	for (int i = 0; i < initialPosPatrol; i++)
+		m_patrolNodes->Next();
 }
 
-void EnemyWizard::setAnimation(const Animation & animation)
+void EnemyWizard::PatrolWtNodes()
 {
-	m_pAnimations[animation.name] = animation;
+	if (SeekingNode(m_patrolNodes->Current()->data[0], m_patrolNodes->Current()->data[1]))
+	{
+		if (PlayScene::listPlayers[0]->getTransform()->position.x - getTransform()->position.x > 0)
+			m_Flip = SDL_FLIP_HORIZONTAL;
+		else
+			m_Flip = SDL_FLIP_NONE;
+			
+
+		setState(RANGEATK);
+		if (RightCicle)
+			m_patrolNodes->Next();
+		else
+			m_patrolNodes->Prev();
+	}
 }
 
+bool EnemyWizard::SeekingNode(int x, int y)
+{
+	float speed = 2.0f;
+	float angle = MAMA::AngleBetweenPoints(getTransform()->position, glm::vec2(x,y))*M_PI/180;
+	glm::vec2 desired = glm::vec2(cos(angle), sin(angle)) * speed;
+	float seekingForce = 1.0f;
+	getRigidBody()->velocity.y = MAMA::LerpD(getRigidBody()->velocity.y, desired.y, seekingForce);
+	getRigidBody()->velocity.x = MAMA::LerpD(getRigidBody()->velocity.x, desired.x, seekingForce);
+
+	glm::vec2 distance = MAMA::Distance(getTransform()->position, glm::vec2(x, y));
+	if (abs(distance.x) < 20 && abs(distance.y) < 20)
+	{
+		return true;
+	}
+	return false;
+}
 
 void EnemyWizard::m_buildAnimations()
 {
-	Animation walkDown = Animation();
+	Animation idle = Animation();
 
-	walkDown.name = "walkdown";
-	walkDown.frames.push_back(m_pSpriteSheet->getFrame("walkdown-1"));
-	walkDown.frames.push_back(m_pSpriteSheet->getFrame("walkdown-1"));
-	walkDown.frames.push_back(m_pSpriteSheet->getFrame("walkdown-1"));
-	walkDown.frames.push_back(m_pSpriteSheet->getFrame("walkdown-1"));
+	idle.name = "idle";
+	idle.frames.push_back(m_pSpriteSheet->getFrame("idle1"));
+	idle.frames.push_back(m_pSpriteSheet->getFrame("idle2"));
+	idle.frames.push_back(m_pSpriteSheet->getFrame("idle3"));
+	idle.frames.push_back(m_pSpriteSheet->getFrame("idle4"));
+	idle.frames.push_back(m_pSpriteSheet->getFrame("idle5"));
+	idle.frames.push_back(m_pSpriteSheet->getFrame("idle6"));
 
-	m_pAnimations["walkdown"] = walkDown;
+	m_pAnimations["idle"] = idle;
 
-	Animation walkRight = Animation();
+	Animation attack = Animation();
 
-	walkRight.name = "walkright";
-	walkRight.frames.push_back(m_pSpriteSheet->getFrame("walkright-1"));
-	walkRight.frames.push_back(m_pSpriteSheet->getFrame("walkright-2"));
-	walkRight.frames.push_back(m_pSpriteSheet->getFrame("walkright-3"));
-	walkRight.frames.push_back(m_pSpriteSheet->getFrame("walkright-4"));
-
-	m_pAnimations["walkright"] = walkRight;
-
-	Animation walkUp = Animation();
-
-	walkUp.name = "walkup";
-	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-1"));
-	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-2"));
-	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-3"));
-	walkUp.frames.push_back(m_pSpriteSheet->getFrame("walkup-4"));
-
-	m_pAnimations["walkup"] = walkUp;
-}
-
-void EnemyWizard::runHereThere()
-{
-	m_currentTime = (SDL_GetTicks() / 1000);
-	if (m_bossFacingRight && !m_bossWaitToFire)
-	{
-		setAnimationState(BOSSONE_WALK_RIGHT);
-		getTransform()->position.x += 2;
-		if (getTransform()->position.x >= (Config::SCREEN_WIDTH) - getWidth())
-		{
-			m_bossFacingRight = false;
-		}
-		if (m_currentTime - m_prevTime > 5)
-		{
-			m_bossWaitToFire = true;
-			setAnimationState(BOSSONE_WALK_RIGHT);
-		}
-	}
-	else if (!m_bossFacingRight && !m_bossWaitToFire)
-	{
-		setAnimationState(BOSSONE_WALK_LEFT);
-		getTransform()->position.x -= 2;
-		if (getTransform()->position.x <= getWidth())
-		{
-			m_bossFacingRight = true;
-		}
-		if (m_currentTime - m_prevTime > 5)
-		{
-			m_bossWaitToFire = true;
-			setAnimationState(BOSSONE_WALK_LEFT);
-		}
-	}
-	else
-	{
-		//IDLE ANIMATION TRIGGER DELAY - in progress, but skipped due to time issues
-		if (m_currentTime - m_prevTime > 5.00f)
-		{
-			m_prevTime = m_currentTime;
-		}
-		else
-		{
-			m_bossWaitToFire = false;
-		}
-	}
+	attack.name = "attack";
+	attack.frames.push_back(m_pSpriteSheet->getFrame("attack1"));
+	attack.frames.push_back(m_pSpriteSheet->getFrame("attack2"));
+	attack.frames.push_back(m_pSpriteSheet->getFrame("attack3"));
+	attack.frames.push_back(m_pSpriteSheet->getFrame("attack4"));
+	attack.frames.push_back(m_pSpriteSheet->getFrame("attack5"));
+	attack.frames.push_back(m_pSpriteSheet->getFrame("attack6"));
 
 
+	m_pAnimations["attack"] = attack;
+
+	Animation attackback = Animation();
+
+	attackback.name = "attackback";
+	attackback.frames.push_back(m_pSpriteSheet->getFrame("attackback1"));
+	attackback.frames.push_back(m_pSpriteSheet->getFrame("attackback2"));
+	attackback.frames.push_back(m_pSpriteSheet->getFrame("attackback3"));
+	attackback.frames.push_back(m_pSpriteSheet->getFrame("attackback4"));
+	attackback.frames.push_back(m_pSpriteSheet->getFrame("attackback5"));
+
+	m_pAnimations["attackback"] = attackback;
+
+	Animation move = Animation();
+
+	move.name = "move";
+	move.frames.push_back(m_pSpriteSheet->getFrame("move1"));
+	move.frames.push_back(m_pSpriteSheet->getFrame("move2"));
+	move.frames.push_back(m_pSpriteSheet->getFrame("move3"));
+	move.frames.push_back(m_pSpriteSheet->getFrame("move4"));
+
+	m_pAnimations["move"] = move;
 }

@@ -24,7 +24,6 @@ class PlayScene : public Scene
 {
 public:
 	PlayScene();
-	PlayScene(int);
 	~PlayScene();
 
 	// Scene LifeCycle Functions
@@ -51,16 +50,18 @@ private:
 	int m_prevTime = 0;
 	bool m_debugView = false;
 
+	int m_slowTimer = 0;
+	
 	int enemyKillCount = 0;
 	//transition to next scene
 	bool successful = false;
 	bool summonBoss = false;
-	int levelNumber;
+	bool presuccessful = false;
+	static int levelNumber;
 	std::string levelNumberConcatenate;
 	std::string tileNumberConcatenate;
 
-	//click mouse
-	bool click1MousePressed, click2MousePressed;
+	
 
 	//pause
 	bool gamePaused;

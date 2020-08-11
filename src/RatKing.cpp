@@ -20,8 +20,8 @@ RatKing::RatKing(glm::vec2 position)
 	//frame width and height
 	setWidth(96);
 	setHeight(96);
-	setPosX(position.x);
-	setPosY(position.y);
+	setPosX(position.x - getWidth()*0.5);
+	setPosY(position.y - getHeight()*0.5);
 	
 	getTransform()->position = glm::vec2(position);;
 	getRigidBody()->velocity = glm::vec2(0.0f, 0.0f);
@@ -35,10 +35,11 @@ RatKing::RatKing(glm::vec2 position)
 	UI.push_back(new EnemyLifeBar(this));
 	getRigidBody()->velocity = { 4,4 };
 	m_buildAnimations();
-	m_pDamage = 16;
+	m_pDamage = 7;
 
-	ratBiterPosition.x = getTransform()->position.x - getWidth();
-	ratBiterPosition.y = getTransform()->position.y - 10;
+	setPosX(getTransform()->position.x - getWidth() * 0.5);
+	setPosY(getTransform()->position.y - getHeight() * 0.5);
+	
 }
 
 
@@ -54,8 +55,7 @@ void RatKing::draw()
 
 void RatKing::update()
 {
-	setPosX(getTransform()->position.x);
-	setPosY(getTransform()->position.y);
+	
 	//update the functionality
 	static int tempCounter = 0;
 	if(Util::distance(PlayScene::listPlayers[0]->getTransform()->position, this->getTransform()->position) < 100)
@@ -67,7 +67,7 @@ void RatKing::update()
 	{
 		//m_currentAnimationState = PLAYER_RUN_LEFT;
 		m_pushBack();
-		PlayScene::listPlayers[0]->getLife() -= m_pDamage;
+		
 		SoundManager::Instance().playSound("whip");
 		
 	}
@@ -88,22 +88,24 @@ void RatKing::update()
 	if(pushBackGo)
 	{
 		m_currentAnimationState = PLAYER_RUN_LEFT;
-		PlayScene::listPlayers[0]->getTransform()->position += getRigidBody()->velocity;
+		PlayScene::listPlayers[0]->Move(getRigidBody()->velocity.x, getRigidBody()->velocity.y);
 		if(currentTime == 0)
 		{
 			currentTime = SDL_GetTicks() / 1000.0f;
+			PlayScene::listPlayers[0]->getLife() -= m_pDamage;
 		}
 		if((SDL_GetTicks() / 1000.0f) - currentTime > duration)
 		{
 			currentTime = 0;
 			getRigidBody()->velocity = { 4,4 };
+			
 			pushBackGo = false;
 		}
 		
 	}
 
-	int randomNum = rand() % 400;
-	if (randomNum == 3 && RatBiter::countOfBiterRats < 3)
+	int randomNum = rand() % 100;
+	if (randomNum == 4)
 	{
 		/*if(abilityUsed == false)
 		{*/
@@ -129,8 +131,20 @@ void RatKing::useCurrentAbility()
 		switch (m_currentAnimationState)
 		{
 		case PLAYER_RUN_RIGHT:*/
-	
-		m_pListAbilities.front()->execute(ratBiterPosition, 0, true); 
+	if (abilityUsed == false)
+	{
+		/*m_pListAbilities.front()->execute({ getPosX() - 20 ,getColY() - 20 }, 0, true);
+		m_pListAbilities.front()->execute({ getPosX() + getWidth(), getPosY()}, 0, true);
+		m_pListAbilities.front()->execute({ getPosX() - 20 ,getColY() + getHeight() }, 0, true);
+		m_pListAbilities.front()->execute({ getPosX() + getWidth(), getPosY() + getHeight()}, 0, true);*/
+
+		m_pListAbilities.front()->execute({ 400,50 }, 0, true);
+		m_pListAbilities.front()->execute({ 700,50  }, 0, true);
+		m_pListAbilities.front()->execute({  300,300 }, 0, true);
+		m_pListAbilities.front()->execute({ 580,300}, 0, true);
+		abilityUsed = true;
+	}
+		
 			/*changeAbility();
 			break;
 		default:

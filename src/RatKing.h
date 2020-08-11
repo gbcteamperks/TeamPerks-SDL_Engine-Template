@@ -27,10 +27,10 @@ private:
 	glm::vec2 playerPos;
 	glm::vec2 directionToPush;
 	glm::vec2 ratBiterPosition;
-	bool abilityUsed;
+	bool abilityUsed = false;
 	bool pushBackGo = false;
 	int currentTime;
-	int duration = 2;
+	int duration = 1;
 	std::vector<UIElement*> UI;
 	int m_lifeRedCounter;
 	bool m_flip;

@@ -28,7 +28,7 @@ Orb::Orb(glm::vec2 position, bool running, int angle, bool pickeable, bool enemy
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_pDamage = 15;
+	m_pDamage = 20;
 
 
 	//animation
@@ -66,11 +66,12 @@ Orb::~Orb()
 
 void Orb::update()
 {
-	setPosX(getTransform()->position.x);
-	setPosY(getTransform()->position.y);
+	setPosX(getTransform()->position.x - getWidth() * 0.5);
+	setPosY(getTransform()->position.y - getHeight() * 0.5);
+
 	if (m_running && !m_pickable)
 	{
-		getTransform()->position += getRigidBody()->velocity;
+		Move(getRigidBody()->velocity.x, getRigidBody()->velocity.y);
 	}
 	else if (m_running && m_pickable)
 	{

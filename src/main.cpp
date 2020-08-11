@@ -15,8 +15,8 @@ int main(int argc, char * args[])
 
 
 	// show console
-	AllocConsole();
-	freopen("CON", "w", stdout);
+	/*AllocConsole();
+	freopen("CON", "w", stdout);*/
 
 
 	TheGame::Instance()->init("Monster Slayer v0.01 - Team Perks", 100, 100, Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT, false);

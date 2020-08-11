@@ -59,15 +59,23 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 
 	if(object1->getType() == VICTOR && object2->getType() == SPIKES)
 	{
-		p1 = { object1->getPosX() - 8, object1->getPosY() + 8}; //collision box to the top corner
+		p1 = { object1->getPosX() + 8, object1->getPosY() + 32}; //collision box to the top corner
 		p2 = { object2->getPosX(), object2->getPosY() };
 		p1Width = 16;
 		p1Height = 16;
 	}
+	else if (object1->getType() == VICTOR && object2->getType() == DESTRUCTIBLE) 
+	{
+		p1 = { object1->getPosX(), object1->getPosY() };
+		p2 = { object2->getPosX() + object2->getColX(), object2->getPosY() + object2->getColY() };
+		p2Width = object2->getColX();
+		p2Height = object2->getColY();
+		
+	}
 	else
 	{
-		p1 = { object1->getPosX() - object1->getWidth() * 0.5, object1->getPosY() - object1->getHeight() * 0.5 }; //collision box to the top corner
-		p2 = { object2->getPosX() - object2->getWidth() * 0.5, object2->getPosY() - object2->getHeight() * 0.5 }; //collision box to the top corner
+		p1 = { object1->getPosX(), object1->getPosY()}; //collision box to the top corner
+		p2 = { object2->getPosX(), object2->getPosY()}; //collision box to the top corner
 	}
 
 	if (
@@ -88,8 +96,8 @@ bool CollisionManager::AABBCheck(GameObject* object1, GameObject* object2)
 			}
 			if (object1->getType() == PLAYERABILITY && object2->getType() == DESTRUCTIBLE) 
 			{
-				object1->getRigidBody()->isColliding = true;
-				object2->getRigidBody()->isColliding = false;
+				//object1->getRigidBody()->isColliding = true;
+				object2->getRigidBody()->isColliding = true;
 			}
 			return true;
 		}
@@ -124,6 +132,59 @@ bool CollisionManager::SImpleAABBCheck(GameObject* object1, GameObject* object2)
 		)
 	{
 		return true;
+	}
+	return false;
+}
+
+bool CollisionManager::DestructibleAABBCheck(GameObject* object1, GameObject* object2)
+{
+	// prepare relevant variables
+	glm::vec2 p1 = { object1->getPosX(), object1->getPosY()}; //collision box to the top corner
+	glm::vec2 p2 = { object2->getPosX() + object2->getColX(), object2->getPosY() + object2->getColY() }; //collision box to the top corner
+	const float p1Width = object1->getWidth();
+	const float p1Height = object1->getHeight();
+	const float p2Width = object2->getColX();
+	const float p2Height = object2->getColY();
+
+	if (
+		p1.x < p2.x + p2Width &&
+		p1.x + p1Width > p2.x &&
+		p1.y < p2.y + p2Height &&
+		p1.y + p1Height > p2.y
+		)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool CollisionManager::AbilityAABBCheck(GameObject* object1, GameObject* object2)
+{
+	// prepare relevant variables
+	glm::vec2 p1 = { object1->getPosX(), object1->getPosY() }; //collision box to the top corner
+	glm::vec2 p2 = { object2->getPosX() + object2->getColX(), object2->getPosY() + object2->getColY() }; //collision box to the top corner
+	const float p1Width = object1->getWidth();
+	const float p1Height = object1->getHeight();
+	const float p2Width = object2->getColX();
+	const float p2Height = object2->getColY();
+
+	if (
+		p1.x < p2.x + p2Width &&
+		p1.x + p1Width > p2.x &&
+		p1.y < p2.y + p2Height &&
+		p1.y + p1Height > p2.y
+		)
+	{
+		if (!object2->getRigidBody()->isColliding && !object1->getRigidBody()->isColliding) {
+
+			if (object1->getType() == PLAYERABILITY && object2->getType() == DESTRUCTIBLE)
+			{
+				//object1->getRigidBody()->isColliding = true;
+				object2->getRigidBody()->isColliding = true;
+			}
+			return true;
+		}
+		return false;
 	}
 	return false;
 }

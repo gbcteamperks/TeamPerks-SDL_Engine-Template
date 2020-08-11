@@ -24,9 +24,11 @@ public:
 
 private:
 	void m_buildAnimation();
+	void updateCollision();
 	SpriteSheet* m_pSpriteSheet;
 	DestructibleObejectState m_currentAnimation;
 	int m_numOfHits;
+	int tempTimer;
 
 	std::unordered_map<std::string, Animation> m_pAnimations;
 

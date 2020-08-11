@@ -1,7 +1,71 @@
 #pragma once
 #include "Enemy.h"
 #include "UIElement.h"
+struct Node {
+	Node(int x, int y)
+	{
+		data = new int[2];
+		data[0] = x;
+		data[1] = y;
+		prev = nullptr;
+		next = nullptr;
+	}
+	int* data;
+	Node* next;
+	Node* prev;
+};
 
+struct CircleList {
+	CircleList()
+	{
+		head = nullptr;
+		curr = nullptr;
+	}
+	
+	bool isEmpty()
+	{
+		if (head == nullptr)
+			return true;
+		return false;
+	}
+	void add(Node* nn)
+	{
+		if (isEmpty())
+		{
+			head = nn;
+			curr = head;
+			head->prev = curr;
+			head->next = curr;
+			return;
+		}
+		Node* temp = head;
+		while (temp->next != head)
+			temp = temp->next;
+
+		temp->next = nn; //new Node is the last one of the list
+		temp->next->prev = temp; //setting new node
+		temp->next->next = head;
+		head->prev = temp->next; //connecting head with last node
+	}
+	void Next()
+	{
+		if (isEmpty())
+			return;
+		curr = curr->next;
+	}
+	void Prev()
+	{
+		if (isEmpty())
+			return;
+		curr = curr->prev;
+	}
+	Node* Current()
+	{
+		return curr;
+	}
+	Node* head;
+	Node* curr;
+};
 class EnemyWizard : public Enemy {
 public:
 	EnemyWizard(glm::vec2 position);
@@ -13,28 +77,24 @@ public:
 	virtual void clean() override;
 	void bossAttack();
 
-	// setters
-	void setAnimationState(BossOneAnimationState new_state);
-
 	//animation
-	void setAnimation(const Animation& animation);
+	void setNodes();
+	void PatrolWtNodes();
+	bool SeekingNode(int x, int y);
 	void m_buildAnimations() override;
-	void runHereThere();
 
 private:
 
 	SpriteSheet* m_pSpriteSheet;
 
-	BossOneAnimationState m_currentAnimationState;
 	std::unordered_map<std::string, Animation> m_pAnimations;
-	bool m_bossFacingRight = true;
-	bool m_bossWaitToFire = false;
-	bool m_bulletNotVisible = false;
-	bool m_fire = false;
-	float m_durationOfLife = 5;
-	float m_prevTime = 0.00f;
-	int m_bulletXPosition = 0;
-	float m_currentTime = 0.00f;
+
+	//patrol variables
+	bool RightCicle;
+	int initialPosPatrol;
+	CircleList* m_patrolNodes;
+
+
 	//UI
 	int m_lifeRedCounter;
 	std::vector<UIElement*> UI;

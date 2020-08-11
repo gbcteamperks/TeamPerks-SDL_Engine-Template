@@ -7,7 +7,7 @@
 //#include "CollisionManager.h"
 #include <string>
 #include <vector>
-
+#include "SDL.h"
 // enums
 #include "GameObjectType.h"
 
@@ -20,6 +20,16 @@ enum BoundaryCollided{
 	TOPBOUNDARY,
 	BOTTOMBOUNDARY
 };
+enum State {
+	IDLE,
+	RUNNING,
+	MELEEATK,
+	RANGEATK,
+	RANGEATK2,
+	DIE,
+	NUMOFSTATES
+};
+
 
 class GameObject {
 public:
@@ -57,6 +67,10 @@ public:
 	GameObjectType getParentType() const;
 	void setType(GameObjectType new_type);
 	void setParentType(GameObjectType new_type);
+	void setState(State state);
+	void setSpeed(float speed);
+	float getSpeed();
+	void setFlip(SDL_RendererFlip flip);
 	void m_BoundsRestrict();
 	bool m_CheckBounds();
 	bool checkCollisionWithLevel(std::vector<GameObject*> listObstacles);
@@ -90,6 +104,7 @@ protected:
 	GameObjectType m_parent;
 	//-- self reference
 
+	float m_speed;
 	int m_angle;
 	GameObject* m_currentObject;
 	int m_pLife;
@@ -99,6 +114,8 @@ protected:
 	int m_colY;
 	//debug
 
+	State m_currentState;
+	SDL_RendererFlip m_Flip;
 };
 
 #endif /* defined (__GAME_OBJECT__) */

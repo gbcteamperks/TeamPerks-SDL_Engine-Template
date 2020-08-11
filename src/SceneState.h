@@ -8,6 +8,7 @@ enum SceneState
 	PLAY_SCENE,
 	END_SCENE,
 	TRANSITION_SCENE,
-	NUM_OF_SCENES = 4
+	VICTORY_SCENE,
+	NUM_OF_SCENES = 5
 };
 #endif /* defined (__SCENE_STATE__) */

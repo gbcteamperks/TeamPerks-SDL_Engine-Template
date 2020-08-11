@@ -174,11 +174,13 @@
     <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\GameController.cpp" />
     <ClCompile Include="..\src\GameObject.cpp" />
+    <ClCompile Include="..\src\King.cpp" />
     <ClCompile Include="..\src\Label.cpp" />
     <ClCompile Include="..\src\LevelManager.cpp" />
     <ClCompile Include="..\src\LifeBar.cpp" />
     <ClCompile Include="..\src\Needle.cpp" />
     <ClCompile Include="..\src\SkeletonEnemy.cpp" />
+    <ClCompile Include="..\src\Slimeattack.cpp" />
     <ClCompile Include="..\src\SpawnEnemiesManager.cpp" />
     <ClCompile Include="..\src\TransitionScene.cpp" />
     <ClCompile Include="..\src\UIElement.cpp" />
@@ -204,6 +206,7 @@
     <ClCompile Include="..\src\Tile.cpp" />
     <ClCompile Include="..\src\Util.cpp" />
     <ClCompile Include="..\src\VictorVanHelsing.cpp" />
+    <ClCompile Include="..\src\victoryScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Ability.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="..\src\BackgroundEndS.h" />
     <ClInclude Include="..\src\BlobKing.h" />
     <ClInclude Include="..\src\CrazyBat.h" />
+    <ClInclude Include="..\src\DecisionTree.h" />
     <ClInclude Include="..\src\DestructibleObject.h" />
     <ClInclude Include="..\src\DestructibleObjectState.h" />
     <ClInclude Include="..\src\Enemy.h" />
@@ -234,12 +238,14 @@
     <ClInclude Include="..\src\GameController.h" />
     <ClInclude Include="..\src\GameObject.h" />
     <ClInclude Include="..\src\GameObjectType.h" />
+    <ClInclude Include="..\src\King.h" />
     <ClInclude Include="..\src\Label.h" />
     <ClInclude Include="..\src\LevelManager.h" />
     <ClInclude Include="..\src\LifeBar.h" />
     <ClInclude Include="..\src\Needle.h" />
     <ClInclude Include="..\src\SkeletonAnimationState.h" />
     <ClInclude Include="..\src\SkeletonEnemy.h" />
+    <ClInclude Include="..\src\Slimeattack.h" />
     <ClInclude Include="..\src\SpawnEnemiesManager.h" />
     <ClInclude Include="..\src\TransitionScene.h" />
     <ClInclude Include="..\src\UIElement.h" />
@@ -270,6 +276,7 @@
     <ClInclude Include="..\src\Util.h" />
     <ClInclude Include="..\src\VictorAnimationState.h" />
     <ClInclude Include="..\src\VictorVanHelsing.h" />
+    <ClInclude Include="..\src\victoryScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf" />
@@ -294,6 +301,7 @@
     <Image Include="..\Assets\sprites\spiderBig.png" />
     <Image Include="..\Assets\sprites\spiderExplode.png" />
     <Image Include="..\Assets\sprites\TileTest.png" />
+    <Image Include="..\Assets\sprites\VictorspriteSheet2.png" />
     <Image Include="..\Assets\sprites\victorvanhelsing.png" />
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +309,7 @@
     <Text Include="..\Assets\data\Level1.txt" />
     <Text Include="..\Assets\data\Level2.txt" />
     <Text Include="..\Assets\data\Level3.txt" />
+    <Text Include="..\Assets\data\Level4.txt" />
     <Text Include="..\Assets\sprites\atlas.txt" />
     <Text Include="..\Assets\sprites\BlueGem.txt" />
     <Text Include="..\Assets\sprites\Endsheet.txt" />

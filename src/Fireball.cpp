@@ -22,10 +22,10 @@ Fireball::Fireball(glm::vec2 position, bool running, int angle, bool pickeable, 
 	m_angle = angle;
 	m_running = running;
 	m_pickable = pickeable;
-	m_pDamage = 5;
+	m_pDamage = 15;
 
 	getTransform()->position = position;
-	getRigidBody()->velocity += 6.0;
+	getRigidBody()->velocity = { 6.0f, 6.0f };
 	glm::vec2 direction = { cos(m_angle * M_PI / 180.0) , sin(m_angle * M_PI / 180.0) };
 	getRigidBody()->velocity *= direction;
 
@@ -55,11 +55,12 @@ Fireball::~Fireball()
 
 void Fireball::update()
 {
-	setPosX(getTransform()->position.x);
-	setPosY(getTransform()->position.y);
+	setPosX(getTransform()->position.x - getWidth() * 0.5);
+	setPosY(getTransform()->position.y - getHeight() * 0.5);
+
 	if (m_running && !m_pickable) 
 	{
-		getTransform()->position += getRigidBody()->velocity;
+		Move(getRigidBody()->velocity.x, getRigidBody()->velocity.y);
 	}
 	else if (m_running && m_pickable)
 	{

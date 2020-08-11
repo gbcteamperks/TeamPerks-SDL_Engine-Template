@@ -8,10 +8,18 @@ glm::vec2 MathManager::Distance(glm::vec2 pos1, glm::vec2 pos2)
 	return temp;
 }
 
+double MathManager::DistanceDouble(glm::vec2 pos1, glm::vec2 pos2)
+{
+	glm::vec2 temp;
+	temp = Distance(pos1, pos2);
+	double distance = sqrt(temp.x * temp.x + temp.y * temp.y);
+	return distance;
+}
+
 double MathManager::AngleBetweenPoints(glm::vec2 pos1, glm::vec2 pos2)
 {
 	glm::vec2 dis = Distance(pos1, pos2);
-	return atan2(dis.y, dis.x)* 180/3.1416;  //in degrees
+	return atan2(dis.y, dis.x)* 180/M_PI;  //in degrees
 }
 
 void MathManager::SetDeltas(const double angle, double& dx, double& dy, double fx, double fy)
@@ -60,6 +68,13 @@ double MathManager::Angle360(double a)
 double MathManager::LerpD(double a, double b, double factor)
 {
 	return ((1.0 - factor) * a) + (factor * b);
+}
+
+glm::vec2 MathManager::LerpV(glm::vec2 pos1, glm::vec2 pos2, float factor)
+{
+	glm::vec2 Direction;
+	Direction = pos2 - pos1;
+	return pos1 + Direction*factor;
 }
 
 double MathManager::LerpRad(double a, double b, double factor)

@@ -11,16 +11,11 @@
 #include "SkeletonEnemy.h"
 #include "Util.h"
 #include "CrazyBat.h"
+#include "King.h"
 std::vector<VictorVanHelsing*> PlayScene::listPlayers;
-
+int PlayScene::levelNumber = 1;
 PlayScene::PlayScene()
 {
-	PlayScene::start();
-}
-
-PlayScene::PlayScene(int level)
-{
-	this->levelNumber = level;
 	PlayScene::start();
 }
 
@@ -35,14 +30,12 @@ void PlayScene::draw()
 	{
 		for (auto o : getDisplayList())
 		{
-			if (o->getType() != DESTRUCTIBLE)
-			{
-				Util::DrawRect({ o->getPosX() - o->getWidth() * 0.5, o->getPosY() - o->getHeight() * 0.5 }, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
+			
+			if (o->getType() != DESTRUCTIBLE) {
+				Util::DrawRect({ o->getPosX(), o->getPosY() }, o->getWidth(), o->getHeight(), { 1.0f,1.0f,1.0f,1.0f });
 			}
-			if (o->getType() == VICTOR)
-			{
-				Util::DrawRect({ o->getPosX() - 8, o->getPosY() + 8}, 16, 16, { 0,1.0f,0,1.0f });
-			}
+			Util::DrawRect({ listPlayers[0]->getPosX()+8,listPlayers[0]->getPosY()+32 }, 16, 16, { 0.0f,1.0f,1.0f,1.0f });
+			
 		}
 		LevelManager::Instance()->drawObstaclesCollisionBox();
 
@@ -52,8 +45,9 @@ void PlayScene::update()
 {
 	if (!gamePaused) 
 	{
+
 		collisions();
-		if (enemyKillCount > 5)
+		if (enemyKillCount > 4)
 		{
 			//successful = true;
 			summonBoss = true;
@@ -62,13 +56,16 @@ void PlayScene::update()
 		if (!summonBoss)
 		{
 			updateDisplayList();
-			switch (getLevelNumber())
+			switch (levelNumber)
 			{
 			case 1:
 				SpawnEnemiesManager::level1();
 				break;
 			case 2:
 				SpawnEnemiesManager::level2();
+				break;
+			case 3:
+				summonBoss = true;
 				break;
 			default:
 				SpawnEnemiesManager::level1();
@@ -136,19 +133,33 @@ void PlayScene::update()
 			case 2:
 				SpawnEnemiesManager::level2Boss();
 				break;
-			default:
+			case 3:
 				SpawnEnemiesManager::level3Boss();
 				break;
 			}
 			
 		}
-
-		if (successful)
+		if (presuccessful && levelNumber!=1)
 		{
+			if(m_currentTime == 0)
+			{
+				m_currentTime = (int)SDL_GetTicks() / 1000;
+			}
+			if(((int)SDL_GetTicks()/1000) - m_currentTime > 4)
+			{
+				successful = true;
+				invokeTransition();
+			}
+		}
+		else if (presuccessful && levelNumber == 1)
+		{
+			successful = true;
 			invokeTransition();
 		}
 		LevelManager::Instance()->update(5, true);
 	}
+
+	
 	
 }
 
@@ -182,98 +193,16 @@ void PlayScene::handleEvents()
 							addChild(listPlayers[1]);
 						}
 					}
-					if (listPlayers.size() > 1)
-					{
-						const auto deadZone = 10000;
-						if (EventManager::Instance().getGameController(0)->LEFT_STICK_X[1] > deadZone)
-						{
-							listPlayers[1]->getTransform()->position.x += listPlayers[1]->getRigidBody()->velocity.x;
-							listPlayers[1]->setAnimationState(VICTOR_WALK_RIGHT);
-						}
-						if (EventManager::Instance().getGameController(0)->LEFT_STICK_X[1] < -deadZone)
-						{
-							listPlayers[1]->getTransform()->position.x -= listPlayers[1]->getRigidBody()->velocity.x;
-							listPlayers[1]->setAnimationState(VICTOR_WALK_LEFT);
-						}
-						if (EventManager::Instance().getGameController(0)->LEFT_STICK_Y[1] < -deadZone)
-						{
-							listPlayers[1]->getTransform()->position.y -= listPlayers[1]->getRigidBody()->velocity.y;
-							listPlayers[1]->setAnimationState(VICTOR_WALK_UP);
-
-						}
-						if (EventManager::Instance().getGameController(0)->LEFT_STICK_Y[1] > deadZone)
-						{
-							listPlayers[1]->getTransform()->position.y += listPlayers[1]->getRigidBody()->velocity.y;
-							listPlayers[1]->setAnimationState(VICTOR_WALK_DOWN);
-						}
-						//Change Ability
-						if (EventManager::Instance().getGameController(0)->Arealeased())
-						{
-							listPlayers[1]->changeAbility();
-						}
-						//Use Current Ability
-						if (EventManager::Instance().getGameController(0)->Brealeased())
-						{
-							listPlayers[1]->useCurrentAbility(2);
-						}
-					}
+					listPlayers[1]->handleEventsController();
 				}
 			}
 
 			//KeyBoard
+			listPlayers[0]->handleEventsKeyboard();
+			
 
 
-			if (EventManager::Instance().isKeyDown(SDL_SCANCODE_A)/* && LVLMAN::Instance()->checkCollision(listPlayers[0], -playerSpeed, 0)*/)
-			{
-				listPlayers[0]->setAnimationState(VICTOR_WALK_LEFT);
-				listPlayers[0]->getTransform()->position.x -= listPlayers[0]->getRigidBody()->velocity.x;
-			}
-			else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_D) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], playerSpeed, 0)*/)
-			{
-				listPlayers[0]->setAnimationState(VICTOR_WALK_RIGHT);
-				listPlayers[0]->getTransform()->position.x += listPlayers[0]->getRigidBody()->velocity.x;
-			}
-			if (EventManager::Instance().isKeyDown(SDL_SCANCODE_W) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], 0, -playerSpeed)*/)
-			{
-				listPlayers[0]->setAnimationState(VICTOR_WALK_UP);
-				listPlayers[0]->getTransform()->position.y -= listPlayers[0]->getRigidBody()->velocity.y;
-			}
-			else if (EventManager::Instance().isKeyDown(SDL_SCANCODE_S) /*&& LVLMAN::Instance()->checkCollision(listPlayers[0], 0, playerSpeed)*/)
-			{
-				listPlayers[0]->setAnimationState(VICTOR_WALK_DOWN);
-				listPlayers[0]->getTransform()->position.y += listPlayers[0]->getRigidBody()->velocity.y;
-			}
-
-
-			//Change Ability
-			if (EventManager::Instance().getMouseButton(2))
-			{
-				if (!click2MousePressed)
-				{
-					click2MousePressed = true;
-					listPlayers[0]->changeAbility();
-				}
-			}
-			if (!EventManager::Instance().getMouseButton(2))
-			{
-				click2MousePressed = false;
-			}
-
-			//Use Current Ability
-			if (EventManager::Instance().getMouseButton(0))
-			{
-				if (!click1MousePressed)
-				{
-					click1MousePressed = true;
-					listPlayers[0]->useCurrentAbility(1);
-				}
-
-			}
-			if (!EventManager::Instance().getMouseButton(0))
-			{
-				click1MousePressed = false;
-			}
-
+			
 		}
 		
 
@@ -284,7 +213,7 @@ void PlayScene::handleEvents()
 		}
 		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_H)) // debug view
 		{
-			m_debugView = !m_debugView;
+			//m_debugView = !m_debugView;
 		}
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_T))
 		{
@@ -300,7 +229,11 @@ void PlayScene::handleEvents()
 		}	
 		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_0))
 		{
-			invokeTransition();
+			//invokeTransition();
+		}
+		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_8))
+		{
+			listPlayers[0]->getLife() = 1;
 		}
 	
 
@@ -317,8 +250,6 @@ void PlayScene::handleEvents()
 void PlayScene::collisions()
 {
 
-	bool changeState = false;
-	
 	for (int i = 0; i < getDisplayList().size(); i++) {
 		for (int k = 0; k < getDisplayList().size();k++) 
 		{
@@ -351,7 +282,7 @@ void PlayScene::collisions()
 					if (dynamic_cast<Ability*>(getDisplayList()[i])->IsRunning())
 					{
 						// **** Its the same code as the ability and boss check ****
-						if (CollisionManager::AABBCheck(getDisplayList()[i], getDisplayList()[k])) {
+						if (CollisionManager::AbilityAABBCheck(getDisplayList()[i], getDisplayList()[k])) {
 							dynamic_cast<Ability*>(getDisplayList()[i])->stop();
 							if ((getDisplayList()[k])->getLife() > 0) {
 
@@ -381,7 +312,7 @@ void PlayScene::collisions()
 								getDisplayList()[k]->clean();
 								delete getDisplayList()[k];
 								getDisplayList()[k] = nullptr;
-								successful = true;
+								presuccessful = true;
 							}
 						}
 					}
@@ -405,12 +336,18 @@ void PlayScene::collisions()
 					{
 						if (CollisionManager::AABBCheck(getDisplayList()[k], getDisplayList()[i])) {
 							dynamic_cast<Ability*>(getDisplayList()[k])->stop();
-							getDisplayList()[i]->getLife() -= 5;
-							SoundManager::Instance().playSound("Grunt");
-							if (getDisplayList()[i]->getLife() == 0)
+							getDisplayList()[i]->getLife() -= getDisplayList()[k]->getDamage();
+							if(dynamic_cast<Ability*>(getDisplayList()[k])->isSpecialAbility())
 							{
-								changeState = true;
+								if(!listPlayers[0]->isVictorSlow())
+								{
+									listPlayers[0]->slowEffect();
+									m_slowTimer = (int)SDL_GetTicks() / 1000.0f;
+									
+								}
 							}
+							SoundManager::Instance().playSound("Grunt");
+					
 						}
 					}
 				}
@@ -430,10 +367,7 @@ void PlayScene::collisions()
 
 						getDisplayList()[i]->getLife() -= 5;
 						SoundManager::Instance().playSound("Grunt");
-						if (getDisplayList()[i]->getLife() == 0)
-						{
-							changeState = true;
-						}
+						
 					}
 				}
 
@@ -444,10 +378,7 @@ void PlayScene::collisions()
 
 						getDisplayList()[i]->getLife() -= 5;
 						SoundManager::Instance().playSound("Grunt");
-						if (getDisplayList()[i]->getLife() == 0)
-						{
-							changeState = true;
-						}
+						
 					}
 				}
 				
@@ -455,10 +386,28 @@ void PlayScene::collisions()
 		}
 	}
 
-	getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr),getDisplayList().end());
-	if (changeState) {
+	if(listPlayers[0]->isVictorSlow())
+	{
+		if ((SDL_GetTicks() / 1000.0f) - m_slowTimer > 5)
+		{
+			listPlayers[0]->slowEffect();
+			m_slowTimer = 0;
+		}
+	}
+	
+
+	if (listPlayers[0]->getLife() <= 0) 
+	{
+		listPlayers[0]->getLife() = 100;
+		levelNumber = 1;
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
+
+
+
+	getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr),getDisplayList().end());
+	LVLMAN::Instance()->cleanObstacles();
+
 
 }
 
@@ -474,9 +423,19 @@ int PlayScene::getLevelNumber()
 
 void PlayScene::invokeTransition()
 {
+	
 	levelNumber++;
-	//std::cout << "in invoke transition.." << std::endl;
+	SpawnEnemiesManager::bossSummoned = false;
+	//std::cout << levelNumber <<"\n"<< std::endl;
+	if (levelNumber == 4) {
+		levelNumber = 1;
+		TheGame::Instance()->changeSceneState(VICTORY_SCENE);
+	}
+	else {
+
 	TheGame::Instance()->changeSceneState(TRANSITION_SCENE);
+
+	}
 
 }
 void PlayScene::start()
@@ -484,6 +443,7 @@ void PlayScene::start()
 	//LVLMAN::Instance()->loadTiles("../Assets/sprites/Level1_Tiles.png", "tiles", "../Assets/sprites/TileData.txt");
 
 
+	std::cout << "start" << levelNumber << "\n" << std::endl;
 	gamePaused = false;
 	switch (levelNumber)
 	{
@@ -509,24 +469,39 @@ void PlayScene::start()
 	LVLMAN::Instance()->loadLevel(levelNumberConcatenate,getDisplayList());
 	std::cout << "start";
 
-	//Boss
-	//addChild(new EnemyWizard());
-
+	
 	//Victor
-	listPlayers.push_back(new VictorVanHelsing(glm::vec2(390.0f, 400.0f)));
+	listPlayers.push_back(new VictorVanHelsing(glm::vec2(525.0f, 150.0f)));
 	addChild(listPlayers[0]);
+	int x, y;
+	switch (levelNumber)
+	{
+	case 1:
+		x = Config::SCREEN_WIDTH * .5;
+		y = Config::SCREEN_HEIGHT * 0.2;
+		for (auto p : PlayScene::listPlayers) {
+			p->getTransform()->position = glm::vec2(x, y);
+			x = x + 50;
+		}
+		break;
+	case 2:
+		x = Config::SCREEN_WIDTH * .5;
+		y = Config::SCREEN_HEIGHT*0.2;
+		for (auto p : PlayScene::listPlayers) {
+			p->getTransform()->position = glm::vec2(x, y);
+			x = x + 50;
+		}
+		break;
+	case 3:
+		x = Config::SCREEN_WIDTH*.5;
+		y = Config::SCREEN_HEIGHT * .5;
+		for (auto p : PlayScene::listPlayers) {
+			p->getTransform()->position = glm::vec2(x, y);
+			x = x + 50;
+		}
+		break;
+	}
 
-
-	//BigSpider
-	//addChild(new MotherSpider());
-
-	//addChild(new DestructibleObject(glm::vec2(200.0f, 200.0f), 4));
-
-	//KingRat
-	//addChild(new RatKing());
-
-	//CrazyBat
-	//addChild(new CrazyBat(glm::vec2(100,100)));
 
 	//Music
 	SoundManager::Instance().load("../Assets/audio/PlaySceneMusic.mp3", "PlaySceneMusic", SOUND_MUSIC);
@@ -538,6 +513,8 @@ void PlayScene::start()
 	SoundManager::Instance().load("../Assets/audio/electricshock.wav", "Orb", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/Grunting-sound.mp3", "Grunt", SOUND_SFX);
 	SoundManager::Instance().load("../Assets/audio/tailwhip.wav", "whip", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/slimespit.wav", "slimy", SOUND_SFX);
+	SoundManager::Instance().load("../Assets/audio/ratbiter.wav", "ratbiter", SOUND_SFX);
 }
 
 

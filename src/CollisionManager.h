@@ -18,6 +18,8 @@ public:
 
 	static bool AABBCheck(GameObject* object1, GameObject* object2);
 	static bool SImpleAABBCheck(GameObject* object1, GameObject* object2);
+	static bool DestructibleAABBCheck(GameObject* object1, GameObject* object2);
+	static bool AbilityAABBCheck(GameObject* object1, GameObject* object2);
 	static bool AABBCheckBoss(GameObject* object1, GameObject* object2);
 	static bool AABBCheckUpdatingPosition(GameObject* object1, GameObject* object2);
 
