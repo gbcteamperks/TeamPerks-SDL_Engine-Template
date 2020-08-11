@@ -215,7 +215,7 @@ void PlayScene::handleEvents()
 		}
 		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_H)) // debug view
 		{
-			m_debugView = !m_debugView;
+			//m_debugView = !m_debugView;
 		}
 		if (EventManager::Instance().isKeyDown(SDL_SCANCODE_T))
 		{
@@ -231,7 +231,7 @@ void PlayScene::handleEvents()
 		}	
 		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_0))
 		{
-			invokeTransition();
+			//invokeTransition();
 		}
 		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_8))
 		{
