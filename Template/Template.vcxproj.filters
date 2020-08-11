@@ -197,6 +197,9 @@
     <ClCompile Include="..\src\SpriteSheet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\victoryScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\GameObject.h">
@@ -399,6 +402,9 @@
     </ClInclude>
     <ClInclude Include="..\src\Slimeattack.h">
       <Filter>Abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\victoryScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

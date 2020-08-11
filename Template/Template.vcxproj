@@ -206,6 +206,7 @@
     <ClCompile Include="..\src\Tile.cpp" />
     <ClCompile Include="..\src\Util.cpp" />
     <ClCompile Include="..\src\VictorVanHelsing.cpp" />
+    <ClCompile Include="..\src\victoryScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Ability.h" />
@@ -275,6 +276,7 @@
     <ClInclude Include="..\src\Util.h" />
     <ClInclude Include="..\src\VictorAnimationState.h" />
     <ClInclude Include="..\src\VictorVanHelsing.h" />
+    <ClInclude Include="..\src\victoryScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Desktop\T163 Coding Standard.pdf" />

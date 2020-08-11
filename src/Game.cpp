@@ -6,6 +6,7 @@
 #include "Renderer.h"
 #include "EventManager.h"
 #include "VictorVanHelsing.h"
+#include "victoryScene.h"
 
 
 Game* Game::s_pInstance = nullptr;
@@ -162,6 +163,10 @@ void Game::changeSceneState(const SceneState new_state)
 				break;
 			case END_SCENE:
 				m_currentScene = new EndScene();
+				std::cout << "end scene activated" << std::endl;
+				break;
+			case VICTORY_SCENE:
+				m_currentScene = new victoryScene();
 				std::cout << "end scene activated" << std::endl;
 				break;
 			default:

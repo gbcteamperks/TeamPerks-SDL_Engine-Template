@@ -45,6 +45,7 @@ void PlayScene::update()
 {
 	if (!gamePaused) 
 	{
+
 		collisions();
 		if (enemyKillCount > 4)
 		{
@@ -159,6 +160,8 @@ void PlayScene::update()
 		}
 		LevelManager::Instance()->update(5, true);
 	}
+
+	
 	
 }
 
@@ -402,6 +405,8 @@ void PlayScene::collisions()
 		TheGame::Instance()->changeSceneState(END_SCENE);
 	}
 
+
+
 	getDisplayList().erase(std::remove(getDisplayList().begin(), getDisplayList().end(), nullptr),getDisplayList().end());
 	LVLMAN::Instance()->cleanObstacles();
 
@@ -423,12 +428,21 @@ void PlayScene::invokeTransition()
 	
 	levelNumber++;
 	//std::cout << levelNumber <<"\n"<< std::endl;
+	if (levelNumber == 4) {
+		levelNumber = 1;
+		TheGame::Instance()->changeSceneState(VICTORY_SCENE);
+	}
+	else {
+
 	TheGame::Instance()->changeSceneState(TRANSITION_SCENE);
+
+	}
 
 }
 void PlayScene::start()
 {
 	//LVLMAN::Instance()->loadTiles("../Assets/sprites/Level1_Tiles.png", "tiles", "../Assets/sprites/TileData.txt");
+
 
 	std::cout << "start" << levelNumber << "\n" << std::endl;
 	gamePaused = false;
@@ -464,6 +478,12 @@ void PlayScene::start()
 	switch (levelNumber)
 	{
 	case 1:
+		x = Config::SCREEN_WIDTH * .5;
+		y = Config::SCREEN_HEIGHT * 0.2;
+		for (auto p : PlayScene::listPlayers) {
+			p->getTransform()->position = glm::vec2(x, y);
+			x = x + 50;
+		}
 		break;
 	case 2:
 		x = Config::SCREEN_WIDTH * .5;
