@@ -94,16 +94,26 @@ void SpawnEnemiesManager::level2()
 				{
 					if (!level[row][col]->isObstacle())
 					{
-						int randomEnemy = rand() % 100;
-						if (randomEnemy <= 60)
-						{
-							Game::Instance()->getCurrentScene()->addChild(new EnemyWizard(level[row][col]->getTransform()->position));
-						}
-						else if (randomEnemy > 60 && randomEnemy <= 100)
-						{
-							//possible bug!!!!
-							Game::Instance()->getCurrentScene()->addChild(new SkeletonEnemy(level[row][col]->getTransform()->position));
-						}
+						
+						
+						Game::Instance()->getCurrentScene()->addChild(new EnemyWizard(level[row][col]->getTransform()->position));
+						
+						//else if (randomEnemy > 60 && randomEnemy <= 100)
+						//{
+						//	//possible bug!!!!
+						//	//Game::Instance()->getCurrentScene()->addChild(new SkeletonEnemy(level[row][col]->getTransform()->position));
+						//	CrazyBat* bat = new CrazyBat(level[row][col]->getTransform()->position);
+						//	if (!bat->checkCollisionWithLevel(LVLMAN::Instance()->getObstacles()))
+						//	{
+						//		Game::Instance()->getCurrentScene()->addChild(bat);
+						//	}
+						//	else
+						//	{
+						//		delete bat;
+						//		bat = nullptr;
+						//		continue;
+						//	}
+						//}
 						timer = 0;
 						randomNum = rand() % 120 + 300;
 						col = Config::COL_NUM;
