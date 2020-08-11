@@ -212,6 +212,7 @@
     <ClInclude Include="..\src\BackgroundEndS.h" />
     <ClInclude Include="..\src\BlobKing.h" />
     <ClInclude Include="..\src\CrazyBat.h" />
+    <ClInclude Include="..\src\DecisionTree.h" />
     <ClInclude Include="..\src\DestructibleObject.h" />
     <ClInclude Include="..\src\DestructibleObjectState.h" />
     <ClInclude Include="..\src\Enemy.h" />
