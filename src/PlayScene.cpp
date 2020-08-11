@@ -45,7 +45,7 @@ void PlayScene::update()
 	if (!gamePaused) 
 	{
 		collisions();
-		if (enemyKillCount > 4)
+		if (enemyKillCount > 0)
 		{
 			//successful = true;
 			summonBoss = true;
@@ -331,9 +331,18 @@ void PlayScene::collisions()
 					{
 						if (CollisionManager::AABBCheck(getDisplayList()[k], getDisplayList()[i])) {
 							dynamic_cast<Ability*>(getDisplayList()[k])->stop();
-							getDisplayList()[i]->getLife() -= 5;
+							getDisplayList()[i]->getLife() -= getDisplayList()[k]->getDamage();
+							if(dynamic_cast<Ability*>(getDisplayList()[k])->isSpecialAbility())
+							{
+								if(!listPlayers[0]->isVictorSlow())
+								{
+									listPlayers[0]->slowEffect();
+									m_slowTimer = (int)SDL_GetTicks() / 1000.0f;
+									
+								}
+							}
 							SoundManager::Instance().playSound("Grunt");
-							
+					
 						}
 					}
 				}
@@ -371,6 +380,16 @@ void PlayScene::collisions()
 			}
 		}
 	}
+
+	if(listPlayers[0]->isVictorSlow())
+	{
+		if ((SDL_GetTicks() / 1000.0f) - m_slowTimer > 5)
+		{
+			listPlayers[0]->slowEffect();
+			m_slowTimer = 0;
+		}
+	}
+	
 
 	if (listPlayers[0]->getLife() <= 0) 
 	{

@@ -77,7 +77,6 @@ public:
 	bool collidingWithLevel(std::vector<GameObject*> listObstacles);
 	void fleeBehaviour(GameObject* obj);
 	void Move(float velx, float vely);
-	
 
 	void setColX(int colX);
 	void setColY(int colY);

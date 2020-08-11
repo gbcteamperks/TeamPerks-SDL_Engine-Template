@@ -39,11 +39,13 @@ public:
 	void dropAbility();
 	void changeAbility();
 	//getters
+	
 
 protected:
 
 	void buildBloodAnimation();
 	void animateBloodSplat();
+	bool isSlow = false;
 	std::unordered_map<std::string, Animation> m_pAnimations;
 
 	//ability list

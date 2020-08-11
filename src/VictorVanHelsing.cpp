@@ -316,6 +316,25 @@ void VictorVanHelsing::handleEventsController()
 		//}
 }
 
+void VictorVanHelsing::slowEffect()
+{
+	if(isSlow)
+	{
+		isSlow = !isSlow;
+		setSpeed(3.0f);
+	}
+	else
+	{
+		isSlow = !isSlow;
+		setSpeed(1.0f);
+	}
+}
+
+bool VictorVanHelsing::isVictorSlow()
+{
+	return isSlow;
+}
+
 void VictorVanHelsing::m_buildAnimations()
 {
 	Animation idle = Animation();

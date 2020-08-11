@@ -36,6 +36,8 @@ public:
 	static int numberOfPlayers;
 	void handleEventsKeyboard();
 	void handleEventsController();
+	void slowEffect();
+	bool isVictorSlow();
 
 private:
 	void m_buildAnimations();
@@ -44,7 +46,7 @@ private:
 	bool isMoving();
 	void moveKeyboard();
 	bool checkMouseInput();
-
+	bool isSlow = false;
 	
 	SpriteSheet* m_pSpriteSheet;
 	SpriteSheet* m_pSpriteSheetBlood;

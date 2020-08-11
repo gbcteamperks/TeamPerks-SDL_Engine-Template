@@ -50,6 +50,8 @@ private:
 	int m_prevTime = 0;
 	bool m_debugView = false;
 
+	int m_slowTimer = 0;
+	
 	int enemyKillCount = 0;
 	//transition to next scene
 	bool successful = false;

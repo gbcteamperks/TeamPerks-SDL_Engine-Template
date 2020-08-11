@@ -119,6 +119,7 @@ void EnemyWizard::update()
 
 void EnemyWizard::clean()
 {
+
 }
 
 void EnemyWizard::bossAttack()
@@ -223,4 +224,3 @@ void EnemyWizard::m_buildAnimations()
 
 	m_pAnimations["move"] = move;
 }
-

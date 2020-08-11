@@ -1,6 +1,8 @@
 #include "BlobKing.h"
 #include "TextureManager.h"
 #include "EnemyLifeBar.h"
+#include "MathManager.h"
+#include "Slimeattack.h"
 
 BlobKing::BlobKing(glm::vec2 position)
 {
@@ -23,6 +25,7 @@ BlobKing::BlobKing(glm::vec2 position)
 	getRigidBody()->isColliding = false;
 	setType(BOSS);
 
+	addAbility(new Slimeattack());
 	m_EnemyName = "Blob King";
 	m_pLife = 300;
 	m_lifeRedCounter = m_pLife;
@@ -58,14 +61,9 @@ void BlobKing::update()
 		int randomNum = rand() % 2;
 		if (randomNum == 0)
 		{
-			m_currentAnimationState = PLAYER_RUN_LEFT;
-		}
-		else if (randomNum == 1)
-		{
-			m_currentAnimationState = PLAYER_RUN_RIGHT;
 			useCurrentAbility();
 		}
-		m_currentAnimationState = static_cast<PlayerAnimationState>(rand() % 8); //num of animation states
+		//m_currentAnimationState = static_cast<PlayerAnimationState>(rand() % 8); //num of animation states
 
 		tempCounter = 0;
 	}
@@ -74,6 +72,45 @@ void BlobKing::update()
 	for (auto ui : UI)
 	{
 		ui->update(this);
+	}
+	if(leftRightToggle)
+	{
+		std::cout << getPosX() << std::endl;
+		if(getPosX() > minX && !waiting)
+		{
+			getRigidBody()->velocity.x *= -1;
+			m_currentAnimationState = PLAYER_RUN_LEFT;
+		}
+		else if(getPosX() == minX)
+		{
+			waiting = true;
+			waitTime = SDL_GetTicks() / 1000.0f;
+			leftRightToggle = !leftRightToggle;
+		}
+	}
+	else
+	{
+		if (getPosX() < maxX && !waiting)
+		{
+			getRigidBody()->velocity.x *= 1;
+			waitTime = SDL_GetTicks() / 1000.0f;
+			m_currentAnimationState = PLAYER_RUN_RIGHT;
+		}
+		else if (getPosX() == maxX)
+		{
+			waiting = true;
+			leftRightToggle = !leftRightToggle;
+		}
+	}
+
+	if(waiting)
+	{
+		m_currentAnimationState = PLAYER_RUN_DOWN;
+		if(SDL_GetTicks() / 1000.0f - waitTime >= 4)
+		{
+			waitTime = 0;
+			waiting = false;
+		}
 	}
 }
 
@@ -84,7 +121,8 @@ void BlobKing::clean()
 
 void BlobKing::useCurrentAbility()
 {
-	
+	m_angle = MAMA::AngleBetweenPoints(this->getTransform()->position, PlayScene::listPlayers[0]->getTransform()->position);
+	m_pListAbilities.front()->execute(getTransform()->position, m_angle, true); // to the left
 }
 
 void BlobKing::m_buildAnimations()
@@ -128,16 +166,20 @@ void BlobKing::Animate()
 	switch (m_currentAnimationState)
 	{
 	case PLAYER_RUN_RIGHT:
-		TheTextureManager::Instance()->playAnimation("blobking", m_pAnimations["blobking_down"],
+		TheTextureManager::Instance()->playAnimation("blobking", m_pAnimations["blobking_right"],
 			x, y, animationVelocity, 0, 255, true);
 		break;
 
 	case PLAYER_RUN_LEFT:
-		TheTextureManager::Instance()->playAnimation("blobking", m_pAnimations["blobking_up"],
+		TheTextureManager::Instance()->playAnimation("blobking", m_pAnimations["blobking_left"],
+			x, y, animationVelocity, 0, 255, true);
+		break;
+	case PLAYER_RUN_DOWN:
+		TheTextureManager::Instance()->playAnimation("blobking", m_pAnimations["blobking_down"],
 			x, y, animationVelocity, 0, 255, true);
 		break;
 	default:
-		TheTextureManager::Instance()->playAnimation("blobking", m_pAnimations["blobking_right"],
+		TheTextureManager::Instance()->playAnimation("blobking", m_pAnimations["blobking_down"],
 			x, y, animationVelocity, 0, 255, true);
 		break;
 	}

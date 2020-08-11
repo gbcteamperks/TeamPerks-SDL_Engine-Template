@@ -179,6 +179,7 @@
     <ClCompile Include="..\src\LifeBar.cpp" />
     <ClCompile Include="..\src\Needle.cpp" />
     <ClCompile Include="..\src\SkeletonEnemy.cpp" />
+    <ClCompile Include="..\src\Slimeattack.cpp" />
     <ClCompile Include="..\src\SpawnEnemiesManager.cpp" />
     <ClCompile Include="..\src\TransitionScene.cpp" />
     <ClCompile Include="..\src\UIElement.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="..\src\Needle.h" />
     <ClInclude Include="..\src\SkeletonAnimationState.h" />
     <ClInclude Include="..\src\SkeletonEnemy.h" />
+    <ClInclude Include="..\src\Slimeattack.h" />
     <ClInclude Include="..\src\SpawnEnemiesManager.h" />
     <ClInclude Include="..\src\TransitionScene.h" />
     <ClInclude Include="..\src\UIElement.h" />

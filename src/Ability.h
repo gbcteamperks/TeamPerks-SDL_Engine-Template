@@ -19,10 +19,13 @@ public:
 	virtual void animation();
 	virtual void pickable(glm::vec2 position) = 0;
 
-
 	bool& getAbilityDone() { return m_abilityDone; }
 	bool& IsRunning() { return m_running; }
 	virtual Ability* getAbility() = 0;
+	bool& isSpecialAbility()
+	{
+		return m_specialAbility;
+	}
 	
 protected:
 	SpriteSheet* m_pSpriteSheetGem;
@@ -31,6 +34,7 @@ protected:
 	int m_pickeableTimer;
 	bool m_running = false;
 	bool m_pickable = false;
+	bool m_specialAbility = false;
 	
 	
 };

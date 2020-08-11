@@ -51,6 +51,11 @@ void TransitionScene::update()
 void TransitionScene::clean()
 {
 	TheGame::Instance()->getCurrentScene()->clean();
+	PlayScene::listPlayers[0]->getLife() += 30;
+	if(PlayScene::listPlayers[0]->getLife() > 100)
+	{
+		PlayScene::listPlayers[0]->getLife() = 100;
+	}
 	TheGame::Instance()->changeSceneState(PLAY_SCENE);
 	delete m_pTransitionSprite;
 	m_pTransitionSprite = nullptr;
