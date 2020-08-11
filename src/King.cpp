@@ -151,7 +151,7 @@ void King::update()
 	switch (m_currentKingState)
 	{
 	case KingState::IDLE:
-		if (m_pLife < 200 && m_pLife >= 100)
+		if (m_pLife <= 250 && m_pLife >= 100)
 		{
 			m_velocityIDLE = 60;
 			m_velocityAnimation = 1.5f;
