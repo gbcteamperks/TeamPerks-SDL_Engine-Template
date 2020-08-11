@@ -229,7 +229,7 @@ void PlayScene::handleEvents()
 		}	
 		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_0))
 		{
-			invokeTransition();
+			//invokeTransition();
 		}
 		if (EventManager::Instance().KeyReleased(SDL_SCANCODE_8))
 		{
